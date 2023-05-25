@@ -10,7 +10,7 @@ export default function Home() {
         href="/compare"
         className="text-2xl font-bold text-center text-secondary"
       >
-        MBTI 별로 비교하기
+        MBTI 별로 비교
       </Link>
       <Link
         href="/my_page"
