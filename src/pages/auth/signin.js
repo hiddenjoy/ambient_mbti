@@ -34,6 +34,10 @@ export default function Signin() {
     }
   };
 
+  const handleInputChange = (e) => {
+    setMbti(e.target.value.toUpperCase());
+  }
+
   return (
     <div className="flex justify-center h-screen">
       {session ? (
@@ -45,7 +49,7 @@ export default function Signin() {
                 <input
                   type="text"
                   className="p-1 border border-gray-300"
-                  onChange={(e) => setMbti(e.target.value)}
+                  onChange={handleInputChange}
                   value={mbti}
                 />
                 <button 
