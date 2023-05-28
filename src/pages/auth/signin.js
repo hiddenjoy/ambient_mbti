@@ -26,7 +26,6 @@ export default function Signin() {
       setConfirmChange(true);
       return;
     }
-
     if (userSnapshot.exists()) {
       await updateDoc(userRef, { mbti, name, isAdmin });
     } else {
@@ -53,6 +52,24 @@ export default function Signin() {
 
   const handleInputChange = (e) => {
     setMbti(e.target.value.toUpperCase());
+  };
+
+  const handleConfirmChange = async (change) => {
+    if (change) {
+      // Update MBTI if user confirms change
+      const userRef = doc(db, "users", session.user.id);
+      const isAdmin = admins.some(
+        (admin) => admin.name === session.user.name && admin.mbti === mbti
+      );
+      await updateDoc(userRef, { mbti, name: session.user.name, isAdmin });
+      // Force session update after modifying the user document
+      signIn("credentials", { callbackUrl: "/auth/signedin" });
+    } else {
+      // Reset MBTI input if user denies change
+      setMbti("");
+    }
+    // Reset confirmChange state
+    setConfirmChange(false);
   };
 
   const handleConfirmChange = async (change) => {
