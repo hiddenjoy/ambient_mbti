@@ -33,7 +33,8 @@ const Main = () => {
           <div className="w-3xl p-5 bg-lime-100 rounded-3xl">
             <h1 className="text-xl font-bold mb-3">오늘의 질문</h1>
             <p className="text-center">
-              {user?.name}님이 가장 '나'다워지는 순간은 언제인가요?
+              <b className="underline">{user?.name}</b>님이 가장 '나'다워지는
+              순간은 언제인가요?
             </p>
             <div className="flex ">
               <input
