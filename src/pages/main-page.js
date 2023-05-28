@@ -6,7 +6,7 @@ const Main = () => {
     <>
       <main className="flex min-h-screen flex-col items-center">
         {/* 질문 */}
-        <div className="bg-neutral-300 w-full flex flex-col items-center">
+        <div className="bg-neutral-300 w-full flex flex-col items-center p-5 text-black">
           <div className="w-3xl p-5 bg-lime-100 rounded-3xl">
             <h1 className="text-xl font-bold mb-3">오늘의 질문</h1>
             <p className="text-center">
@@ -15,7 +15,7 @@ const Main = () => {
           </div>
         </div>
         {/* 랜덤한 답변 보여주기 */}
-        <div className="bg-white w-full p-5">
+        <div className="bg-white w-full p-5 text-black">
           <h1>다른 사람들은 어떻게 대답했을까요?</h1>
           {/* 답변들 div */}
           <div className="mt-3 px-20 flex items-center justify-between">
@@ -26,7 +26,7 @@ const Main = () => {
           </div>
         </div>
         {/* mbti별 인기 답변 */}
-        <div className="bg-neutral-200 w-full p-5">
+        <div className="bg-neutral-200 w-full p-5 text-black">
           MBTI별 인기 답변
           <div className="mt-3 grid grid-cols-4 gap-4">
             <div className="bg-lime-100">01</div>
