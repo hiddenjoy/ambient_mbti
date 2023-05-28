@@ -55,10 +55,16 @@ export default function Signin() {
             <>
               <div className="m-4">당신의 MBTI를 입력해주세요!</div>
               <form onSubmit={handleSubmit}>
-                <input
+                {/* <input
                   type="text"
                   className="p-1 border border-gray-300"
                   onChange={(e) => setMbti(e.target.value)}
+                  value={mbti}
+                /> */}
+                <select
+                  id="mbti"
+                  name={mbti}
+                  onChange={handleInputChange}
                   value={mbti}
                 />
                 <button
