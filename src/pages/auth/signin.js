@@ -80,7 +80,6 @@ export default function Signin() {
                   onChange={handleInputChange}
                   value={mbti}
                 />{" "}
-                */}
                 <select
                   id="mbti"
                   name={mbti}
