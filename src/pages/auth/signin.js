@@ -9,6 +9,7 @@ export default function Signin() {
   const router = useRouter();
   const { data: session } = useSession();
   const [mbti, setMbti] = useState("");
+  const [confirmChange, setConfirmChange] = useState(false);
 
   async function updateUserMbti(uid, mbti, name) {
     const userRef = doc(db, 'users', uid);
@@ -16,6 +17,13 @@ export default function Signin() {
   
     // Check if the user is an admin
     const isAdmin = admins.some(admin => admin.name === name && admin.mbti === mbti);
+  
+    if (userSnapshot.exists() && userSnapshot.data().mbti !== mbti) {
+      // If user's existing mbti is different than the entered one,
+      // prompt for confirmation to change.
+      setConfirmChange(true);
+      return;
+    }
   
     if (userSnapshot.exists()) {
       await updateDoc(userRef, { mbti, name, isAdmin });
@@ -45,11 +53,27 @@ export default function Signin() {
     setMbti(e.target.value.toUpperCase());
   }
 
+  const handleConfirmChange = async (change) => {
+    if (change) {
+      // Update MBTI if user confirms change
+      const userRef = doc(db, 'users', session.user.id);
+      const isAdmin = admins.some(admin => admin.name === session.user.name && admin.mbti === mbti);
+      await updateDoc(userRef, { mbti, name: session.user.name, isAdmin });
+      // Force session update after modifying the user document
+      signIn('credentials', { callbackUrl: '/auth/signedin' });
+    } else {
+      // Reset MBTI input if user denies change
+      setMbti("");
+    }
+    // Reset confirmChange state
+    setConfirmChange(false);
+  }
+
   return (
     <div className="flex justify-center h-screen">
       {session ? (
         <div className="grid m-auto text-center">
-          {!session.user.mbti ? (
+          {!session.user.mbti || confirmChange ? (
             <>
               <div className="m-4">당신의 MBTI를 입력해주세요!</div>
               <form onSubmit={handleSubmit}>
@@ -71,6 +95,33 @@ export default function Signin() {
                   Submit
                 </button>
               </form>
+              {confirmChange && (
+                <>
+                  <div className="m-4">MBTI를 바꾸시겠습니까?</div>
+                  <button 
+                    className={`w-20
+                    justify-self-center
+                    p-1 mb-4 mr-2
+                    bg-blue-500 text-white
+                    border border-blue-500 rounded
+                    hover:bg-white hover:text-blue-500`}
+                    onClick={() => handleConfirmChange(true)}
+                  >
+                    Yes
+                  </button>
+                  <button 
+                    className={`w-20
+                    justify-self-center
+                    p-1 mb-4 ml-2
+                    bg-red-500 text-white
+                    border border-red-500 rounded
+                    hover:bg-white hover:text-red-500`}
+                    onClick={() => handleConfirmChange(false)}
+                  >
+                    No
+                  </button>
+                </>
+              )}
             </>
           ) : (
             router.push("/auth/signedin")
