@@ -9,6 +9,7 @@ export default function Signin() {
   const router = useRouter();
   const { data: session } = useSession();
   const [mbti, setMbti] = useState("");
+  const [confirmChange, setConfirmChange] = useState(false);
 
   async function updateUserMbti(uid, mbti, name) {
     const userRef = doc(db, "users", uid);
@@ -49,7 +50,7 @@ export default function Signin() {
     <div className="flex justify-center h-screen">
       {session ? (
         <div className="grid m-auto text-center">
-          {!session.user.mbti ? (
+          {!session.user.mbti || confirmChange ? (
             <>
               <div className="m-4">당신의 MBTI를 입력해주세요!</div>
               <form onSubmit={handleSubmit}>
@@ -93,6 +94,33 @@ export default function Signin() {
                   Submit
                 </button>
               </form>
+              {confirmChange && (
+                <>
+                  <div className="m-4">MBTI를 바꾸시겠습니까?</div>
+                  <button
+                    className={`w-20
+                    justify-self-center
+                    p-1 mb-4 mr-2
+                    bg-blue-500 text-white
+                    border border-blue-500 rounded
+                    hover:bg-white hover:text-blue-500`}
+                    onClick={() => handleConfirmChange(true)}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className={`w-20
+                    justify-self-center
+                    p-1 mb-4 ml-2
+                    bg-red-500 text-white
+                    border border-red-500 rounded
+                    hover:bg-white hover:text-red-500`}
+                    onClick={() => handleConfirmChange(false)}
+                  >
+                    No
+                  </button>
+                </>
+              )}
             </>
           ) : (
             router.push("/auth/signedin")
