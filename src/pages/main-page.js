@@ -4,7 +4,7 @@ import { questions } from "@/data";
 const Main = () => {
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center">
+      <main className="flex min-h-screen flex-col items-center divide-y divide-slate-700">
         {/* 질문 */}
         <div className="bg-neutral-300 w-full flex flex-col items-center p-5 text-black">
           <div className="w-3xl p-5 bg-lime-100 rounded-3xl">
@@ -26,7 +26,7 @@ const Main = () => {
           </div>
         </div>
         {/* mbti별 인기 답변 */}
-        <div className="bg-neutral-200 w-full p-5 text-black">
+        <div className=" bg-neutral-200 w-full p-5 text-black">
           MBTI별 인기 답변
           <div className="mt-3 grid grid-cols-4 gap-4">
             <div className="bg-lime-100">01</div>
@@ -49,7 +49,7 @@ const Main = () => {
         </div>
         <Link
           href="/compare"
-          className="text-2xl font-bold text-center text-secondary"
+          className="w-full text-2xl font-bold text-center text-secondary"
         >
           MBTI 별로 비교
         </Link>
