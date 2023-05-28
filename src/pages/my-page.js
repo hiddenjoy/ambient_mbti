@@ -29,16 +29,17 @@ export default function Mypage() {
     <Layout>
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <h1 className="text-6xl font-bold text-center text-primary">Mypage</h1>
-        
+
         <div className="my-8">
           <h2 className="text-3xl font-bold mb-4">날짜별 질문과 답변</h2>
-          {questionAnswers.map((qa) => (
-            <div key={qa.id} className="mb-4">
-              <p className="text-lg font-semibold mb-2">{qa.askDate}</p>
-              <p className="text-lg">질문: {qa.question}</p>
-              <p className="text-lg">답변: {qa.answer}</p>
-            </div>
-          ))}
+          {questionAnswers &&
+            questionAnswers.map((qa) => (
+              <div key={qa.id} className="mb-4">
+                <p className="text-lg font-semibold mb-2">{qa.askDate}</p>
+                <p className="text-lg">질문: {qa.question}</p>
+                <p className="text-lg">답변: {qa.answer}</p>
+              </div>
+            ))}
         </div>
 
         <div className="my-8">
