@@ -14,7 +14,6 @@ export default function Signin() {
   async function updateUserMbti(uid, mbti, name) {
     const userRef = doc(db, "users", uid);
     const userSnapshot = await getDoc(userRef);
-
     // Check if the user is an admin
     const isAdmin = admins.some(
       (admin) => admin.name === name && admin.mbti === mbti
