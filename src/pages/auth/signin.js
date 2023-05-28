@@ -55,34 +55,12 @@ export default function Signin() {
             <>
               <div className="m-4">당신의 MBTI를 입력해주세요!</div>
               <form onSubmit={handleSubmit}>
-                {/* <input
+                <input
                   type="text"
                   className="p-1 border border-gray-300"
                   onChange={(e) => setMbti(e.target.value)}
                   value={mbti}
-                /> */}
-                <select
-                  id="mbti"
-                  name={mbti}
-                  onChange={(e) => setMbti(e.target.value)}
-                >
-                  <option value="ISTJ">ISTJ</option>
-                  <option value="ISFJ">ISFJ</option>
-                  <option value="INTJ">INTJ</option>
-                  <option value="INFJ">INFJ</option>
-                  <option value="ISTP">ISTP</option>
-                  <option value="ISFP">ISFP</option>
-                  <option value="INTP">INTP</option>
-                  <option value="INFP">INFP</option>
-                  <option value="ESTP">ESTP</option>
-                  <option value="ESFP">ESFP</option>
-                  <option value="ENTP">ENTP</option>
-                  <option value="ENFP">ENFP</option>
-                  <option value="ENTP">ESTJ</option>
-                  <option value="ENFP">ESFJ</option>
-                  <option value="ENTP">ENTJ</option>
-                  <option value="ENFP">ENFJ</option>
-                </select>
+                />
                 <button
                   type="submit"
                   className={`w-40
