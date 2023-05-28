@@ -1,6 +1,28 @@
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase/index.js";
 
 const Header = () => {
+  const { data: session } = useSession();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      if (session) {
+        const userRef = doc(db, "users", session.user.id);
+        const userDoc = await getDoc(userRef);
+
+        if (userDoc.exists()) {
+          setUser(userDoc.data());
+        }
+      }
+    }
+
+    fetchUser();
+  }, [session]);
+
   let isLogin = false;
   return (
     <>
