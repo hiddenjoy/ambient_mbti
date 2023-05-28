@@ -3,6 +3,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
 import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
+import { admins } from "@/data/admins.js";
 
 export default function Signin() {
   const router = useRouter();
@@ -13,10 +14,15 @@ export default function Signin() {
     const userRef = doc(db, "users", uid);
     const userSnapshot = await getDoc(userRef);
 
+    // Check if the user is an admin
+    const isAdmin = admins.some(
+      (admin) => admin.name === name && admin.mbti === mbti
+    );
+
     if (userSnapshot.exists()) {
-      await updateDoc(userRef, { mbti, name });
+      await updateDoc(userRef, { mbti, name, isAdmin });
     } else {
-      await setDoc(userRef, { uid, mbti, name });
+      await setDoc(userRef, { uid, mbti, name, isAdmin });
     }
 
     // Force session update after modifying the user document
