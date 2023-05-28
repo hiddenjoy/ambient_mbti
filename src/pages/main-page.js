@@ -49,7 +49,7 @@ const Main = () => {
         </div>
         <Link
           href="/compare"
-          className="w-full text-2xl font-bold text-center text-secondary"
+          className="w-full text-2xl font-bold  p-5 text-center text-secondary"
         >
           MBTI 별로 비교
         </Link>
