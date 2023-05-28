@@ -65,7 +65,8 @@ export default function Signin() {
                   name={mbti}
                   onChange={handleInputChange}
                   value={mbti}
-                /> */}
+                />{" "}
+                */}
                 <select
                   id="mbti"
                   name={mbti}
