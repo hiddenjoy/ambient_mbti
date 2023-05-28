@@ -37,9 +37,15 @@ const Main = () => {
           {/* 답변들 div */}
           <div className="mt-3 px-20 flex items-center justify-between">
             {/* content 이 부분은 한번에렌더링 할거긴 함 */}
-            <div className="bg-lime-100">이런저런</div>
-            <div className="bg-lime-100">이런저런</div>
-            <div className="bg-lime-100">이런저런</div>
+            <div className="border-lime-200 border-2 rounded-lg p-2">
+              이런저런
+            </div>
+            <div className="border-lime-200 border-2 rounded-lg p-2">
+              이런저런
+            </div>
+            <div className="border-lime-200 border-2 rounded-lg p-2">
+              이런저런
+            </div>
           </div>
         </div>
         {/* mbti별 인기 답변 */}
@@ -53,7 +59,7 @@ const Main = () => {
         </div>
         <Link
           href="/compare"
-          className="w-full text-2xl font-bold  p-5 text-center text-secondary"
+          className="inline-block text-2xl font-bold p-5 text-center bg-gray-400 text-white rounded-full mt-5"
         >
           MBTI 별로 비교
         </Link>

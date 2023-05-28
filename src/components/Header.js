@@ -29,7 +29,7 @@ const Header = () => {
       <div className="flex items-center justify-between bg-lime-200 p-3 sticky top-0 text-black">
         <Link
           href="/"
-          className="text-xl font-bold text-center text-primary border-4 ml-4 p-3"
+          className="text-xl font-bold text-center text-primary  ml-4 p-3"
         >
           Ambient MBTI
         </Link>
@@ -53,13 +53,13 @@ const Header = () => {
             <>
               <Link
                 href="./auth/signin"
-                className="text-base font-bold text-center text-primary border-4 ml-4 p-3"
+                className="text-base font-bold text-center text-primary  ml-4 p-3"
               >
                 로그인
               </Link>
               <Link
                 href="/my-page"
-                className="text-base font-bold text-center text-primary border-4 ml-4 p-3"
+                className="text-base font-bold text-center text-primary  ml-4 p-3"
               >
                 회원가입
               </Link>
