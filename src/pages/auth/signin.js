@@ -1,5 +1,6 @@
 // import { useRouter } from "next/router";
 // import { useSession, signIn, signOut } from "next-auth/react";
+import Layout from "@/components/Layout";
 
 export default function Signin() {
   //     const router = useRouter();
@@ -52,8 +53,10 @@ export default function Signin() {
   // </div>
   // );
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-6xl font-bold text-center text-tertiary">signin</h1>
-    </main>
+    <Layout>
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <h1 className="text-6xl font-bold text-center text-primary">signin</h1>
+      </main>
+    </Layout>
   );
 }

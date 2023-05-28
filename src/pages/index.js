@@ -16,9 +16,11 @@ export default function Home() {
   // });
 
   return (
-    <Layout>
-      <Main />
+    <>
+      <Layout>
+        <Main />
+      </Layout>
       <Footer />
-    </Layout>
+    </>
   );
 }
