@@ -57,7 +57,7 @@ export default function Signin() {
                 {/* <input
                   type="text"
                   className="p-1 border border-gray-300"
-                  onChange={handleInputChange}
+                  onChange={(e) => setMbti(e.target.value)}
                   value={mbti}
                 /> */}
                 <select
