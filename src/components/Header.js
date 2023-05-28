@@ -16,13 +16,13 @@ const Header = () => {
             <div>
               <Link
                 href="./auth/signin"
-                className="text-base font-bold text-center text-secondary border-4 ml-4 p-3"
+                className="text-base font-bold text-center text-primary border-4 ml-4 p-3"
               >
                 로그아웃
               </Link>
               <Link
                 href="/my-page"
-                className="text-base font-bold text-center text-secondary border-4 ml-4 p-3"
+                className="text-base font-bold text-center text-primary border-4 ml-4 p-3"
               >
                 마이페이지
               </Link>
@@ -31,13 +31,13 @@ const Header = () => {
             <>
               <Link
                 href="./auth/signin"
-                className="text-base font-bold text-center text-secondary border-4 ml-4 p-3"
+                className="text-base font-bold text-center text-primary border-4 ml-4 p-3"
               >
                 로그인
               </Link>
               <Link
                 href="/my-page"
-                className="text-base font-bold text-center text-secondary border-4 ml-4 p-3"
+                className="text-base font-bold text-center text-primary border-4 ml-4 p-3"
               >
                 회원가입
               </Link>
