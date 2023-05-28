@@ -29,10 +29,21 @@ export default function Signin() {
   
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Check if the input MBTI is valid
+    const mbtiRegex = /^[I|E][S|N][T|F][J|P]$/;
+    if (!mbtiRegex.test(mbti)) {
+      alert("MBTI를 다시 입력해주세요!");
+      setMbti("");
+      return;
+    }
     if (session) {
       await updateUserMbti(session.user.id, mbti, session.user.name);
     }
   };
+
+  const handleInputChange = (e) => {
+    setMbti(e.target.value.toUpperCase());
+  }
 
   return (
     <div className="flex justify-center h-screen">
@@ -45,7 +56,7 @@ export default function Signin() {
                 <input
                   type="text"
                   className="p-1 border border-gray-300"
-                  onChange={(e) => setMbti(e.target.value)}
+                  onChange={handleInputChange}
                   value={mbti}
                 />
                 <button 
