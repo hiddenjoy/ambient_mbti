@@ -1,22 +1,54 @@
 import Link from "next/link";
 import { questions } from "@/data";
+import { useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase/index.js";
 
 const Main = () => {
+  const { data: session } = useSession();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      if (session) {
+        const userRef = doc(db, "users", session.user.id);
+        const userDoc = await getDoc(userRef);
+
+        if (userDoc.exists()) {
+          setUser(userDoc.data());
+        }
+      }
+    }
+
+    fetchUser();
+  }, [session]);
+
   return (
     <>
+      {console.log(user)}
       <main className="flex min-h-screen flex-col items-center divide-y divide-slate-700">
         {/* 질문 */}
         <div className="bg-neutral-300 w-full flex flex-col items-center p-5 text-black">
           <div className="w-3xl p-5 bg-lime-100 rounded-3xl">
             <h1 className="text-xl font-bold mb-3">오늘의 질문</h1>
             <p className="text-center">
-              당신이 가장 당신다워지는 순간은 언제인가요?
+              {user?.name}님이 가장 '나'다워지는 순간은 언제인가요?
             </p>
+            <div className="flex ">
+              <input
+                className="w-full p-2 mt-3 border-2 border-neutral-400 rounded-lg"
+                placeholder="답변을 입력해주세요"
+              ></input>
+              <button type="submit" className="w-1/5 p-2 mt-3 border-2">
+                제출
+              </button>
+            </div>
           </div>
         </div>
         {/* 랜덤한 답변 보여주기 */}
         <div className="bg-white w-full p-5 text-black">
-          <h1>다른 사람들은 어떻게 대답했을까요?</h1>
+          <h1>{user?.mbti} 친구들의 답변 모아보기</h1>
           {/* 답변들 div */}
           <div className="mt-3 px-20 flex items-center justify-between">
             {/* content 이 부분은 한번에렌더링 할거긴 함 */}
