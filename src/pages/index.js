@@ -4,6 +4,7 @@ import Link from "next/link";
 import Main from "./main-page";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Layout from "@/components/Layout";
 
 export default function Home() {
   // const router = useRouter();
@@ -15,10 +16,9 @@ export default function Home() {
   // });
 
   return (
-    <div>
-      <Header />
+    <Layout>
       <Main />
       <Footer />
-    </div>
+    </Layout>
   );
 }
