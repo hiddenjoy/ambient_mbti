@@ -31,6 +31,12 @@ export default function Signin() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Check if the input MBTI is valid
+    const mbtiRegex = /^[I|E][S|N][T|F][J|P]$/;
+    if (!mbtiRegex.test(mbti)) {
+      alert("MBTI를 다시 입력해주세요!");
+      return;
+    }
     if (session) {
       await updateUserMbti(session.user.id, mbti, session.user.name);
     }
