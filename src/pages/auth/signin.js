@@ -35,6 +35,7 @@ export default function Signin() {
     const mbtiRegex = /^[I|E][S|N][T|F][J|P]$/;
     if (!mbtiRegex.test(mbti)) {
       alert("MBTI를 다시 입력해주세요!");
+      setMbti("");
       return;
     }
     if (session) {
