@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
@@ -44,12 +44,12 @@ const Header = () => {
         <div>
           {isLogin ? (
             <div>
-              <Link
-                href="./auth/signin"
+              <button
+                onClick={() => signOut()}
                 className="text-base font-bold text-center text-primary border-4 ml-4 p-3"
               >
                 로그아웃
-              </Link>
+              </button>
               <Link
                 href="/my-page"
                 className="text-base font-bold text-center text-primary border-4 ml-4 p-3"
