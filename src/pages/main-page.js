@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { questions } from "@/data";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
@@ -32,6 +31,7 @@ const Main = () => {
       {console.log(user)}
       <main className="flex min-h-screen flex-col items-center divide-y divide-slate-700">
 
+
         <Question />
 
         {/* 랜덤한 답변 보여주기 */}
@@ -40,9 +40,17 @@ const Main = () => {
           {/* 답변들 div */}
           <div className="mt-3 px-20 flex items-center justify-between">
             {/* content 이 부분은 한번에렌더링 할거긴 함 */}
-            <div className="border-lime-200 border-2 rounded-lg p-2">이런저런</div>
-            <div className="border-lime-200 border-2 rounded-lg p-2">이런저런</div>
-            <div className="border-lime-200 border-2 rounded-lg p-2">이런저런</div>
+
+            <div className="border-lime-200 border-2 rounded-lg p-2">
+              이런저런
+            </div>
+            <div className="border-lime-200 border-2 rounded-lg p-2">
+              이런저런
+            </div>
+            <div className="border-lime-200 border-2 rounded-lg p-2">
+              이런저런
+            </div>
+
           </div>
         </div>
         {/* mbti별 인기 답변 */}
@@ -53,6 +61,7 @@ const Main = () => {
             {answer.map((item) => (
               <SmallAnswer answer={item} />
             ))}
+
 
           </div>
         </div>
