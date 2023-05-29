@@ -60,13 +60,13 @@ const Header = () => {
           ) : (
             <>
               <Link
-                href="./auth/signin"
+                href="./auth/login"
                 className="text-base font-bold text-center text-primary  ml-4 p-3"
               >
                 로그인
               </Link>
               <Link
-                href="/my-page"
+                href="./auth/signin"
                 className="text-base font-bold text-center text-primary  ml-4 p-3"
               >
                 회원가입
