@@ -62,7 +62,7 @@ const Mypage = () => {
     <Layout>
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <h1 className="text-6xl font-bold text-center text-primary">Mypage</h1>
-        
+
         {/* 주간 캘린더 */}
         <WeeklyCalendar />
 
@@ -97,6 +97,7 @@ const Mypage = () => {
               <p className="text-lg">답변: {qa.answer}</p>
             </div>
           ))}
+
         </div>
 
         <div className="my-8">
