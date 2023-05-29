@@ -2,14 +2,35 @@ import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
 import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
+import { db } from '@/firebase/index.js';
+import { admins } from '@/data/admins.js';
+import Link from "next/link";
+import React, { useEffect } from 'react';
 import { db } from "@/firebase/index.js";
 import { admins } from "@/data/admins.js";
 
 export default function Signin() {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [mbti, setMbti] = useState("");
   const [confirmChange, setConfirmChange] = useState(false);
+
+  useEffect(() => {
+    const checkUserExistence = async () => {
+      if (status === 'authenticated') {
+        const userRef = doc(db, 'users', session.user.id);
+        const userSnapshot = await getDoc(userRef);
+        
+        if (userSnapshot.exists()) {
+          // If the user already exists in the database, show an alert and then navigate to the login page
+          window.alert("이미 회원가입 되어있습니다. 로그인 페이지로 이동합니다.");
+          router.push('/auth/login');
+        }
+      }
+    };
+
+    checkUserExistence();
+  }, [status, session]);
 
   async function updateUserMbti(uid, mbti, name) {
     const userRef = doc(db, "users", uid);
@@ -34,7 +55,7 @@ export default function Signin() {
     }
 
     // Force session update after modifying the user document
-    signIn("credentials", { callbackUrl: "/auth/signedin" });
+    signIn('credentials', { callbackUrl: '/auth/login' });
   }
 
   const handleSubmit = async (event) => {
@@ -145,6 +166,11 @@ export default function Signin() {
           >
             Sign in
           </button>
+          <div className="m-4"> Already have an account? 
+            <Link href="/auth/login" className="text-blue-500 hover:underline"> 
+              Log in here
+            </Link>
+          </div>
         </div>
       )}
     </div>
