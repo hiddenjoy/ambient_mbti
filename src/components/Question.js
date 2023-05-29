@@ -1,3 +1,4 @@
+
 import { questions } from "@/data";
 
 const Question = () => {
@@ -6,8 +7,10 @@ const Question = () => {
       <div className="w-3xl p-5 bg-lime-100 rounded-3xl">
         <h1 className="text-xl font-bold mb-3">오늘의 질문</h1>
         <p className="text-center">
+
           {/* 일단 id 값으로 가져옴 (추후에 날짜별로 가져오도록 수정 예정) */}
           {questions.find((q) => q.id === 1).question}
+
         </p>
         <div className="flex ">
           <input

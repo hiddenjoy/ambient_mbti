@@ -2,8 +2,10 @@ import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
 import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "@/firebase/index.js";
-import { admins } from "@/data/admins.js";
+
+import { db } from '@/firebase/index.js';
+import { admins } from '@/data/admins.js';
+
 
 export default function Signin() {
   const router = useRouter();
@@ -15,11 +17,10 @@ export default function Signin() {
     const userRef = doc(db, "users", uid);
     const userSnapshot = await getDoc(userRef);
 
+  
     // Check if the user is an admin
-    const isAdmin = admins.some(
-      (admin) => admin.name === name && admin.mbti === mbti
-    );
-
+    const isAdmin = admins.some(admin => admin.name === name && admin.mbti === mbti);
+  
     if (userSnapshot.exists() && userSnapshot.data().mbti !== mbti) {
       // If user's existing mbti is different than the entered one,
       // prompt for confirmation to change.
@@ -32,11 +33,11 @@ export default function Signin() {
     } else {
       await setDoc(userRef, { uid, mbti, name, isAdmin });
     }
-
+  
     // Force session update after modifying the user document
     signIn("credentials", { callbackUrl: "/auth/signedin" });
   }
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Check if the input MBTI is valid
@@ -53,24 +54,25 @@ export default function Signin() {
 
   const handleInputChange = (e) => {
     setMbti(e.target.value.toUpperCase());
-  };
+
 
   const handleConfirmChange = async (change) => {
     if (change) {
       // Update MBTI if user confirms change
-      const userRef = doc(db, "users", session.user.id);
-      const isAdmin = admins.some(
-        (admin) => admin.name === session.user.name && admin.mbti === mbti
-      );
+
+      const userRef = doc(db, 'users', session.user.id);
+      const isAdmin = admins.some(admin => admin.name === session.user.name && admin.mbti === mbti);
       await updateDoc(userRef, { mbti, name: session.user.name, isAdmin });
       // Force session update after modifying the user document
-      signIn("credentials", { callbackUrl: "/auth/signedin" });
+      signIn('credentials', { callbackUrl: '/auth/signedin' });
+
     } else {
       // Reset MBTI input if user denies change
       setMbti("");
     }
     // Reset confirmChange state
     setConfirmChange(false);
+
   };
 
   return (
@@ -102,7 +104,9 @@ export default function Signin() {
               {confirmChange && (
                 <>
                   <div className="m-4">MBTI를 바꾸시겠습니까?</div>
+
                   <button
+
                     className={`w-20
                     justify-self-center
                     p-1 mb-4 mr-2
@@ -113,7 +117,9 @@ export default function Signin() {
                   >
                     Yes
                   </button>
+
                   <button
+
                     className={`w-20
                     justify-self-center
                     p-1 mb-4 ml-2
