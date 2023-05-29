@@ -6,6 +6,7 @@ import { db } from "@/firebase/index.js";
 import Question from "../components/Question";
 import SmallAnswer from "../components/SmallAnswer";
 import { answer } from "@/data/answer.js";
+import AnswerList from "../components/AnswerList";
 
 const Main = () => {
   const { data: session } = useSession();
@@ -30,8 +31,7 @@ const Main = () => {
 
   return (
     <>
-      {console.log(user)}
-      <main className="flex min-h-screen flex-col items-center divide-y divide-slate-700">
+      <div className="flex min-h-screen flex-col items-center divide-y divide-slate-700">
         <Question />
 
         {/* 랜덤한 답변 보여주기 */}
@@ -42,16 +42,7 @@ const Main = () => {
               {/* 답변들 div */}
               <div className="mt-3 px-20 flex items-center justify-between">
                 {/* content 이 부분은 한번에렌더링 할거긴 함 */}
-
-                <div className="border-lime-200 border-2 rounded-lg p-2">
-                  이런저런
-                </div>
-                <div className="border-lime-200 border-2 rounded-lg p-2">
-                  이런저런
-                </div>
-                <div className="border-lime-200 border-2 rounded-lg p-2">
-                  이런저런
-                </div>
+                <AnswerList />
               </div>
             </div>
             {/* mbti별 인기 답변 */}
@@ -59,7 +50,7 @@ const Main = () => {
               MBTI별 인기 답변
               <div className="mt-3 grid grid-cols-4 gap-4">
                 {answer.map((item) => (
-                  <SmallAnswer answer={item} />
+                  <SmallAnswer key={item.id} answer={item} />
                 ))}
               </div>
             </div>
@@ -71,11 +62,13 @@ const Main = () => {
             </Link>
           </>
         ) : (
-          <div className="w-full text-center mt-5">
-            로그인을 하시면 더 많은 답변을 보실 수 있습니다!
-          </div>
+          <>
+            <div className="w-full text-center mt-5">
+              로그인을 하시면 더 많은 답변을 보실 수 있습니다!
+            </div>
+          </>
         )}
-      </main>
+      </div>
     </>
   );
 };
