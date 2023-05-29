@@ -14,6 +14,7 @@ export default function Signin() {
   async function updateUserMbti(uid, mbti, name) {
     const userRef = doc(db, "users", uid);
     const userSnapshot = await getDoc(userRef);
+
     // Check if the user is an admin
     const isAdmin = admins.some(
       (admin) => admin.name === name && admin.mbti === mbti
@@ -97,12 +98,12 @@ export default function Signin() {
             <>
               <div className="m-4">당신의 MBTI를 입력해주세요!</div>
               <form onSubmit={handleSubmit}>
-                {/* <input
+                <input
                   type="text"
                   className="p-1 border border-gray-300"
                   onChange={handleInputChange}
                   value={mbti}
-                /> */}
+                />
                 <select
                   id="mbti"
                   name={mbti}
