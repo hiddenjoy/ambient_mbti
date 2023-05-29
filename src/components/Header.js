@@ -7,6 +7,7 @@ import { db } from "@/firebase/index.js";
 const Header = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     async function fetchUser() {
@@ -23,7 +24,14 @@ const Header = () => {
     fetchUser();
   }, [session]);
 
-  let isLogin = false;
+  useEffect(() => {
+    if (session) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [session]);
+
   return (
     <>
       <div className="flex items-center justify-between bg-lime-200 p-3 sticky top-0 text-black">
