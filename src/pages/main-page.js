@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { questions } from "@/data";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
