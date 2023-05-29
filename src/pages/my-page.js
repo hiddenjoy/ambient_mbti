@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import { format, addDays, startOfWeek, endOfWeek } from "date-fns";
+import { format, addDays, startOfWeek, endOfWeek, subWeeks, addWeeks } from "date-fns";
 import { questions } from "@/data";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
@@ -7,8 +7,18 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 
 const WeeklyCalendar = ({ handleDatePopup }) => {
-  const startDate = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const endDate = endOfWeek(new Date(), { weekStartsOn: 1 });
+  const [currentWeekStart, setCurrentWeekStart] = useState(new Date()); // 기본값으로 현재 날짜 사용
+  const startDate = currentWeekStart; // startDate 변수를 currentWeekStart 뒤에 선언
+
+  const goToPreviousWeek = () => {
+    setCurrentWeekStart((prevWeekStart) => subWeeks(prevWeekStart, 1));
+  };
+
+  const goToNextWeek = () => {
+    setCurrentWeekStart((prevWeekStart) => addWeeks(prevWeekStart, 1));
+  };
+
+  const endDate = endOfWeek(currentWeekStart);
   const calendarDays = [];
   let currentDate = startDate;
 
@@ -18,7 +28,6 @@ const WeeklyCalendar = ({ handleDatePopup }) => {
   }
 
   const [selectedDate, setSelectedDate] = useState(null);
-  const [currentWeekStart, setCurrentWeekStart] = useState(startDate);
   const [hoveredDate, setHoveredDate] = useState(null); // 마우스 커서 위치 날짜 상태 추가
 
   const handleDateClick = (date) => {
