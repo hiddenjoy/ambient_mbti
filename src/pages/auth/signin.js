@@ -6,8 +6,6 @@ import { db } from '@/firebase/index.js';
 import { admins } from '@/data/admins.js';
 import Link from "next/link";
 import React, { useEffect } from 'react';
-import { db } from "@/firebase/index.js";
-import { admins } from "@/data/admins.js";
 
 export default function Signin() {
   const router = useRouter();
