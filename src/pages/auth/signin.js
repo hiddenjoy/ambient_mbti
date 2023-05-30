@@ -1,176 +1,125 @@
 import { useRouter } from "next/router";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { useState } from "react";
 import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from '@/firebase/index.js';
-import { admins } from '@/data/admins.js';
 import Link from "next/link";
-import React, { useEffect } from 'react';
 
-export default function Signin() {
+export default function SignUp() {
   const router = useRouter();
-  const { data: session, status } = useSession();
-  const [mbti, setMbti] = useState("");
-  const [confirmChange, setConfirmChange] = useState(false);
+  const { data: session } = useSession();
+  const [userId, setUserId] = useState("");
+  const [idChecked, setIdChecked] = useState(false);
+  const [userIdExists, setUserIdExists] = useState(false);
+  const [userPassword, setUserPassword] = useState("");
+  const [passwordChecked, setPasswordChecked] = useState(false);
+  
+  const handleIdInputChange = (e) => {
+    setUserId(e.target.value);
+  };
+  
+  const handlePasswordInputChange = (e) => {
+    setUserPassword(e.target.value);
+    checkUserPassword(e.target.value);
+  };
 
-  useEffect(() => {
-    const checkUserExistence = async () => {
-      if (status === 'authenticated') {
-        const userRef = doc(db, 'users', session.user.id);
-        const userSnapshot = await getDoc(userRef);
-        
-        if (userSnapshot.exists()) {
-          // If the user already exists in the database, show an alert and then navigate to the login page
-          window.alert("이미 회원가입 되어있습니다. 로그인 페이지로 이동합니다.");
-          router.push('/auth/login');
-        }
-      }
-    };
-
-    checkUserExistence();
-  }, [status, session]);
-
-  async function updateUserMbti(uid, mbti, name) {
-    const userRef = doc(db, "users", uid);
+  const checkUserId = async () => {
+    const userRef = doc(db, 'users', userId);
     const userSnapshot = await getDoc(userRef);
 
-    // Check if the user is an admin
-    const isAdmin = admins.some(
-      (admin) => admin.name === name && admin.mbti === mbti
-    );
-
-    if (userSnapshot.exists() && userSnapshot.data().mbti !== mbti) {
-      // If user's existing mbti is different than the entered one,
-      // prompt for confirmation to change.
-      setConfirmChange(true);
-      return;
-    }
-
     if (userSnapshot.exists()) {
-      await updateDoc(userRef, { mbti, name, isAdmin });
+      setUserIdExists(true);
     } else {
-      await setDoc(userRef, { uid, mbti, name, isAdmin });
+      setIdChecked(true);
     }
-
-    // Force session update after modifying the user document
-    signIn('credentials', { callbackUrl: '/auth/login' });
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // Check if the input MBTI is valid
-    const mbtiRegex = /^[I|E][S|N][T|F][J|P]$/;
-    if (!mbtiRegex.test(mbti)) {
-      alert("MBTI를 다시 입력해주세요!");
-      setMbti("");
-      return;
-    }
-    if (session) {
-      await updateUserMbti(session.user.id, mbti, session.user.name);
+  };
+  
+  const checkUserPassword = async () => {
+    if (userPassword.length >= 8) {
+      setPasswordChecked(true);
+    } else {
+      setPasswordChecked(false);
     }
   };
 
-  const handleInputChange = (e) => {
-    setMbti(e.target.value.toUpperCase());
-  };
-
-  const handleConfirmChange = async (change) => {
-    if (change) {
-      // Update MBTI if user confirms change
-      const userRef = doc(db, "users", session.user.id);
-      const isAdmin = admins.some(
-        (admin) => admin.name === session.user.name && admin.mbti === mbti
-      );
-      await updateDoc(userRef, { mbti, name: session.user.name, isAdmin });
-      // Force session update after modifying the user document
-      signIn("credentials", { callbackUrl: "/auth/signedin" });
+  const saveUserId = async () => {
+    if (session && !userIdExists && idChecked) {
+      const userRef = doc(db, 'users', session.user.id);
+      await setDoc(userRef, { userId });
     } else {
-      // Reset MBTI input if user denies change
-      setMbti("");
+      console.error("이미 존재하는 아이디거나 중복확인을 하지 않은 아이디입니다.");
     }
-    // Reset confirmChange state
-    setConfirmChange(false);
+  };
+  
+  const saveUserPassword = async () => {
+    if (session && passwordChecked) {
+      const userRef = doc(db, 'users', session.user.id);
+      await updateDoc(userRef, { userPassword });
+      router.push('/auth/askMBTI');
+    } else {
+      console.error("유효하지 않은 비밀번호입니다.");
+    }
   };
 
   return (
-    <div className="flex justify-center h-screen">
-      {session ? (
-        <div className="grid m-auto text-center">
-          {!session.user.mbti || confirmChange ? (
-            <>
-              <div className="m-4">당신의 MBTI를 입력해주세요!</div>
-              <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  className="p-1 border border-gray-300"
-                  onChange={handleInputChange}
-                  value={mbti}
-                />
-                <button
-                  type="submit"
-                  className={`w-40
-                    justify-self-center
-                    p-1 mt-4
-                    bg-blue-500 text-white
-                    border border-blue-500 rounded
-                    hover:bg-white hover:text-blue-500`}
-                >
-                  Submit
-                </button>
-              </form>
-              {confirmChange && (
-                <>
-                  <div className="m-4">MBTI를 바꾸시겠습니까?</div>
-                  <button
-                    className={`w-20
-                    justify-self-center
-                    p-1 mb-4 mr-2
-                    bg-blue-500 text-white
-                    border border-blue-500 rounded
-                    hover:bg-white hover:text-blue-500`}
-                    onClick={() => handleConfirmChange(true)}
-                  >
-                    Yes
-                  </button>
-                  <button
-                    className={`w-20
-                    justify-self-center
-                    p-1 mb-4 ml-2
-                    bg-red-500 text-white
-                    border border-red-500 rounded
-                    hover:bg-white hover:text-red-500`}
-                    onClick={() => handleConfirmChange(false)}
-                  >
-                    No
-                  </button>
-                </>
-              )}
-            </>
-          ) : (
-            router.push("/auth/signedin")
-          )}
-        </div>
-      ) : (
-        <div className="grid m-auto text-center">
-          <div className="m-4">Not signed in</div>
+    <div className="flex justify-center items-center h-screen">
+      <div className="rounded-lg border border-gray-300 p-4 m-4 w-1/4">
+        <h2 className="text-center font-bold mb-4">Create your account</h2>
+        <div className="flex justify-between items-center mb-4">
+          <input
+            type="text"
+            className={`flex-grow mr-2 p-1 ${userIdExists ? 'border-red-500' : 'border-transparent'} rounded`}
+            placeholder="Your ID"
+            onChange={handleIdInputChange}
+            value={userId}
+            style={{ height: '35px' }}
+          />
           <button
-            className={`w-40
-                      justify-self-center
-                      p-1 mb-4
-                    bg-blue-500 text-white
-                      border border-blue-500 rounded
-                    hover:bg-white hover:text-blue-500`}
-            onClick={() => signIn()}
+            className="p-1 bg-blue-500 text-white border border-blue-500 rounded hover:bg-white hover:text-blue-500"
+            onClick={checkUserId}
           >
-            Sign in
+            중복확인
           </button>
-          <div className="m-4"> Already have an account? 
-            <Link href="/auth/login" className="text-blue-500 hover:underline"> 
-              Log in here
-            </Link>
-          </div>
         </div>
-      )}
+        {idChecked && !userIdExists && <div className="text-green-500 text-sm mb-4">사용가능한 아이디입니다!</div>}
+        {userIdExists && <div className="text-red-500 text-sm mb-4">중복되는 아이디가 존재합니다. 다른 아이디를 시도해보세요!</div>}
+        <div className="flex justify-between items-center mb-4">
+          <input
+            type="text"
+            className={`flex-grow mr-2 p-1 ${passwordChecked ? 'border-red-500' : 'border-transparent'} rounded`}
+            placeholder="Your Password"
+            onChange={handlePasswordInputChange}
+            value={userPassword}
+            style={{ height: '35px' }}
+          />
+        </div>
+        {passwordChecked && <div className="text-green-500 text-sm mb-4">사용가능한 비밀번호입니다!</div>}
+        {!passwordChecked && <div className="text-red-500 text-sm mb-4">비밀번호는 8자리 이상이어야 합니다!</div>}
+        <button
+          className={`w-full p-1 ${idChecked && !userIdExists && passwordChecked ? 'bg-blue-500' : 'bg-blue-200'} text-white border border-blue-500 rounded hover:bg-white hover:text-blue-500`}
+          disabled={!idChecked || userIdExists || !passwordChecked}
+          onClick={() => {saveUserId(); saveUserPassword(); router.push("askName")}}
+        >
+          Continue
+        </button>
+        <div className="flex justify-center items-center my-4">
+          <hr className="w-1/4" />
+          <span className="mx-2">or</span>
+          <hr className="w-1/4" />
+        </div>
+        <button
+          className="w-full p-1 bg-yellow-300 text-black border border-yellow-300 rounded hover:bg-white hover:text-yellow-300"
+          onClick={() => signIn('credentials', { callbackUrl: '/auth/askName' })}
+        >
+          Sign in with Kakao
+        </button>
+        <div>
+          Don't have an account? 
+          <Link href="/auth/signin" className="text-blue-500 hover:underline">
+            Sign up here
+          </Link>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
