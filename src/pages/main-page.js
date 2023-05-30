@@ -12,6 +12,7 @@ const Main = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [answerList, setAnswerList] = useState([]);
 
   useEffect(() => {
     async function fetchUser() {
@@ -32,7 +33,7 @@ const Main = () => {
   return (
     <>
       <div className="flex min-h-screen flex-col items-center divide-y divide-slate-700">
-        <Question />
+        <Question setAnswerList={setAnswerList} />
 
         {/* 랜덤한 답변 보여주기 */}
         {isLoggedIn ? (
@@ -42,7 +43,7 @@ const Main = () => {
               {/* 답변들 div */}
               <div className="mt-3 px-20 flex items-center justify-between">
                 {/* content 이 부분은 한번에렌더링 할거긴 함 */}
-                <AnswerList />
+                <AnswerList answerList={answerList} />
               </div>
             </div>
             {/* mbti별 인기 답변 */}
