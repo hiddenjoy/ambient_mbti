@@ -19,10 +19,15 @@ import {
 const answerCollection = collection(db, "answers");
 const userCollection = collection(db, "users");
 
-const AnswerList = () => {
+const AnswerList = ({ answerList }) => {
   const [answers, setAnswers] = useState([]);
   const { data } = useSession();
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // answerList 상태가 변경될 때마다 실행되는 로직
+    console.log("AnswerList 업데이트됨");
+  }, [answerList]);
 
   useEffect(() => {
     async function fetchUser() {
@@ -39,6 +44,12 @@ const AnswerList = () => {
     fetchUser();
   }, [data]); // data를 의존성 배열에 추가
 
+  useEffect(() => {
+    if (user) {
+      getAnswers();
+    }
+  }, [user]); // user를 의존성 배열에 추가
+
   const getAnswers = async () => {
     if (!user?.mbti) return;
 
@@ -53,22 +64,13 @@ const AnswerList = () => {
     setAnswers(newAnswers);
   };
 
-  useEffect(() => {
-    if (user) {
-      getAnswers();
-    }
-  }, [user]); // user를 의존성 배열에 추가
-
   return (
     <>
       <div>
         <ul>
-          {answers.map(
-            (answer) => (
-              console.log(answer),
-              (<SmallAnswer key={answer.id} answer={answer} />)
-            )
-          )}
+          {answers.map((answer) => (
+            <SmallAnswer key={answer.id} answer={answer} />
+          ))}
         </ul>
       </div>
     </>
