@@ -3,7 +3,6 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
-import Question from "../components/Question";
 import SmallAnswer from "../components/SmallAnswer";
 import { answer } from "@/data/answer.js";
 import AnswerList from "../components/AnswerList";
@@ -33,8 +32,6 @@ const Main = () => {
   return (
     <>
       <div className="flex min-h-screen flex-col items-center divide-y divide-slate-700">
-        <Question setAnswerList={setAnswerList} />
-
         {/* 랜덤한 답변 보여주기 */}
         {isLoggedIn ? (
           <>
