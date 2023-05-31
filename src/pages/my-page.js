@@ -6,6 +6,17 @@ import { useSession } from "next-auth/react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 
+const UserProfile = () => {
+  // 사용자 정보를 가져와서 렌더링하는 로직
+  return (
+    <div className="p-4 bg-blue-200 mb-8">
+      {/* 사용자 프로필 정보 */}
+      {/* 사용자 이름, 사진, 개인정보 등 */}
+      {/* 데이터는 나중에 받아와서 렌더링 */}
+    </div>
+  );
+};
+
 const WeeklyCalendar = ({ handleDatePopup }) => {
   const [currentWeekStart, setCurrentWeekStart] = useState(new Date()); // 기본값으로 현재 날짜 사용
   const startDate = currentWeekStart; // startDate 변수를 currentWeekStart 뒤에 선언
@@ -21,6 +32,12 @@ const WeeklyCalendar = ({ handleDatePopup }) => {
   const endDate = endOfWeek(currentWeekStart);
   const calendarDays = [];
   let currentDate = startDate;
+
+   // 날짜 칸을 항상 7개 보여주도록 수정
+   for (let i = 0; i < 7; i++) {
+    calendarDays.push(currentDate);
+    currentDate = addDays(currentDate, 1);
+  }
 
   while (currentDate <= endDate) {
     calendarDays.push(currentDate);
@@ -97,6 +114,7 @@ const Mypage = () => {
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <h1 className="text-4xl font-bold text-center text-primary mb-8">Mypage</h1>
         
+        <UserProfile /> {/* 프로필 영역 추가 */}
         {/* 주간 캘린더 */}
         <WeeklyCalendar handleDatePopup={handleDatePopup} />
 
