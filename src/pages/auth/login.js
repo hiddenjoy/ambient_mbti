@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useSession, signIn } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from '@/firebase/index.js';
+import { db } from "@/firebase/index.js";
 import Link from "next/link";
 
 export default function Login() {
@@ -22,7 +22,7 @@ export default function Login() {
   };
 
   const login = async () => {
-    const userRef = doc(db, 'users', userId);
+    const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
@@ -35,7 +35,7 @@ export default function Login() {
       setPasswordCorrect(true);
       setUserIdExists(true);
       // Proceed to next page or do something after login
-      router.push('/auth/logInSuccess');
+      router.push("/auth/logInSuccess");
     }
   };
 
@@ -46,24 +46,36 @@ export default function Login() {
         <div className="flex justify-between items-center mb-4">
           <input
             type="text"
-            className={`flex-grow mr-2 p-1 ${!userIdExists ? 'border-red-500' : 'border-transparent'} rounded`}
+            className={`flex-grow mr-2 p-1 ${
+              !userIdExists ? "border-red-500" : "border-transparent"
+            } rounded`}
             placeholder="ID"
             onChange={handleIdInputChange}
             value={userId}
-            style={{ height: '35px' }}
+            style={{ height: "35px" }}
           />
-          {!userIdExists && <div className="text-red-500 text-sm mb-4">아이디가 존재하지 않습니다.</div>}
+          {!userIdExists && (
+            <div className="text-red-500 text-sm mb-4">
+              아이디가 존재하지 않습니다.
+            </div>
+          )}
         </div>
         <div className="flex justify-between items-center mb-4">
           <input
             type="password"
-            className={`flex-grow mr-2 p-1 ${!passwordCorrect ? 'border-red-500' : 'border-transparent'} rounded`}
+            className={`flex-grow mr-2 p-1 ${
+              !passwordCorrect ? "border-red-500" : "border-transparent"
+            } rounded`}
             placeholder="Password"
             onChange={handlePasswordInputChange}
             value={userPassword}
-            style={{ height: '35px' }}
+            style={{ height: "35px" }}
           />
-          {!passwordCorrect && <div className="text-red-500 text-sm mb-4">비밀번호가 올바르지 않습니다</div>}
+          {!passwordCorrect && (
+            <div className="text-red-500 text-sm mb-4">
+              비밀번호가 올바르지 않습니다
+            </div>
+          )}
         </div>
         <button
           className={`w-full p-1 bg-blue-500 text-white border border-blue-500 rounded hover:bg-white hover:text-blue-500`}
@@ -78,12 +90,14 @@ export default function Login() {
         </div>
         <button
           className="w-full p-1 bg-yellow-300 text-black border border-yellow-300 rounded hover:bg-white hover:text-yellow-300"
-          onClick={() => signIn('credentials', { callbackUrl: '/auth/logInSuccess' })}
+          onClick={() =>
+            signIn("credentials", { callbackUrl: "/auth/logInSuccess" })
+          }
         >
           Log in with Kakao
         </button>
         <div>
-          Don't have an account? 
+          Don't have an account?
           <Link href="/auth/signin" className="text-blue-500 hover:underline">
             Sign up here
           </Link>
