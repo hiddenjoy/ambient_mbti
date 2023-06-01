@@ -6,7 +6,7 @@ import { db } from "@/firebase/index.js";
 import SmallAnswer from "../components/SmallAnswer";
 import { answer } from "@/data/answer.js";
 import AnswerList from "../components/AnswerList";
-import MbtiButton from "@/components/MbtiButton";
+import TempAnswerList from "@/components/tempAnswerList";
 
 const Main = () => {
   const { data: session } = useSession();
@@ -65,20 +65,17 @@ const Main = () => {
       (
         <>
           <div className="flex flex-row">
-            <div className="basis-1/4 flex flex-col items-center">
+            <div className="basis-1/3 flex flex-col items-center">
               <div className="bg-neutral-100 basis-1/2">
                 오늘의 질문
               </div>
               <div className="basis-1/2 border-none flex items-center">
-                <MbtiButton />
+                버튼
               </div>
             </div>
-            <div className="basis-3/4 mt-3 px-20 flex flex-col items-center">
+            <div className="basis-2/3 px-10 flex flex-col items-center w-full">
               {/* content 이 부분은 한번에 렌더링 할거긴 함 */}
-              <AnswerList answerList={answerList} />
-              {/* 임시 */}
-              <div className="m-3 bg-neutral-200">이런저런</div>
-              <div className="m-3 bg-neutral-200">이런저런</div>
+              <TempAnswerList />
             </div>
           </div>
         </>
