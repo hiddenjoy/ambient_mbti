@@ -180,8 +180,25 @@ return (
               </h2>
               {/* 팝업 내용을 구현해야함*/}
               {/* 질문 답변 데이터 끌어올 예정 */}
-              <p className="text-lg">질문: 어쩌구 저쩌구</p>
-              <p className="text-lg">답변: 저쩌구 어쩌구</p>
+              {questions.map((question) => (
+                <div key={question.id} className="mt-4">
+                  <h2 className="text-2xl font-bold">{question.question}</h2>
+                  <p className="text-gray-500">{question.askDate}</p>
+                  {/* 답변을 보여주는 로직 */}
+                  {questionAnswers && questionAnswers.map((qa) => {
+                    if (qa.askDate === format(popupDate, "yyyy-MM-dd")) {
+                      return (
+                        <div key={qa.id} className="mb-4">
+                          <p className="text-lg font-semibold mb-2">{qa.askDate}</p>
+                          <p className="text-lg">질문: {qa.question}</p>
+                          <p className="text-lg">답변: {qa.answer}</p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
+              ))}
               <button
                 className="bg-blue-500 text-white py-2 px-4 mt-4 rounded"
                 onClick={() => setPopupDate(null)} // 팝업 닫기
@@ -192,32 +209,7 @@ return (
           </div>
         )}
 
-        <div className="my-8">
-          <h2 className="text-3xl font-bold mb-4">날짜별 질문과 답변</h2>
-          <div className="overflow-y-auto h-60 border border-gray-500">
-          {/* 날짜별 질문과 답변을 렌더링하는 로직 */}
-          {questions.map((question) => (
-          <div key={question.id} className="mt-4">
-            <h2 className="text-2xl font-bold">{question.question}</h2>
-            <p className="text-gray-500">{question.askDate}</p>
-            {/* 답변을 보여주는 로직 */}
-            {questionAnswers && questionAnswers.map((qa) => {
-              if (qa.questionId === question.id) {
-                return (
-                  <div key={qa.id} className="mb-4">
-                    <p className="text-lg font-semibold mb-2">{qa.askDate}</p>
-                    <p className="text-lg">질문: {qa.question}</p>
-                    <p className="text-lg">답변: {qa.answer}</p>
-                  </div>
-                );
-              }
-              return null;
-            })}
-          </div>
-        ))}
-
-            </div>
-        </div>
+      
 
         <div className="my-8">
           <h2 className="text-3xl font-bold mb-4">좋아요를 표시한 답변</h2> 
