@@ -35,6 +35,12 @@ export default function askMBTI() {
     router.push("askFirstQuestion");
   };
 
+  const updateUserMbti = async (userId, mbti) => {
+    const userRef = doc(db, 'users', userId);
+    await setDoc(userRef, { mbti }, { merge: true });
+  };
+  
+
   // updateUserMbti와 handleConfirmChange는 그대로 사용합니다.
 
   return (
