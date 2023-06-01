@@ -1,7 +1,7 @@
-const SmallAnswer = (answer) => {
+const SmallAnswerList = (answer) => {
   console.log("smallanswer", answer);
   return (
-    <div className="my-4 bg-lime-100 p-2">
+    <div className="my-2 bg-lime-100 p-3 w-full rounded">
       <div>답변: {answer.answer.content}</div>
       <div>답변자 mbti: {answer.answer.user.mbti}</div>
       <div>❤️{answer.answer.likeUsers.length}</div>
@@ -9,4 +9,4 @@ const SmallAnswer = (answer) => {
   );
 };
 
-export default SmallAnswer;
+export default SmallAnswerList;

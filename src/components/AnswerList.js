@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SmallAnswer from "@/components/SmallAnswer";
+import SmallAnswerList from "@/components/SmallAnswerList";
 import { useSession, signOut } from "next-auth/react";
 
 import { db } from "@/firebase";
@@ -69,7 +69,7 @@ const AnswerList = ({ answerList }) => {
       <div>
         <ul>
           {answers.map((answer) => (
-            <SmallAnswer key={answer.id} answer={answer} />
+            <SmallAnswerList key={answer.id} answer={answer} />
           ))}
         </ul>
       </div>

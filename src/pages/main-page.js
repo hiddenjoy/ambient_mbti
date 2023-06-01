@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
-import SmallAnswer from "../components/SmallAnswer";
+import SmallAnswerList from "../components/SmallAnswerList";
 import { answer } from "@/data/answer.js";
 import AnswerList from "../components/AnswerList";
 import TempAnswerList from "@/components/tempAnswerList";
@@ -73,7 +73,7 @@ const Main = () => {
                 버튼
               </div>
             </div>
-            <div className="basis-2/3 px-10 flex flex-col items-center w-full">
+            <div className="basis-2/3 px-10 w-full">
               {/* content 이 부분은 한번에 렌더링 할거긴 함 */}
               <TempAnswerList />
             </div>
