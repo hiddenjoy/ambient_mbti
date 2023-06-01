@@ -31,8 +31,6 @@ const Main = () => {
     fetchUser();
   }, [session]);
 
-  console.log(session);
-
   return (
     <>
       {/* 랜덤한 답변 보여주기 */}
