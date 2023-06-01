@@ -35,7 +35,7 @@ export default function Login() {
       setPasswordCorrect(true);
       setUserIdExists(true);
       // Proceed to next page or do something after login
-      router.push('/auth/success');
+      router.push('/auth/logInSuccess');
     }
   };
 
@@ -78,7 +78,7 @@ export default function Login() {
         </div>
         <button
           className="w-full p-1 bg-yellow-300 text-black border border-yellow-300 rounded hover:bg-white hover:text-yellow-300"
-          onClick={() => signIn()}
+          onClick={() => signIn('credentials', { callbackUrl: '/auth/logInSuccess' })}
         >
           Log in with Kakao
         </button>
