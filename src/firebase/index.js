@@ -1,8 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { 
+  getAuth,
+  signInWithEmailAndPassword,// email 로그인
+  createUserWithEmailAndPassword, //email 회원가입
+ } from "firebase/auth";
 
-const firebaseConfig = {
+ const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -15,5 +19,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+
+//Email 회원가입
+export const signupEmail = (email, password) => {
+  return createUserWithEmailAndPassword(auth, email, password);
+};
+
+//Email 로그인
+export const loginEmail = (email, password) => {
+  return signInWithEmailAndPassword(auth, email, password);
+};
 
 export { auth, db };

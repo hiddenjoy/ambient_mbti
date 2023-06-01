@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useSession, signIn } from "next-auth/react";
 import { useState } from "react";
 import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
-import { db } from '@/firebase/index.js';
+import { db, signupEmail } from '@/firebase/index.js';
 import Link from "next/link";
 
 export default function SignUp() {
@@ -61,6 +61,24 @@ export default function SignUp() {
     }
   };
 
+  const saveUserAccount = async () => {
+    try {
+      const result = await signupEmail(userId, userPassword);
+      const user = result.user;
+      const userRef = doc(db, 'users', user.uid);
+      await setDoc(userRef, { email: user.email });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSignUpClick = () => {
+    saveUserId();
+    saveUserPassword();
+    saveUserAccount();
+    router.push("askName");
+  };
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="rounded-lg border border-gray-300 p-4 m-4 w-1/4">
@@ -98,7 +116,7 @@ export default function SignUp() {
         <button
           className={`w-full p-1 ${idChecked && !userIdExists && passwordChecked ? 'bg-blue-500' : 'bg-blue-200'} text-white border border-blue-500 rounded hover:bg-white hover:text-blue-500`}
           disabled={!idChecked || userIdExists || !passwordChecked}
-          onClick={() => {saveUserId(); saveUserPassword(); router.push("askName")}}
+          onClick={handleSignUpClick}
         >
           Continue
         </button>
