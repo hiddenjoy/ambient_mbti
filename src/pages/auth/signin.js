@@ -153,17 +153,16 @@ export default function SignUp() {
         </div>
         <button
           className="w-full p-1 bg-yellow-300 text-black border border-yellow-300 rounded hover:bg-white hover:text-yellow-300"
-          onClick={() =>
-            signIn("credentials", { callbackUrl: "/auth/askName" })
+          onClick={async () =>
+            await signIn("credentials", { callbackUrl: "/auth/askName" })
           }
-          // onClick={async () => await signIn({ callbackUrl: "/auth/askName" })}
         >
           Sign in with Kakao
         </button>
         <div>
-          Don't have an account?
-          <Link href="/auth/signin" className="text-blue-500 hover:underline">
-            Sign up here
+          Already have an account?
+          <Link href="/auth/login" className="text-blue-500 hover:underline">
+            Sign in here
           </Link>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { doc, updateDoc, setDoc } from "firebase/firestore";
-import { db } from '@/firebase/index.js';
+import { db } from "@/firebase/index.js";
 
 export default function AskName() {
   const router = useRouter();
@@ -15,8 +15,9 @@ export default function AskName() {
 
   const saveName = async () => {
     if (session) {
-      const userRef = doc(db, 'users', session.user.id);
+      const userRef = doc(db, "users", session.user.id);
       await setDoc(userRef, { name }, { merge: true });
+      console.log("사용자 이름이 저장되었습니다.");
     } else {
       console.error("사용자 세션이 없습니다. 로그인을 먼저 해주세요.");
     }
