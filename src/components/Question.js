@@ -61,33 +61,31 @@ const Question = ({ setAnswerList }) => {
     setInput("");
   };
 
-  useEffect(() => {
-    const getQuestion = async () => {
-      const today = new Date();
-      const todayDate =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
+  // useEffect(() => {
+  //   const getQuestion = async () => {
+  //     const today = new Date();
+  //     const todayDate =
+  //       today.getFullYear() +
+  //       "-" +
+  //       (today.getMonth() + 1) +
+  //       "-" +
+  //       today.getDate();
 
-      const q = query(questionCollection, where("date", "==", todayDate));
+  //     const q = query(questionCollection, where("date", "==", todayDate));
 
-      // firebase에서 할 일 목록 조회하기
-      const results = await getDocs(q);
-      setQuestion(results.docs[0].data());
-    };
+  //     // firebase에서 할 일 목록 조회하기
+  //     const results = await getDocs(q);
+  //     setQuestion(results.docs[0].data());
+  //   };
 
-    getQuestion();
-  }, []);
+  //   getQuestion();
+  // }, [data]);
 
   return (
     <div className="w-full flex flex-col items-center p-5 text-black">
       <div className="w-3xl p-5 bg-lime-100 rounded-3xl">
         <div className="text-center text-xl font-bold">오늘의 질문</div>
-        <div className="text-xs text-gray-600 text-center mb-3">
-          {question.date}{" "}
-        </div>
+        <div className="text-xs text-gray-600 text-center mb-3">질문</div>
         <p className="text-center">{question.content}</p>
         <div className="flex ">
           <input
