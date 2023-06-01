@@ -10,6 +10,9 @@ const UserProfile = ({ user }) => {
   if (!user) {
     return null;
   }
+  
+  const representativeQuestion = "나를 대표하는 질문";
+  const answer = "질문에 대한 답변";
 
   return (
     <div className="p-8 bg-blue-200 mb-8 flex flex-row">
@@ -23,6 +26,11 @@ const UserProfile = ({ user }) => {
       <div className="flex flex-col justify-center">
         <h2 className="text-lg font-bold">{user.name}</h2>
         <p className="text-lg">MBTI: {user.mbti}</p>
+      </div>
+
+      <div className="mb-4">
+        <h3 className="text-sm font-bold mb-1">{representativeQuestion}</h3>
+        <p className="text-gray-800">{answer}</p>
       </div>
     </div>
   );
