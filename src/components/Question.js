@@ -20,9 +20,12 @@ import {
 const Question = ({ setAnswerList }) => {
   const answerCollection = collection(db, "answers");
   const userCollection = collection(db, "users");
+  const questionCollection = collection(db, "questions");
+
   const { data } = useSession();
   const [user, setUser] = useState(null);
   const [input, setInput] = useState("");
+  const [question, setQuestion] = useState("");
 
   useEffect(() => {
     async function fetchUser() {
@@ -54,20 +57,38 @@ const Question = ({ setAnswerList }) => {
       content: input,
       questionId: 1,
     });
-    setInput("");
 
-    // answerList 상태를 업데이트합니다.
-    setAnswerList((prevAnswerList) => [...prevAnswerList, docRef]); // 새로운 답변을 추가하여 업데이트
+    setInput("");
   };
+
+  useEffect(() => {
+    const getQuestion = async () => {
+      const today = new Date();
+      const todayDate =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
+
+      const q = query(questionCollection, where("date", "==", todayDate));
+
+      // firebase에서 할 일 목록 조회하기
+      const results = await getDocs(q);
+      setQuestion(results.docs[0].data());
+    };
+
+    getQuestion();
+  }, [questionCollection]);
 
   return (
     <div className="w-full flex flex-col items-center p-5 text-black">
       <div className="w-3xl p-5 bg-lime-100 rounded-3xl">
-        <h1 className="text-xl font-bold mb-3">오늘의 질문</h1>
-        <p className="text-center">
-          {/* 일단 id 값으로 가져옴 (추후에 날짜별로 가져오도록 수정 예정) */}
-          {questions.find((q) => q.id === 1).question}
-        </p>
+        <div className="text-center text-xl font-bold">오늘의 질문</div>
+        <div className="text-xs text-gray-600 text-center mb-3">
+          {question.date}{" "}
+        </div>
+        <p className="text-center">{question.content}</p>
         <div className="flex ">
           <input
             className="w-full p-2 mt-3 border-2 border-neutral-400 rounded-lg"
