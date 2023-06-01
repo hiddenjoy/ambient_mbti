@@ -76,7 +76,7 @@ const Main = () => {
              <div className="w-full flex flex-col items-center pt-0 p-5 text-black">
              <div className="w-3xl p-5 bg-lime-100 rounded-3xl">
               <div className="text-center text-xl font-bold">나의 답변</div>
-              <div className="text-center text-ld font-regular">"{/*입력된 답변*/}"</div>
+              <div className="text-center text-ld font-regular">"{/*입력된 답변이 렌더되는 곳*/}"</div>
 
               </div>
               </div>
