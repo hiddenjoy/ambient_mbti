@@ -1,13 +1,13 @@
+
 import { useRouter } from "next/router";
 import { useSession, signIn } from "next-auth/react";
 import { useState } from "react";
-import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db, signupEmail } from "@/firebase/index.js";
 import Link from "next/link";
 
 export default function SignUp() {
   const router = useRouter();
-  const { data: session } = useSession();
   const [userId, setUserId] = useState("");
   const [idChecked, setIdChecked] = useState(false);
   const [userIdExists, setUserIdExists] = useState(false);
@@ -48,7 +48,7 @@ export default function SignUp() {
       await setDoc(userRef, { userId });
     } else {
       console.error(
-        "이미 존재하는 아이디거나 중복확인을 하지 않은 아이디입니다."
+        "이미 존재하는 아이디거나 중복확인을 하지 않은 아이디이거나 유효하지 않은 비밀번호입니다."
       );
     }
   };
@@ -142,7 +142,7 @@ export default function SignUp() {
               : "bg-blue-200"
           } text-white border border-blue-500 rounded hover:bg-white hover:text-blue-500`}
           disabled={!idChecked || userIdExists || !passwordChecked}
-          onClick={handleSignUpClick}
+          onClick={saveUserAccount}
         >
           Continue
         </button>
