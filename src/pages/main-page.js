@@ -68,6 +68,19 @@ const Main = () => {
             <div className="basis-1/3 flex flex-col items-center">
               <div className="bg-neutral-100 basis-1/2">
                 <Question />
+
+
+             {/*질문 칸 밑에 본인의 답변이 들어오는 칸, 답변 입력시 그 칸 안에 답변 생성됨*/}
+             <div className="w-full flex flex-col items-center pt-0 p-5 text-black">
+             <div className="w-3xl p-5 bg-lime-100 rounded-3xl">
+              <div className="text-center text-xl font-bold">나의 답변</div>
+              <div className="text-center text-ld font-regular">"{/*입력된 답변*/}"</div>
+
+              </div>
+              </div>
+              {/*질문 칸 밑에 본인의 답변이 들어오는 칸, 변 입력시 그 칸 안에 답변 생성됨*/}
+
+
               </div>
               <div className="basis-1/2 border-none flex items-center">
                 버튼
