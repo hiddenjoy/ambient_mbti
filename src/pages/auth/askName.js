@@ -16,7 +16,7 @@ export default function AskName() {
   const saveName = async () => {
     if (session) {
       const userRef = doc(db, 'users', session.user.id);
-      await updateDoc(userRef, { name });
+      await setDoc(userRef, { name }, { merge: true });
     } else {
       console.error("사용자 세션이 없습니다. 로그인을 먼저 해주세요.");
     }
