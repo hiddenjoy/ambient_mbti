@@ -12,7 +12,7 @@ import Question from "@/components/Question";
 const Main = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [answerList, setAnswerList] = useState([]);
 
   useEffect(() => {
@@ -30,6 +30,8 @@ const Main = () => {
 
     fetchUser();
   }, [session]);
+
+  console.log(session);
 
   return (
     <>
