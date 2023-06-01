@@ -46,16 +46,19 @@ const Question = ({ setAnswerList }) => {
     // 입력값이 비어있는 경우 함수를 종료합니다.
     if (input.trim() === "") return;
 
-    // firestore에 추가한 할 일 저장하기.
-    // const newDate = new Date();
-    // const postDate =
-    //   newDate.toLocaleDateString() + " " + newDate.toLocaleTimeString("en-GB");
+    const today = new Date();
+    const todayDate =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
 
     const docRef = await addDoc(answerCollection, {
       user: { id: user?.uid, mbti: user?.mbti },
       likeUsers: [],
       content: input,
-      questionId: 1,
+      questionDate: todayDate,
     });
 
     setInput("");
