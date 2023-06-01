@@ -1,6 +1,6 @@
 import { questions } from "@/data";
 import React, { useState, useEffect } from "react";
-import SmallAnswer from "@/components/SmallAnswer";
+import SmallAnswerList from "@/components/SmallAnswerList";
 import { useSession, signOut } from "next-auth/react";
 
 import { db } from "@/firebase";
