@@ -68,9 +68,6 @@ const Main = () => {
             <div className="basis-1/3 flex flex-col items-center">
               <div className="bg-neutral-100 basis-1/2">
                 <Question />
-                
-                
-
 
               </div>
               <div className="basis-1/2 border-none flex items-center">
