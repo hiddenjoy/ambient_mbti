@@ -23,8 +23,13 @@ const MbtiSelector = ({ defaultMbti, setDefaultMbti }) => {
   };
 
   useEffect(() => {
-    setDefaultMbti(defaultMbti);
-    setMbti(defaultMbti);
+    if (typeof defaultMbti === "string") {
+      setDefaultMbti(defaultMbti);
+      setMbti(defaultMbti);
+    } else {
+      setDefaultMbti(defaultMbti.join(""));
+      setMbti(defaultMbti.join(""));
+    }
   }, [defaultMbti]);
 
   return (

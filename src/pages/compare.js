@@ -11,8 +11,8 @@ import {
 } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 import MbtiSelector from "../components/mbtiSelector";
-import TempAnswerList from "../components/tempAnswerList";
 import Footer from "../components/Footer";
+import AnswerList from "@/components/AnswerList";
 
 export default function Compare() {
   const { data: session } = useSession();
@@ -80,7 +80,7 @@ export default function Compare() {
                     />
                   </div>
                   <div className="w-3/4">
-                    <TempAnswerList num={1} />
+                    <AnswerList mbti={firstMbti} />
                   </div>
                 </div>
                 <div className="border flex flex-row border-3 basis-1/2 items-center p-3">
@@ -92,7 +92,7 @@ export default function Compare() {
                     />
                   </div>
                   <div className="w-3/4">
-                    <TempAnswerList num={1} />
+                    <AnswerList mbti={secondMbti} />
                   </div>
                 </div>
               </div>

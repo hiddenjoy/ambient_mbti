@@ -8,12 +8,14 @@ import { answer } from "@/data/answer.js";
 import AnswerList from "../components/AnswerList";
 import TempAnswerList from "@/components/tempAnswerList";
 import Question from "@/components/Question";
+import MbtiSelector from "@/components/mbtiSelector";
 
 const Main = ({ isAnsweredToday, setIsAnsweredToday }) => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [answerList, setAnswerList] = useState([]);
+  const [mbti, setMbti] = useState("");
 
   useEffect(() => {
     async function fetchUser() {
@@ -24,6 +26,7 @@ const Main = ({ isAnsweredToday, setIsAnsweredToday }) => {
         if (userDoc.exists()) {
           setUser(userDoc.data());
           setIsLoggedIn(true);
+          setMbti(userDoc.data().mbti);
         }
       }
     }
@@ -42,10 +45,11 @@ const Main = ({ isAnsweredToday, setIsAnsweredToday }) => {
                 isAnsweredToday={isAnsweredToday}
                 setIsAnsweredToday={setIsAnsweredToday}
               />
+              <MbtiSelector defaultMbti={mbti} setDefaultMbti={setMbti} />
             </div>
             <div className="basis-2/3 px-10 w-full">
               {/* content 이 부분은 한번에 렌더링 할거긴 함 */}
-              <TempAnswerList num={6} />
+              <AnswerList mbti={mbti} />
             </div>
           </div>
         </>
