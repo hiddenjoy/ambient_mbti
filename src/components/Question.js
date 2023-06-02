@@ -46,34 +46,22 @@ const Question = ({ setAnswerList }) => {
     // 입력값이 비어있는 경우 함수를 종료합니다.
     if (input.trim() === "") return;
 
-    const today = new Date();
-    const todayDate =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
+    const today = new Date().toISOString().split("T")[0];
 
     const docRef = await addDoc(answerCollection, {
       user: { id: user?.uid, mbti: user?.mbti },
       likeUsers: [],
       content: input,
-      questionDate: todayDate,
+      questionDate: today,
     });
 
     setInput("");
   };
 
   const getQuestion = async () => {
-    const today = new Date();
-    const todayDate =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
+    const today = new Date().toISOString().split("T")[0];
 
-    const q = query(questionCollection, where("date", "==", todayDate));
+    const q = query(questionCollection, where("date", "==", today));
     const results = await getDocs(q);
 
     setQuestion(results.docs[0].data());
