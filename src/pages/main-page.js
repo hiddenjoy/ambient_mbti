@@ -12,7 +12,7 @@ import Question from "@/components/Question";
 const Main = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [answerList, setAnswerList] = useState([]);
 
   useEffect(() => {
@@ -68,9 +68,6 @@ const Main = () => {
             <div className="basis-1/3 flex flex-col items-center">
               <div className="bg-neutral-100 basis-1/2">
                 <Question />
-              </div>
-              <div className="basis-1/2 border-none flex items-center">
-                버튼
               </div>
             </div>
             <div className="basis-2/3 px-10 w-full">
