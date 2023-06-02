@@ -105,7 +105,16 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col h-screen justify-between">
-        <Layout>{isLoggedIn && !isAnsweredToday ? <Today /> : <Main />}</Layout>
+        <Layout>
+          {isLoggedIn && !isAnsweredToday ? (
+            <Today />
+          ) : (
+            <Main
+              isAnsweredToday={isAnsweredToday}
+              setIsAnsweredToday={setIsAnsweredToday}
+            />
+          )}
+        </Layout>
         <Footer />
       </div>
     </>
