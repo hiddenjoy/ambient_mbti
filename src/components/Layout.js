@@ -2,9 +2,9 @@ import Header from "./Header";
 
 export default function Layout({ children }) {
   return (
-    <div className="container grow">
+    <div className="container h-full grow">
       <Header />
-      <main className="px-15 py-5 h-full">{children}</main>
+      <main className="px-15 py-3 h-full">{children}</main>
     </div>
   );
 }

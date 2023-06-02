@@ -45,7 +45,7 @@ const Main = ({ isAnsweredToday, setIsAnsweredToday }) => {
             </div>
             <div className="basis-2/3 px-10 w-full">
               {/* content 이 부분은 한번에 렌더링 할거긴 함 */}
-              <TempAnswerList />
+              <TempAnswerList num={6} />
             </div>
           </div>
         </>
