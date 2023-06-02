@@ -1,15 +1,15 @@
 import SmallAnswerList from "./SmallAnswerList";
 import { answer } from "@/data/answer.js";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-const TempAnswerList = () => {
+const TempAnswerList = ({ num }) => {
   const [fiveAnswers, setFiveAnswers] = useState([]);
   const [showListVer, setShowListVer] = useState(true);
 
   const generateRandomAnswers = () => {
     const selectedAnswers = [];
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < num; i++) {
       const randomIndex = Math.floor(Math.random() * answer.length);
       const randomItem = answer[randomIndex];
 
@@ -31,7 +31,7 @@ const TempAnswerList = () => {
     generateRandomAnswers();
   };
 
-  return(
+  return (
     <>
       <div className="w-full flex justify-between">
         <button onClick={() => setShowListVer(true)}>list</button>
@@ -40,15 +40,15 @@ const TempAnswerList = () => {
       </div>
       {showListVer ? (
         <div className="flex flex-col items-center w-full">
-          {(fiveAnswers.map((item) => (
+          {fiveAnswers.map((item) => (
             <SmallAnswerList key={item.id} answer={item} />
-          )))}
+          ))}
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-2">
-          {(fiveAnswers.map((item) => (
+          {fiveAnswers.map((item) => (
             <SmallAnswerList key={item.id} answer={item} />
-          )))}
+          ))}
         </div>
       )}
     </>

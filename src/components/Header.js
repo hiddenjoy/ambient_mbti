@@ -49,6 +49,7 @@ const Header = () => {
             MBTI vs. MBTI
           </Link>
         </div>
+
         <div>
           {isLogin ? (
             <div>

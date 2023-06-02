@@ -12,6 +12,7 @@ import {
 import { db } from "@/firebase/index.js";
 import MbtiSelector from "../components/mbtiSelector";
 import TempAnswerList from "../components/tempAnswerList";
+import Footer from "../components/Footer";
 
 export default function Compare() {
   const { data: session } = useSession();
@@ -55,40 +56,55 @@ export default function Compare() {
   }, []);
 
   return (
-    <Layout>
-      {isLoggedIn ? (
-        <>
-          <div className="flex flex-col items-center p-5 mb-5 border">
-            <div className="text-gray-500 text-xs">{question.date}의 질문</div>
-            <div className="flex text-2xl">" {question.content} "</div>
-          </div>
+    <>
+      <Layout>
+        {isLoggedIn ? (
+          <>
+            <div className="flex">
+              <div className="flex flex-col w-1/4 justify-center items-center p-5 mb-5 border">
+                <div className="text-gray-500 text-xs">
+                  {question.date}의 질문
+                </div>
+                <div className="flex text-2xl">" {question.content} "</div>
+              </div>
 
-          <div className="flex flex-row ">
-            <div className="border flex flex-col border-3 basis-1/2 items-center p-3">
-              <div>{firstMbti}</div>
-              <MbtiSelector
-                defaultMbti={firstMbti}
-                setDefaultMbti={setFirstMbti}
-              />
-              <TempAnswerList />
+              <div className="flex flex-col w-3/4">
+                <div className="border flex flex-row border-3 basis-1/2 items-center p-3">
+                  <div className="flex flex-col justify-center items-center w-1/4 mx-3">
+                    <div>{firstMbti}</div>
+                    <MbtiSelector
+                      defaultMbti={firstMbti}
+                      setDefaultMbti={setFirstMbti}
+                    />
+                  </div>
+                  <div className="w-3/4">
+                    <TempAnswerList num={1} />
+                  </div>
+                </div>
+                <div className="border flex flex-row border-3 basis-1/2 items-center p-3">
+                  <div className="flex flex-col justify-center items-center w-1/4 mx-3">
+                    <div>{secondMbti}</div>
+                    <MbtiSelector
+                      defaultMbti={secondMbti}
+                      setDefaultMbti={setSecondMbti}
+                    />
+                  </div>
+                  <div className="w-3/4">
+                    <TempAnswerList num={1} />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="border flex flex-col border-3 basis-1/2 items-center p-3">
-              {secondMbti}
-              <MbtiSelector
-                defaultMbti={secondMbti}
-                setDefaultMbti={setSecondMbti}
-              />
-              <TempAnswerList />
+          </>
+        ) : (
+          <>
+            <div className="w-full text-center mt-5">
+              로그인을 하시면 더 많은 답변을 보실 수 있습니다!
             </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="w-full text-center mt-5">
-            로그인을 하시면 더 많은 답변을 보실 수 있습니다!
-          </div>
-        </>
-      )}
-    </Layout>
+          </>
+        )}
+      </Layout>
+      <Footer />
+    </>
   );
 }
