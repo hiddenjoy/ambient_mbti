@@ -140,30 +140,32 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
             {isEdit ? (
               <>
                 <input
-                  className="w-full p-2 mt-3 border-2 border-neutral-400 rounded-lg"
+                  className="w-full p-2 border-2 border-neutral-400 rounded-lg"
                   placeholder="답변을 입력해주세요"
                   value={answer}
                   onChange={(e) => setAnswer(e.target.value)}
                 />
-                <button
-                  onClick={handleIsEdit}
-                  className="w-1/5 p-2 mt-3 border-2"
-                >
-                  취소
-                </button>
-                <button
-                  onClick={updateAnswer}
-                  className="w-1/5 p-2 mt-3 border-2"
-                >
-                  완료
-                </button>
+                <div className="flex flex-row justify-center text-xs text-white w-full">
+                  <button
+                    onClick={handleIsEdit}
+                    className="w-1/4 p-2 mt-3 mx-2 border-2"
+                  >
+                    취소
+                  </button>
+                  <button
+                    onClick={updateAnswer}
+                    className="w-1/4 p-2 mt-3 border-2"
+                  >
+                    완료
+                  </button>
+                </div>
               </>
             ) : (
               <>
-                <div className="flex text-white text-xl">{answer}</div>
+                <div className="w-full p-2 text-white text-xl">{answer}</div>
                 <button
                   onClick={handleIsEdit}
-                  className="w-1/4 mt-3 py-1 border-2 bg-gray-200 text-xs items-center"
+                  className="w-1/4 mt-3 p-2 border-2 bg-gray-200 text-xs items-center"
                 >
                   수정
                 </button>
