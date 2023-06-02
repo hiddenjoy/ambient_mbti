@@ -17,7 +17,7 @@ import Footer from "../components/Footer";
 export default function Compare() {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [answerList, setAnswerList] = useState([]);
   const [firstMbti, setFirstMbti] = useState("");
   const [secondMbti, setSecondMbti] = useState("");
