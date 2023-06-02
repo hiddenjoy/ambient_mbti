@@ -43,7 +43,7 @@ export default function SignUp() {
   };
 
   const saveUserId = async () => {
-    if (session && !userIdExists && idChecked) {
+    if (!userIdExists && idChecked) {
       const userRef = doc(db, "users", session.user.id);
       await setDoc(userRef, { userId });
     } else {
@@ -74,11 +74,11 @@ export default function SignUp() {
     }
   };
 
-  const handleSignUpClick = () => {
-    saveUserId();
-    saveUserPassword();
-    saveUserAccount();
-    router.push("askName");
+  const handleSignUpClick = async () => {
+    await saveUserId();
+    await saveUserPassword();
+    await saveUserAccount();
+    await router.push("askName");
   };
 
   return (

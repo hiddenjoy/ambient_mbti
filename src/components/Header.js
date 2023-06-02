@@ -35,12 +35,20 @@ const Header = () => {
   return (
     <>
       <div className="flex items-center justify-between bg-lime-200 p-3 sticky top-0 text-black">
-        <Link
-          href="/"
-          className="text-xl font-bold text-center text-primary  ml-4 p-3"
-        >
-          Ambient MBTI
-        </Link>
+        <div>
+          <Link
+            href="/"
+            className="border-4 text-xl font-bold text-center text-primary ml-4 p-3"
+          >
+            Ambient MBTI
+          </Link>
+          <Link
+            href="/compare"
+            className="border-4 font-bold text-center text-gray-400 ml-4 p-3"
+          >
+            MBTI vs. MBTI
+          </Link>
+        </div>
         <div>
           {isLogin ? (
             <div>
@@ -52,7 +60,7 @@ const Header = () => {
               </button>
               <Link
                 href="/my-page"
-                className="text-base font-bold text-center text-primary border-4 ml-4 p-3"
+                className=" text-base font-bold text-center text-primary border-4 ml-4 p-3"
               >
                 마이페이지
               </Link>
