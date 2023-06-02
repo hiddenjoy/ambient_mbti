@@ -27,6 +27,7 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
   const [input, setInput] = useState("");
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     async function fetchUser() {
@@ -54,7 +55,6 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
 
   const getAnswer = async () => {
     if (data) {
-      console.log(data);
       const userId = data.user.id;
       const today = new Date().toISOString().split("T")[0];
 
@@ -67,7 +67,7 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
       const results = await getDocs(q);
 
       if (results.docs.length > 0) {
-        setAnswer(results.docs[0].data());
+        setAnswer(results.docs[0].data().content);
       }
     }
   };
@@ -93,6 +93,37 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
     setInput("");
   };
 
+  const updateAnswer = async () => {
+    if (answer.trim() === "") return;
+    if (data) {
+      const userId = data.user.id;
+
+      const today = new Date().toISOString().split("T")[0];
+
+      const q = query(
+        answerCollection,
+        where("questionDate", "==", today),
+        where("user.id", "==", userId)
+      );
+
+      const results = await getDocs(q);
+
+      if (results.docs.length > 0) {
+        const docId = results.docs[0].id;
+        const answerRef = doc(db, "answers", docId);
+
+        await updateDoc(answerRef, {
+          content: answer,
+        });
+      }
+    }
+    handleIsEdit();
+  };
+
+  const handleIsEdit = () => {
+    setIsEdit(!isEdit);
+  };
+
   return (
     <div className="w-full p-5">
       <div className="text-center text-xl font-bold">오늘의 질문</div>
@@ -106,13 +137,38 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
           <div className="flex text-sm text-gray-600">나의 답변:</div>
 
           <div className="flex flex-col bg-gray-600 p-5 items-center">
-            <div className="flex text-white text-xl">{answer.content}</div>
-            <button
-              onClick={addAnswer}
-              className="w-1/4 mt-3 py-1 border-2 bg-gray-200 text-xs items-center"
-            >
-              수정
-            </button>
+            {isEdit ? (
+              <>
+                <input
+                  className="w-full p-2 mt-3 border-2 border-neutral-400 rounded-lg"
+                  placeholder="답변을 입력해주세요"
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                />
+                <button
+                  onClick={handleIsEdit}
+                  className="w-1/5 p-2 mt-3 border-2"
+                >
+                  취소
+                </button>
+                <button
+                  onClick={updateAnswer}
+                  className="w-1/5 p-2 mt-3 border-2"
+                >
+                  완료
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="flex text-white text-xl">{answer}</div>
+                <button
+                  onClick={handleIsEdit}
+                  className="w-1/4 mt-3 py-1 border-2 bg-gray-200 text-xs items-center"
+                >
+                  수정
+                </button>
+              </>
+            )}
           </div>
         </>
       ) : (
