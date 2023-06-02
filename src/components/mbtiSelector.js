@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { set } from "date-fns";
+import { useState, useEffect } from "react";
 
-const MbtiSelector = ({ defaultMbti, onMbtiChange }) => {
+const MbtiSelector = ({ defaultMbti, setDefaultMbti }) => {
   const [mbti, setMbti] = useState(defaultMbti || ["", "", "", ""]);
 
   const handleButtonChange = (value, index) => {
@@ -8,20 +9,30 @@ const MbtiSelector = ({ defaultMbti, onMbtiChange }) => {
       const newMbti = [...mbti];
       newMbti[index] = "";
       setMbti(newMbti);
-      onMbtiChange(newMbti);
+      setDefaultMbti(newMbti);
+
+      // onMbtiChange(newMbti);
     } else {
       const newMbti = [...mbti];
       newMbti[index] = value;
       setMbti(newMbti);
-      onMbtiChange(newMbti);
+      setDefaultMbti(newMbti);
+
+      // onMbtiChange(newMbti);
     }
   };
 
+  useEffect(() => {
+    setDefaultMbti(defaultMbti);
+    setMbti(defaultMbti);
+  }, [defaultMbti]);
+
   return (
-    <div className="flex px-2">
-      <div className="grid grid-cols-1 gap-2 mb-4 mx-1">
+    <div className="flex justify-center border w-full p-3">
+      <div className="grid gap-2 mx-1 py-2 w-1/4">
         {["E", "I"].map((value) => (
           <button
+            key={value}
             className={`p-1 ${
               mbti[0] === value
                 ? "bg-blue-500 text-white"
@@ -34,9 +45,10 @@ const MbtiSelector = ({ defaultMbti, onMbtiChange }) => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-2 mb-4 mx-1">
+      <div className="grid gap-2  mx-1 py-2 w-1/4">
         {["S", "N"].map((value) => (
           <button
+            key={value}
             className={`p-1 ${
               mbti[1] === value
                 ? "bg-blue-500 text-white"
@@ -48,9 +60,10 @@ const MbtiSelector = ({ defaultMbti, onMbtiChange }) => {
           </button>
         ))}
       </div>
-      <div className="grid grid-cols-1 gap-2 mb-4 mx-1">
+      <div className="grid  gap-2 mx-1 py-2 w-1/4">
         {["F", "T"].map((value) => (
           <button
+            key={value}
             className={`p-1 ${
               mbti[2] === value
                 ? "bg-blue-500 text-white"
@@ -62,9 +75,10 @@ const MbtiSelector = ({ defaultMbti, onMbtiChange }) => {
           </button>
         ))}
       </div>
-      <div className="grid grid-cols-1 gap-2 mb-4 mx-1">
+      <div className="grid gap-2 mx-1 py-2 w-1/4">
         {["J", "P"].map((value) => (
           <button
+            key={value}
             className={`p-1 ${
               mbti[3] === value
                 ? "bg-blue-500 text-white"
