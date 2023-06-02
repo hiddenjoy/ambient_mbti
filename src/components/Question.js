@@ -17,7 +17,7 @@ import {
   where,
 } from "firebase/firestore";
 
-const Question = ({ setAnswerList }) => {
+const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
   const answerCollection = collection(db, "answers");
   const userCollection = collection(db, "users");
   const questionCollection = collection(db, "questions");
@@ -26,6 +26,7 @@ const Question = ({ setAnswerList }) => {
   const [user, setUser] = useState(null);
   const [input, setInput] = useState("");
   const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
 
   useEffect(() => {
     async function fetchUser() {
@@ -41,6 +42,40 @@ const Question = ({ setAnswerList }) => {
 
     fetchUser();
   }, [data]);
+
+  const getQuestion = async () => {
+    const today = new Date().toISOString().split("T")[0];
+
+    const q = query(questionCollection, where("date", "==", today));
+    const results = await getDocs(q);
+
+    setQuestion(results.docs[0].data());
+  };
+
+  const getAnswer = async () => {
+    if (data) {
+      console.log(data);
+      const userId = data.user.id;
+      const today = new Date().toISOString().split("T")[0];
+
+      const q = query(
+        answerCollection,
+        where("questionDate", "==", today),
+        where("user.id", "==", userId)
+      );
+
+      const results = await getDocs(q);
+
+      if (results.docs.length > 0) {
+        setAnswer(results.docs[0].data());
+      }
+    }
+  };
+
+  useEffect(() => {
+    getQuestion();
+    getAnswer();
+  }, []);
 
   const addAnswer = async () => {
     // 입력값이 비어있는 경우 함수를 종료합니다.
@@ -58,27 +93,29 @@ const Question = ({ setAnswerList }) => {
     setInput("");
   };
 
-  const getQuestion = async () => {
-    const today = new Date().toISOString().split("T")[0];
-
-    const q = query(questionCollection, where("date", "==", today));
-    const results = await getDocs(q);
-
-    setQuestion(results.docs[0].data());
-  };
-
-  useEffect(() => {
-    getQuestion();
-  }, []);
-
   return (
-    <div className="w-full flex flex-col items-center p-5 text-black">
-      <div className="w-3xl p-5 bg-lime-100 rounded-3xl">
-        <div className="text-center text-xl font-bold">오늘의 질문</div>
-        <div className="text-xs text-gray-600 text-center mb-3">
-          {question.date}
-        </div>
-        <p className="text-center">{question.content}</p>
+    <div className="w-full p-5">
+      <div className="text-center text-xl font-bold">오늘의 질문</div>
+      <div className="text-xs text-gray-600 text-center mb-3">
+        {question.date}
+      </div>
+      <p className="text-center border my-5 text-xl">" {question.content} "</p>
+
+      {isAnsweredToday ? (
+        <>
+          <div className="flex text-sm text-gray-600">나의 답변:</div>
+
+          <div className="flex flex-col bg-gray-600 p-5 items-center">
+            <div className="flex text-white text-xl">{answer.content}</div>
+            <button
+              onClick={addAnswer}
+              className="w-1/4 mt-3 py-1 border-2 bg-gray-200 text-xs items-center"
+            >
+              수정
+            </button>
+          </div>
+        </>
+      ) : (
         <div className="flex ">
           <input
             className="w-full p-2 mt-3 border-2 border-neutral-400 rounded-lg"
@@ -90,7 +127,7 @@ const Question = ({ setAnswerList }) => {
             제출
           </button>
         </div>
-      </div>
+      )}
     </div>
   );
 };
