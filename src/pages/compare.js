@@ -60,8 +60,8 @@ export default function Compare() {
       <Layout>
         {isLoggedIn ? (
           <>
-            <div className="flex h-full">
-              <div className="flex flex-col w-1/4 h-full items-center p-5 mb-5 border">
+            <div className="flex flex-col">
+              <div className="flex flex-col w-full items-center p-5 mb-5 border">
                 <div className="flex text-gray-500 text-xs">
                   {question.date}의 질문
                 </div>
@@ -70,28 +70,30 @@ export default function Compare() {
                 </div>
               </div>
 
-              <div className="flex flex-col w-3/4">
-                <div className="border flex flex-row border-3 basis-1/2 items-center p-3">
-                  <div className="flex flex-col justify-center items-center w-1/4 mx-3">
+              <div className="flex flex-row">
+                <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-3">
+                  <div className="w-3/4 flex flex-col justify-center items-center mx-3">
                     <div>{firstMbti}</div>
                     <MbtiSelector
                       defaultMbti={firstMbti}
                       setDefaultMbti={setFirstMbti}
                     />
                   </div>
-                  <div className="w-3/4">
-                    <AnswerList mbti={firstMbti} />
+                  <div>
+                    <div className="w-full">
+                      <AnswerList mbti={firstMbti} />
+                    </div>
                   </div>
                 </div>
-                <div className="border flex flex-row border-3 basis-1/2 items-center p-3">
-                  <div className="flex flex-col justify-center items-center w-1/4 mx-3">
+                <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-3">
+                  <div className="w-3/4 flex flex-col justify-center items-center mx-3">
                     <div>{secondMbti}</div>
                     <MbtiSelector
                       defaultMbti={secondMbti}
                       setDefaultMbti={setSecondMbti}
                     />
                   </div>
-                  <div className="w-3/4">
+                  <div>
                     <AnswerList mbti={secondMbti} />
                   </div>
                 </div>

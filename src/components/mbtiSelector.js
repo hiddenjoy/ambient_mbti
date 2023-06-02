@@ -33,7 +33,7 @@ const MbtiSelector = ({ defaultMbti, setDefaultMbti }) => {
   }, [defaultMbti]);
 
   return (
-    <div className="flex justify-center border w-full p-3">
+    <div className="flex justify-center border w-full p-3 mb-5">
       <div className="grid gap-2 mx-1 py-2 w-1/4">
         {["E", "I"].map((value) => (
           <button
