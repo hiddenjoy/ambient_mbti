@@ -60,12 +60,14 @@ export default function Compare() {
       <Layout>
         {isLoggedIn ? (
           <>
-            <div className="flex">
-              <div className="flex flex-col w-1/4 justify-center items-center p-5 mb-5 border">
-                <div className="text-gray-500 text-xs">
+            <div className="flex h-full">
+              <div className="flex flex-col w-1/4 h-full items-center p-5 mb-5 border">
+                <div className="flex text-gray-500 text-xs">
                   {question.date}의 질문
                 </div>
-                <div className="flex text-2xl">" {question.content} "</div>
+                <div className="flex text-2xl text-center whitespace-normal">
+                  " {question.content} "
+                </div>
               </div>
 
               <div className="flex flex-col w-3/4">
