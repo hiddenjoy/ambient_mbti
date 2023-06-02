@@ -19,61 +19,70 @@ import {
 const answerCollection = collection(db, "answers");
 const userCollection = collection(db, "users");
 
-const AnswerList = ({ answerList }) => {
+const AnswerList = ({ mbti }) => {
   const [answers, setAnswers] = useState([]);
   const { data } = useSession();
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // answerList 상태가 변경될 때마다 실행되는 로직
-    console.log("AnswerList 업데이트됨");
-  }, [answerList]);
-
-  useEffect(() => {
-    async function fetchUser() {
-      if (data) {
-        const userRef = doc(db, "users", data.user.id);
-        const userDoc = await getDoc(userRef);
-
-        if (userDoc.exists()) {
-          setUser(userDoc.data());
-        }
-      }
-    }
-
-    fetchUser();
-  }, [data]); // data를 의존성 배열에 추가
-
-  useEffect(() => {
-    if (user) {
-      getAnswers();
-    }
-  }, [user]); // user를 의존성 배열에 추가
+  const [layout, setLayout] = useState(true);
 
   const getAnswers = async () => {
-    if (!user?.mbti) return;
+    console.log(mbti);
 
-    const q = query(answerCollection, where("user.mbti", "==", user?.mbti));
+    const q = query(answerCollection, where("user.mbti", "==", mbti));
 
     const results = await getDocs(q);
+
     const newAnswers = [];
     results.docs.forEach((doc) => {
       newAnswers.push({ id: doc.id, ...doc.data() });
     });
-
     setAnswers(newAnswers);
   };
 
+  useEffect(() => {
+    getAnswers();
+  }, [mbti]);
+
+  const handleClick = () => {
+    console.log("새로고침 기능 구현하기");
+  };
+
+  const handleLayout = () => {
+    setLayout(!layout);
+  };
+
   return (
-    <>
-      <div>
-        <ul>
-          {answers.map((answer) => (
-            <SmallAnswerList key={answer.id} answer={answer} />
-          ))}
-        </ul>
+    <div className="flex flex-col">
+      <div className="border w-full flex justify-between">
+        <div>
+          <button className="border my-1 ml-1 p-1" onClick={handleLayout}>
+            list
+          </button>
+          <button className="border my-1 mr-1 p-1" onClick={handleLayout}>
+            gallery
+          </button>
+        </div>
+        <div>
+          <button className="border my-1 mr-1 p-1" onClick={handleClick}>
+            ↺
+          </button>
+        </div>
       </div>
-    </>
+      <div>
+        {layout ? (
+          <div className="flex flex-col items-center w-full">
+            {answers.map((item) => (
+              <SmallAnswerList key={item.id} answer={item} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 gap-2">
+            {answers.map((item) => (
+              <SmallAnswerList key={item.id} answer={item} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
