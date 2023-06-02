@@ -1,8 +1,17 @@
-import { format, addDays, startOfWeek, endOfWeek, subWeeks, addWeeks } from "date-fns";
-import { useState } from 'react';
+import {
+  format,
+  addDays,
+  startOfWeek,
+  endOfWeek,
+  subWeeks,
+  addWeeks,
+} from "date-fns";
+import { useState } from "react";
 
 const WeeklyCalendar = ({ handleDatePopup }) => {
-  const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date()));
+  const [currentWeekStart, setCurrentWeekStart] = useState(
+    startOfWeek(new Date())
+  );
   const [selectedDate, setSelectedDate] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
 
@@ -29,7 +38,6 @@ const WeeklyCalendar = ({ handleDatePopup }) => {
     handleDatePopup(date);
   };
 
-
   const handleCursorMove = (day) => {
     const index = calendarDays.findIndex((date) => date === day);
     if (index !== -1) {
@@ -40,73 +48,83 @@ const WeeklyCalendar = ({ handleDatePopup }) => {
       }, 300);
     }
   };
-  
-  
 
   const handleDateHover = (date) => {
     setHoveredDate(date);
   };
 
   const weeks = [];
-let week = [];
+  let week = [];
 
-while (calendarDays.length > 0) {
-  week.push(calendarDays.shift());
+  while (calendarDays.length > 0) {
+    week.push(calendarDays.shift());
 
-  if (week.length === 7) {
-    weeks.push(week);
-    week = [];
+    if (week.length === 7) {
+      weeks.push(week);
+      week = [];
+    }
   }
-}
 
-// 나머지 남은 일자가 있는 경우 마지막 주에 추가
-if (week.length > 0) {
-  weeks.push(week);
-}
+  // 나머지 남은 일자가 있는 경우 마지막 주에 추가
+  if (week.length > 0) {
+    weeks.push(week);
+  }
 
-return (
-  // ...
-  <div className="flex justify-center">
-    {/* 이전 주로 이동하는 버튼 */}
-    <button className="text-2xl font-bold bg-blue-300 text-white rounded" onClick={goToPreviousWeek}>
-      &lt;
-    </button>
+  return (
+    // ...
+    <div className="flex justify-center">
+      {/* 이전 주로 이동하는 버튼 */}
+      <button
+        className="text-2xl font-bold bg-blue-300 text-white rounded"
+        onClick={goToPreviousWeek}
+      >
+        &lt;
+      </button>
 
-    <div className="flex flex-col items-center">
-      <span className="text-2xl font-bold mb-2">
-        {format(currentWeekStart, "yyyy년")} {format(currentWeekStart, "MMM")}
-      </span>
+      <div className="flex flex-col items-center">
+        <span className="text-2xl font-bold mb-2">
+          {format(currentWeekStart, "yyyy년")} {format(currentWeekStart, "MMM")}
+        </span>
 
-      <div className="flex justify-center">
-        {/* 주간 캘린더 */}
-        {weeks.map((week) => (
-          <div className="flex" key={week[0]}>
-            {week.map((day) => (
-              <div
-                key={day}
-                className={`flex flex-col items-center justify-center w-40 h-40 border ${
-                  selectedDate === day ? "bg-blue-200" : hoveredDate === day ? "bg-blue-100" : "border-gray-300"
-                }`}
-                onClick={() => handleDateClick(day)}
-                onMouseEnter={() => handleCursorMove(day)}
-                onMouseOver={() => handleDateHover(day)}
-                onMouseLeave={() => handleDateHover(null)}
-              >
-                <span className="text-sm font-medium">{format(day, "EEE")}</span>
-                <span className="text-lg font-bold">{format(day, "d")}</span>
-              </div>
-            ))}
-          </div>
-        ))}
+        <div className="flex justify-center">
+          {/* 주간 캘린더 */}
+          {weeks.map((week) => (
+            <div className="flex" key={week[0]}>
+              {week.map((day) => (
+                <div
+                  key={day}
+                  className={`flex flex-col items-center justify-center w-40 h-40 border ${
+                    selectedDate === day
+                      ? "bg-blue-200"
+                      : hoveredDate === day
+                      ? "bg-blue-100"
+                      : "border-gray-300"
+                  }`}
+                  onClick={() => handleDateClick(day)}
+                  onMouseEnter={() => handleCursorMove(day)}
+                  onMouseOver={() => handleDateHover(day)}
+                  onMouseLeave={() => handleDateHover(null)}
+                >
+                  <span className="text-sm font-medium">
+                    {format(day, "EEE")}
+                  </span>
+                  <span className="text-lg font-bold">{format(day, "d")}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
+
+      {/* 다음 주로 이동하는 버튼 */}
+      <button
+        className="text-2xl font-bold bg-blue-300 text-white rounded"
+        onClick={goToNextWeek}
+      >
+        &gt;
+      </button>
     </div>
+  );
+};
 
-    {/* 다음 주로 이동하는 버튼 */}
-    <button className="text-2xl font-bold bg-blue-300 text-white rounded" onClick={goToNextWeek}>
-      &gt;
-    </button>
-  </div>
-);
-}
-
-  export default WeeklyCalendar;
+export default WeeklyCalendar;

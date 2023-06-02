@@ -7,7 +7,7 @@ const UserProfile = ({ user }) => {
   const answer = "질문에 대한 답변";
 
   return (
-    <div className="p-8 bg-blue-200 mb-8 flex flex-row">
+    <div className="p-8 bg-blue-200 mb-8 flex flex-col">
       <div className="flex items-center mr-4">
         <img
           src={user.photoURL}
