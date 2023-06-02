@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import UserProfile from "@/components/UserProfile";
 import WeeklyCalendar from "@/components/WeeklyCalendar";
 import FollowingUsers from "@/components/FollowingUser";
+import LikedAnswers from "@/components/LikedAnswer";
 import { format } from "date-fns";
 import { questions } from "@/data";
 import { useState, useEffect } from "react";
@@ -13,7 +14,6 @@ const Mypage = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
   const [questionAnswers, setQuestionAnswers] = useState([]);
-  const [likedAnswers, setLikedAnswers] = useState([]);
   const [popupDate, setPopupDate] = useState(null);
   const [viewTag, setViewTag] = useState("calendar");
 
