@@ -43,7 +43,9 @@ const Mypage = () => {
           <h1 className="text-4xl font-bold text-center text-primary mb-8">
             Mypage
           </h1>
+          <button onClick={() => {setViewTag("likedAnswers")}}>임의 버튼</button>
           <UserProfile user={user} /> {/* 프로필 영역 추가 */}
+        </div>
           <div>
             {(() => {
               switch (viewTag) {
@@ -126,13 +128,12 @@ const Mypage = () => {
                     </div>
                   );
                 case "followingUsers":
-                  return <FollowingUsersComponent />;
+                  return (<div></div>);
                 default:
                   return <div>Invalid viewTag</div>;
               }
             })()}
           </div>
-        </div>
       </main>
     </Layout>
   );
