@@ -64,10 +64,12 @@ li {
 }
 
 .container {
+  height: 85vh;
   max-width: 90vw;
-  margin: 20px auto;
-  padding: 20px;
+  margin: 15px 0px auto;
+  padding: 15px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: scroll;
 }

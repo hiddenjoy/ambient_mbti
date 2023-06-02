@@ -127,7 +127,7 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
   return (
     <div className="w-full p-5">
       <div className="text-center text-xl font-bold">오늘의 질문</div>
-      <div className="text-xs text-gray-600 text-center mb-3">
+      <div className="text-xs text-gray-600 mb-3 text-center whitespace-normal">
         {question.date}
       </div>
       <p className="text-center border my-5 text-xl">" {question.content} "</p>
@@ -162,7 +162,9 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
               </>
             ) : (
               <>
-                <div className="w-full p-2 text-white text-xl">{answer}</div>
+                <div className="w-full p-2 text-white text-xl text-center whitespace-normal">
+                  {answer}
+                </div>
                 <button
                   onClick={handleIsEdit}
                   className="w-1/4 mt-3 p-2 border-2 bg-gray-200 text-xs items-center"
