@@ -80,11 +80,11 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
   const addAnswer = async () => {
     // 입력값이 비어있는 경우 함수를 종료합니다.
     if (input.trim() === "") return;
-
+    const userId = data.user.id;
     const today = new Date().toISOString().split("T")[0];
 
     const docRef = await addDoc(answerCollection, {
-      user: { id: user?.uid, mbti: user?.mbti },
+      user: { id: userId, mbti: user?.mbti },
       likeUsers: [],
       content: input,
       questionDate: today,
