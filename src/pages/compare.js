@@ -42,15 +42,9 @@ export default function Compare() {
   }, [session]);
 
   const getQuestion = async () => {
-    const today = new Date();
-    const todayDate =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
+    const today = new Date().toISOString().split("T")[0];
 
-    const q = query(questionCollection, where("date", "==", todayDate));
+    const q = query(questionCollection, where("date", "==", today));
     const results = await getDocs(q);
 
     setQuestion(results.docs[0].data());
