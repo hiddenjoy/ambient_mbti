@@ -1,161 +1,137 @@
 import Layout from "@/components/Layout";
-import { format, addDays, startOfWeek, endOfWeek, subWeeks, addWeeks } from "date-fns";
+import UserProfile from "@/components/UserProfile";
+import WeeklyCalendar from "@/components/WeeklyCalendar";
+import FollowingUsers from "@/components/FollowingUser";
+import LikedAnswers from "@/components/LikedAnswer";
+import { format } from "date-fns";
 import { questions } from "@/data";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 
-const UserProfile = ({ user }) => {
-  if (!user) {
-    return null;
-  }
-  
-  const representativeQuestion = "나를 대표하는 질문";
-  const answer = "질문에 대한 답변";
-
-  return (
-    <div className="p-8 bg-blue-200 mb-8">
-      <div className="flex items-center mb-4">
-        <img src={user.photoURL} alt="Profile" className="w-10 h-10 rounded-full mr-4" />
-        <h2 className="text-lg font-bold">{user.name}</h2>
-      </div>
-      <div>
-        <h3 className="text-xl font-bold">나를 대표하는 질문</h3>
-        {/* 질문과 답변을 여기에 표시 */}
-      </div>
-    </div>
-  );
-};
-
-const WeeklyCalendar = ({ handleDatePopup }) => {
-  const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date()));
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [hoveredDate, setHoveredDate] = useState(null);
-
-  const goToPreviousWeek = () => {
-    setCurrentWeekStart(subWeeks(currentWeekStart, 1));
-  };
-
-  const goToNextWeek = () => {
-    setCurrentWeekStart(addWeeks(currentWeekStart, 1));
-  };
-
-  const startDate = currentWeekStart;
-  const endDate = endOfWeek(currentWeekStart);
-  const calendarDays = [];
-  let currentDate = startDate;
-
-  while (currentDate <= endDate) {
-    calendarDays.push(currentDate);
-    currentDate = addDays(currentDate, 1);
-  }
-
-  const handleDateClick = (date) => {
-    setSelectedDate(date);
-    handleDatePopup(date);
-  };
-
-  const handleCursorMove = (day) => {
-    const index = calendarDays.findIndex((date) => date === day);
-    if (index !== -1) {
-      const newWeekStart = addDays(currentWeekStart, index - 3);
-      setCurrentWeekStart(newWeekStart);
-      setTimeout(() => {
-        setCurrentWeekStart(newWeekStart);
-      }, 300);
-    }
-  };
-
-  const handleDateHover = (date) => {
-    setHoveredDate(date);
-  };
-
-  const weeks = [];
-  let week = [];
-
-  while (calendarDays.length > 0) {
-    week.push(calendarDays.shift());
-
-    if (week.length === 7) {
-      weeks.push(week);
-      week = [];
-    }
-  }
-
-  // 나머지 남은 일자가 있는 경우 마지막 주에 추가
-  if (week.length > 0) {
-    weeks.push(week);
-  }
-
-  return (
-    <div className="flex justify-center">
-      <button className="text-2xl font-bold bg-blue-300 text-white rounded" onClick={goToPreviousWeek}>
-        &lt;
-      </button>
-      <div className="flex flex-col">
-        {weeks.map((week, index) => (
-          <div key={index} className="flex">
-            {week.map((day, dayIndex) => (
-              <div
-                key={dayIndex}
-                className={`w-16 h-16 flex items-center justify-center cursor-pointer ${
-                  selectedDate && format(selectedDate, "yyyy-MM-dd") === format(day, "yyyy-MM-dd")
-                    ? "bg-blue-400 text-white"
-                    : hoveredDate && format(hoveredDate, "yyyy-MM-dd") === format(day, "yyyy-MM-dd")
-                    ? "bg-blue-200"
-                    : ""
-                }`}
-                onClick={() => handleDateClick(day)}
-                onMouseEnter={() => handleDateHover(day)}
-                onMouseMove={() => handleCursorMove(day)}
-              >
-                {format(day, "d")}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-      <button className="text-2xl font-bold bg-blue-300 text-white rounded" onClick={goToNextWeek}>
-        &gt;
-      </button>
-    </div>
-  );
-};
-
-const Home = () => {
-  const { data: session, status } = useSession();
+const Mypage = () => {
+  const { data: session } = useSession();
+  const [user, setUser] = useState(null);
+  const [questionAnswers, setQuestionAnswers] = useState([]);
+  const [popupDate, setPopupDate] = useState(null);
+  const [viewTag, setViewTag] = useState("calendar");
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (session) {
+    async function fetchUser() {
+      if (session && session.user) {
         const userRef = doc(db, "users", session.user.id);
         const userDoc = await getDoc(userRef);
+
         if (userDoc.exists()) {
-          // 사용자 정보 가져오기
-          const user = userDoc.data();
-          console.log("사용자 정보:", user);
+          setUser(userDoc.data());
+          setQuestionAnswers(userDoc.data().questionAnswers);
         }
       }
-    };
+    }
 
-    fetchData();
+    fetchUser();
   }, [session]);
+
+  const handleDatePopup = (date) => {
+    setPopupDate(date);
+  };
+
+  const ViewTagButton = ({value}) => {
+    return(
+      <div className="flex flex-row">
+        <button onClick={() => {setViewTag(value)}} className="mr-3 my-3 px-2 bg-lime-100 rounded ">{value}</button>
+      </div>
+    );
+  }
+
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 grid grid-cols-4 gap-4">
-        <div className="col-span-1">
-          <h1 className="text-2xl font-bold mt-8 mb-4">프로필</h1>
-          <UserProfile user={session?.user} />
+      <div className="flex flex-row h-full">
+        <div className="h-full basis-1/5 p-3 flex flex-col items-start sticky top-0">
+          <h1 className="text-4xl font-bold text-primary p-3">
+            Mypage
+          </h1>
+          <UserProfile user={user} />
         </div>
-        <div className="col-span-3">
-          <h1 className="text-2xl font-bold mt-8 mb-4">주간 캘린더</h1>
-          <WeeklyCalendar handleDatePopup={(date) => console.log("선택한 날짜:", date)} />
+        <div className="basis-4/5 flex flex-col">
+          <div>버튼</div>
+          <div className="flex flex-row">
+            <ViewTagButton value="calendar"/>
+            <ViewTagButton value="likedAnswers"/>
+            <ViewTagButton value="followingUsers"/>
+          </div>
+          <div className="bg-neutral-100 h-full">
+            {viewTag === 'calendar' ? (
+              <>
+                {/* 주간 캘린더 */}
+                <WeeklyCalendar handleDatePopup={handleDatePopup} />
+
+                {/* 팝업 */}
+                {popupDate && (
+                  <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-4">
+                      <h2 className="text-lg font-bold mb-2">
+                        {format(popupDate, "yyyy년 MM월 dd일")}
+                      </h2>
+                      {/* 팝업 내용을 구현해야함*/}
+                      {/* 질문 답변 데이터 끌어올 예정 */}
+                      {questions.map((question) => (
+                        <div key={question.id} className="mt-4">
+                          <h2 className="text-2xl font-bold">
+                            {question.question}
+                          </h2>
+                          <p className="text-gray-500">
+                            {question.askDate}
+                          </p>
+                          {/* 답변을 보여주는 로직 */}
+                          {questionAnswers &&
+                            questionAnswers.map((qa) => {
+                              if (
+                                qa.askDate ===
+                                format(popupDate, "yyyy-MM-dd")
+                              ) {
+                                return (
+                                  <div key={qa.id} className="mb-4">
+                                    <p className="text-lg font-semibold mb-2">
+                                      {qa.askDate}
+                                    </p>
+                                    <p className="text-lg">
+                                      질문: {qa.question}
+                                    </p>
+                                    <p className="text-lg">
+                                      답변: {qa.answer}
+                                    </p>
+                                  </div>
+                                );
+                              }
+                              return null;
+                            })}
+                        </div>
+                      ))}
+                      <button
+                        className="bg-blue-500 text-white py-2 px-4 mt-4 rounded"
+                        onClick={() => setPopupDate(null)} // 팝업 닫기
+                      >
+                        닫기
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : viewTag === 'likedAnswers' ? (
+              <LikedAnswers/>
+            ) : viewTag === 'followingUsers' ? (
+              <FollowingUsers />
+            ) : (
+              <div>Invalid viewTag</div>
+            )}
+          </div>
         </div>
       </div>
     </Layout>
   );
 };
 
-export default Home;
+export default Mypage;
