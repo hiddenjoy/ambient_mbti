@@ -24,12 +24,12 @@ const MbtiSelector = ({ defaultMbti, setDefaultMbti }) => {
   }, [defaultMbti]);
 
   return (
-    <div className="flex justify-center border w-full p-3 mb-5">
-      <div className="grid gap-2 mx-1 py-2 w-1/4">
+    <div className="flex justify-center border w-full p-3">
+      <div className="grid mx-1 w-1/4">
         {["E", "I"].map((value) => (
           <button
             key={value}
-            className={`p-1 ${
+            className={`p-1 m-1 ${
               mbti[0] === value
                 ? "bg-blue-500 text-white"
                 : "border border-blue-500"
@@ -41,11 +41,11 @@ const MbtiSelector = ({ defaultMbti, setDefaultMbti }) => {
         ))}
       </div>
 
-      <div className="grid gap-2  mx-1 py-2 w-1/4">
+      <div className="grid mx-1 w-1/4">
         {["S", "N"].map((value) => (
           <button
             key={value}
-            className={`p-1 ${
+            className={`p-1 m-1 ${
               mbti[1] === value
                 ? "bg-blue-500 text-white"
                 : "border border-blue-500"
@@ -56,11 +56,11 @@ const MbtiSelector = ({ defaultMbti, setDefaultMbti }) => {
           </button>
         ))}
       </div>
-      <div className="grid  gap-2 mx-1 py-2 w-1/4">
+      <div className="grid mx-1 w-1/4">
         {["F", "T"].map((value) => (
           <button
             key={value}
-            className={`p-1 ${
+            className={`p-1 m-1 ${
               mbti[2] === value
                 ? "bg-blue-500 text-white"
                 : "border border-blue-500"
@@ -71,11 +71,11 @@ const MbtiSelector = ({ defaultMbti, setDefaultMbti }) => {
           </button>
         ))}
       </div>
-      <div className="grid gap-2 mx-1 py-2 w-1/4">
+      <div className="grid mx-1 w-1/4">
         {["J", "P"].map((value) => (
           <button
             key={value}
-            className={`p-1 ${
+            className={`p-1 m-1 ${
               mbti[3] === value
                 ? "bg-blue-500 text-white"
                 : "border border-blue-500"

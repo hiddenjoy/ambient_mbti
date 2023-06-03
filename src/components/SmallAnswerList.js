@@ -8,12 +8,16 @@ const SmallAnswerList = ({ key, answer }) => {
   };
 
   return (
-    <div className="my-2 bg-lime-100 p-3 w-full rounded relative flex flex-row items-center justify-between">
-      <div className="flex flex-row items-center">
-        <div className="border mx-3">{answer.user.mbti}</div>
-        <div>답변: {answer.content}</div>
+
+    <div className="flex flex-col justify-center my-2 bg-primary text-tertiary p-3 w-full rounded">
+      <div className=" border text-xl text-center mb-3">
+        " {answer.content} "
+      </div>
+      <div className="text-end text-xs italic">
+        by. {answer.user.mbti} {answer.user.id}
       </div>
       <button onClick={toggleLike}>{liked ? "❤️" : "🤍"}  {answer.likeUsers.length}</button>
+
     </div>
   );
 };

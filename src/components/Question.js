@@ -17,12 +17,7 @@ import {
   where,
 } from "firebase/firestore";
 
-const Question = ({
-  isAnsweredToday,
-  setIsAnsweredToday,
-  currentDate,
-  setCurrentDate,
-}) => {
+const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   const answerCollection = collection(db, "answers");
   const userCollection = collection(db, "users");
   const questionCollection = collection(db, "questions");
@@ -116,6 +111,7 @@ const Question = ({
       questionDate: today,
     });
 
+    location.reload();
     setInput("");
   };
 
@@ -149,7 +145,8 @@ const Question = ({
   };
 
   return (
-    <div className="w-full p-5">
+    <div className="w-full p-5 h-full">
+      {console.log(isAnsweredToday)}
       {isAnsweredToday ? (
         <>
           <div className="text-center text-xl font-bold">오늘의 질문</div>

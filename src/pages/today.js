@@ -14,6 +14,7 @@ const Today = () => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [answerList, setAnswerList] = useState([]);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
     async function fetchUser() {
@@ -33,7 +34,12 @@ const Today = () => {
 
   return (
     <div className=" flex flex-col items-center">
-      <Question />
+      <Question
+        isAnsweredToday={false}
+        setIsAnsweredToday={false}
+        currentDate={currentDate}
+        setCurrentDate={setCurrentDate}
+      />
     </div>
   );
 };

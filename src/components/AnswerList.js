@@ -55,8 +55,8 @@ const AnswerList = ({ mbti, date }) => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="border w-full flex justify-between">
+    <div className="flex flex-col w-full">
+      <div className="sticky top-0 border w-full flex justify-between bg-white">
         <div>
           <button className="border my-1 ml-1 p-1" onClick={handleLayout}>
             list
@@ -71,9 +71,13 @@ const AnswerList = ({ mbti, date }) => {
           </button>
         </div>
       </div>
-      <div>
+      <div className="overflow-y-auto w-full h-[450px]">
         {layout ? (
-          <div className="flex flex-col items-center w-full">
+          <div
+            className={`flex flex-col items-center w-full ${
+              answers.length > 2 ? "animate-slide-up" : ""
+            }`}
+          >
             {answers.map((item) => (
               <SmallAnswerList key={item.id} answer={item} />
             ))}
