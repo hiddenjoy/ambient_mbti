@@ -65,7 +65,7 @@ li {
 
 button {
   background-color: white;
-  padding: 10px 0px;
+  padding: 20px 15px;
   transition: background-color 0.3s, color 0.3s;
   margin: 10px 0px;
 }
@@ -78,6 +78,7 @@ button:hover {
 .smallbutton {
   background-color: rgba(0, 0, 0, 0);
   font-size: small;
+  padding: 10px 0px;
   transition: font-size 0.3s, font-size 0.3s;
 }
 
@@ -89,7 +90,7 @@ button:hover {
 
 .container {
   height: 85vh;
-  max-width: 82vw;
+  max-width: 84vw;
   margin: 15px 0px 10px 0px;
   padding: 15px;
   background-color: white;

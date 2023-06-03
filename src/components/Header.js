@@ -34,7 +34,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-between pl-3 py-3 sticky text-black w-1/6 mr-0 my-3 ml-5px">
+      <div className="flex flex-col justify-between pl-3 py-3 sticky text-black mr-0 my-3 ml-5px">
         <div className="flex flex-col">
           <button className="text-xl font-bold text-center text-primary">
             <Link href="/">Ambient MBTI</Link>
@@ -48,20 +48,20 @@ const Header = () => {
           <div className="flex flex-col">
             <button
               onClick={() => signOut()}
-              className="smallbutton text-center text-primary p-1"
+              className="smallbutton text-center text-primary"
             >
               로그아웃
             </button>
-            <button className="smallbutton text-center text-primary p-1">
+            <button className="smallbutton text-center text-primary">
               <Link href="/my-page">마이페이지</Link>
             </button>
           </div>
         ) : (
           <div className="flex flex-col">
-            <button className="smallbutton text-center text-primary p-1">
+            <button className="smallbutton text-center text-primary">
               <Link href="./auth/login">로그인</Link>
             </button>
-            <button className="smallbutton text-center text-primary  p-1">
+            <button className="smallbutton text-center text-primary">
               <Link href="./auth/signin">회원가입</Link>
             </button>
           </div>
