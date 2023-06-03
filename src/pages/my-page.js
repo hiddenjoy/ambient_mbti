@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import { format, addDays, startOfWeek, endOfWeek, subWeeks, addWeeks } from "date-fns";
+import { format, addDays, startOfWeek, endOfWeek, subWeeks, addWeeks } from "date-fns";
 import { questions } from "@/data";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
@@ -151,19 +152,19 @@ return (
   const [popupDate, setPopupDate] = useState(null);
 
   useEffect(() => {
-    async function fetchUser() {
-      if (session && session.user) {
+    const fetchData = async () => {
+      if (session) {
         const userRef = doc(db, "users", session.user.id);
         const userDoc = await getDoc(userRef);
-
         if (userDoc.exists()) {
-          setUser(userDoc.data());
-          setQuestionAnswers(userDoc.data().questionAnswers);
+          // 사용자 정보 가져오기
+          const user = userDoc.data();
+          console.log("사용자 정보:", user);
         }
       }
-    }
+    };
 
-    fetchUser();
+    fetchData();
   }, [session]);
 
   const handleDatePopup = (date) => {
