@@ -108,6 +108,7 @@ button:hover {
 
 .container {
   max-height: 86vh;
+  min-height: 86vh;
   max-width: 87vw;
   margin: 15px 0px 10px 0px;
   padding: 15px;
