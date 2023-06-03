@@ -1,9 +1,13 @@
 const SmallAnswerList = ({ key, answer }) => {
   return (
-    <div className="my-2 bg-lime-100 p-3 w-full rounded">
-      <div>답변: {answer.content}</div>
-      <div>답변자 mbti: {answer.user.mbti}</div>
-      <div>❤️{answer.likeUsers.length}</div>
+    <div className="flex flex-col justify-center my-2 bg-primary text-tertiary p-3 w-full rounded">
+      <div className=" border text-xl text-center mb-3">
+        " {answer.content} "
+      </div>
+      <div className="text-end text-xs italic">
+        by. {answer.user.mbti} {answer.user.id}
+      </div>
+      <div className="text-end">❤️ {answer.likeUsers.length}</div>
     </div>
   );
 };

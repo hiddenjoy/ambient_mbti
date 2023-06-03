@@ -74,7 +74,9 @@ button:hover {
   background-color: gray;
   color: white;
 }
-
+.banner {
+  box-shadow: -5px 2px 5px rgba(0, 0, 0, 0.2);
+}
 .smallbutton {
   background-color: rgba(0, 0, 0, 0);
   font-size: small;
@@ -95,6 +97,6 @@ button:hover {
   padding: 15px;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
   overflow: scroll;
 }

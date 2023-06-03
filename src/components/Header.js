@@ -37,13 +37,13 @@ const Header = () => {
       <div className="flex flex-col justify-between pl-3 py-3 sticky text-black mr-0 my-3 ml-5px">
         <div className="flex flex-col items-end">
           <Link href="/">
-            <button className="w-40 text-xl font-bold text-center text-primary">
+            <button className="banner w-40  text-xl font-bold text-center text-primary">
               Ambient MBTI
             </button>
           </Link>
 
           <Link href="/compare">
-            <button className="w-40 font-bold text-center text-primary">
+            <button className="banner w-40 font-bold text-center text-primary">
               MBTI vs. MBTI
             </button>
           </Link>

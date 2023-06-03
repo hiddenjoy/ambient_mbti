@@ -9,8 +9,9 @@ import AnswerList from "../components/AnswerList";
 import TempAnswerList from "@/components/tempAnswerList";
 import Question from "@/components/Question";
 import MbtiSelector from "@/components/mbtiSelector";
+import { is } from "date-fns/locale";
 
-const Main = ({ isAnsweredToday, setIsAnsweredToday }) => {
+const Main = ({ isAnsweredToday }) => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -44,7 +45,6 @@ const Main = ({ isAnsweredToday, setIsAnsweredToday }) => {
             <div className="basis-1/3 flex flex-col bg-neutral-100 items-center">
               <Question
                 isAnsweredToday={isAnsweredToday}
-                setIsAnsweredToday={setIsAnsweredToday}
                 currentDate={currentDate}
                 setCurrentDate={setCurrentDate}
               />

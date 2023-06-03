@@ -1,59 +1,3 @@
-// import { useSession } from "next-auth/react";
-// import { useState, useEffect } from "react";
-// import {
-//   collection,
-//   query,
-//   doc,
-//   getDoc,
-//   getDocs,
-//   addDoc,
-//   updateDoc,
-//   deleteDoc,
-//   orderBy,
-//   where,
-// } from "firebase/firestore";
-// import { db } from "@/firebase/index.js";
-// import Main from "./main-page";
-// import Footer from "../components/Footer";
-// import Layout from "@/components/Layout";
-// import Today from "@/pages/today";
-
-// export default function Home() {
-//   const { data: session } = useSession();
-//   const [user, setUser] = useState(null);
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
-//   const answerCollection = collection(db, "answers");
-//   const [isAnsweredToday, setIsAnsweredToday] = useState(false);
-
-//   useEffect(() => {
-//     async function fetchUser() {
-//       if (session) {
-//         const userRef = doc(db, "users", session.user.id);
-//         const userDoc = await getDoc(userRef);
-
-//         const answerRef = doc(db, "answers", session.user.id);
-
-//         if (userDoc.exists()) {
-//           setUser(userDoc.data());
-//           setIsLoggedIn(true);
-//         }
-//       }
-//     }
-
-//     fetchUser();
-//   }, [session]);
-
-//   return (
-//     <>
-//       <div className="flex flex-col h-screen justify-between">
-//         <Layout>{isLoggedIn && !isAnsweredToday ? <Today /> : <Main />}</Layout>
-
-//         <Footer />
-//       </div>
-//     </>
-//   );
-// }
-
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import {
@@ -109,10 +53,7 @@ export default function Home() {
           {isLoggedIn && !isAnsweredToday ? (
             <Today />
           ) : (
-            <Main
-              isAnsweredToday={isAnsweredToday}
-              setIsAnsweredToday={setIsAnsweredToday}
-            />
+            <Main isAnsweredToday={isAnsweredToday} />
           )}
         </Layout>
         <Footer />
