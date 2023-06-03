@@ -121,22 +121,7 @@ const Mypage = () => {
                 )}
               </>
             ) : viewTag === 'likedAnswers' ? (
-              <div className="my-8">
-                <h2 className="text-3xl font-bold mb-4">
-                  좋아요를 표시한 답변
-                </h2>
-                <div className="overflow-y-auto h-60 border border-gray-500">
-                  {likedAnswers.map((answer) => (
-                    <div key={answer.id} className="mb-4">
-                      <p className="text-lg font-semibold mb-2">
-                        {answer.askDate}
-                      </p>
-                      <p className="text-lg">질문: {answer.question}</p>
-                      <p className="text-lg">답변: {answer.answer}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <LikedAnswers/>
             ) : viewTag === 'followingUsers' ? (
               <FollowingUsers />
             ) : (
