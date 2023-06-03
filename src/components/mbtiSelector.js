@@ -5,20 +5,11 @@ const MbtiSelector = ({ defaultMbti, setDefaultMbti }) => {
   const [mbti, setMbti] = useState(defaultMbti || ["", "", "", ""]);
 
   const handleButtonChange = (value, index) => {
-    if (mbti[index] === value) {
-      const newMbti = [...mbti];
-      newMbti[index] = "";
-      setMbti(newMbti);
-      setDefaultMbti(newMbti);
-
-      // onMbtiChange(newMbti);
-    } else {
+    if (mbti[index] != value) {
       const newMbti = [...mbti];
       newMbti[index] = value;
       setMbti(newMbti);
       setDefaultMbti(newMbti);
-
-      // onMbtiChange(newMbti);
     }
   };
 
