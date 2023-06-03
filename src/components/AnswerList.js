@@ -23,10 +23,9 @@ const AnswerList = ({ mbti }) => {
   const [answers, setAnswers] = useState([]);
   const { data } = useSession();
   const [layout, setLayout] = useState(true);
+  const [noMbtiList, setNoMbtiList] = useState([]);
 
   const getAnswers = async () => {
-    console.log(mbti);
-
     const q = query(answerCollection, where("user.mbti", "==", mbti));
 
     const results = await getDocs(q);
@@ -35,6 +34,7 @@ const AnswerList = ({ mbti }) => {
     results.docs.forEach((doc) => {
       newAnswers.push({ id: doc.id, ...doc.data() });
     });
+
     setAnswers(newAnswers);
   };
 
