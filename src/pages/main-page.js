@@ -43,7 +43,7 @@ const Main = ({ isAnsweredToday }) => {
         <>
           <div className="flex flex-row items-center h-full">
             <div className=" basis-1/3 flex h-full flex-col  items-center">
-              <div className="mb-10 border-4 bg-neutral-100">
+              <div className="mb-10 border-4 bg-neutral-100 w-full">
                 <Question
                   isAnsweredToday={isAnsweredToday}
                   currentDate={currentDate}

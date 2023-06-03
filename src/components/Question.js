@@ -146,7 +146,6 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
 
   return (
     <div className="w-full p-5 h-full">
-      {console.log(isAnsweredToday)}
       {isAnsweredToday ? (
         <>
           <div className="text-center text-xl font-bold">오늘의 질문</div>
