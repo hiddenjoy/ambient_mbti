@@ -19,16 +19,22 @@ import {
 const answerCollection = collection(db, "answers");
 const userCollection = collection(db, "users");
 
-const AnswerList = ({ mbti }) => {
+const AnswerList = ({ mbti, date }) => {
   const [answers, setAnswers] = useState([]);
   const { data } = useSession();
   const [layout, setLayout] = useState(true);
   const [noMbtiList, setNoMbtiList] = useState([]);
 
   const getAnswers = async () => {
-    const q = query(answerCollection, where("user.mbti", "==", mbti));
+    const q = query(
+      answerCollection,
+      where("user.mbti", "==", mbti),
+      where("questionDate", "==", date)
+    );
 
     const results = await getDocs(q);
+    console.log(mbti);
+    console.log(date);
 
     const newAnswers = [];
     results.docs.forEach((doc) => {
@@ -40,7 +46,7 @@ const AnswerList = ({ mbti }) => {
 
   useEffect(() => {
     getAnswers();
-  }, [mbti]);
+  }, [mbti, date]);
 
   const handleClick = () => {
     console.log("새로고침 기능 구현하기");

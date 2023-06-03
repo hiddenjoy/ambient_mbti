@@ -23,6 +23,7 @@ export default function Compare() {
   const [secondMbti, setSecondMbti] = useState("");
   const questionCollection = collection(db, "questions");
   const [question, setQuestion] = useState("");
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
     async function fetchUser() {
@@ -43,9 +44,9 @@ export default function Compare() {
   }, [session]);
 
   const getQuestion = async () => {
-    const today = new Date().toISOString().split("T")[0];
+    const formattedDate = currentDate.toISOString().split("T")[0];
 
-    const q = query(questionCollection, where("date", "==", today));
+    const q = query(questionCollection, where("date", "==", formattedDate));
     const results = await getDocs(q);
 
     setQuestion(results.docs[0].data());
@@ -55,19 +56,38 @@ export default function Compare() {
     getQuestion();
   }, []);
 
+  const goPrevious = async () => {
+    const previousDate = new Date(currentDate);
+    previousDate.setDate(previousDate.getDate() - 1);
+    setCurrentDate(previousDate);
+  };
+
+  const goNext = async () => {
+    const nextDate = new Date(currentDate);
+    nextDate.setDate(nextDate.getDate() + 1);
+    setCurrentDate(nextDate);
+  };
+
+  useEffect(() => {
+    getQuestion();
+  }, [currentDate]);
+
   return (
     <>
       <Layout>
         {isLoggedIn ? (
           <>
             <div className="flex flex-col">
-              <div className="flex flex-col w-full items-center p-5 mb-5 border">
-                <div className="flex text-gray-500 text-xs">
-                  {question.date}의 질문
+              <div className="flex flex-row w-full p-5 mb-5 border items-center justify-center">
+                <button className="m-0 p-0 mr-2" onClick={goPrevious}>
+                  ◀
+                </button>
+                <div className="text-xs text-gray-600 text-center whitespace-normal">
+                  {question.date}
                 </div>
-                <div className="flex text-2xl text-center whitespace-normal">
-                  " {question.content} "
-                </div>
+                <button className="m-0 p-0 ml-2" onClick={goNext}>
+                  ▶
+                </button>
               </div>
 
               <div className="flex flex-row">
@@ -81,7 +101,10 @@ export default function Compare() {
                   </div>
                   <div>
                     <div className="w-full">
-                      <AnswerList mbti={firstMbti} />
+                      <AnswerList
+                        mbti={firstMbti}
+                        date={currentDate.toISOString().split("T")[0]}
+                      />
                     </div>
                   </div>
                 </div>
@@ -94,7 +117,10 @@ export default function Compare() {
                     />
                   </div>
                   <div>
-                    <AnswerList mbti={secondMbti} />
+                    <AnswerList
+                      mbti={secondMbti}
+                      date={currentDate.toISOString().split("T")[0]}
+                    />
                   </div>
                 </div>
               </div>

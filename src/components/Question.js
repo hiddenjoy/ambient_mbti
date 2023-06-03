@@ -129,8 +129,12 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
       {isAnsweredToday ? (
         <>
           <div className="text-center text-xl font-bold">오늘의 질문</div>
-          <div className="text-xs text-gray-600 mb-3 text-center whitespace-normal">
-            {question.date}
+          <div className="flex flex-row items-center justify-center mb-3">
+            <button className="m-0 p-0 mr-2">◀</button>
+            <div className="text-xs text-gray-600 text-center whitespace-normal">
+              {question.date}
+            </div>
+            <button className="m-0 p-0 ml-2">▶</button>
           </div>
           <p className="text-center border my-5 text-xl">
             " {question.content} "
@@ -179,8 +183,12 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
       ) : (
         <>
           <div className="text-center text-3xl font-bold">오늘의 질문</div>
-          <div className="text-sm text-gray-600 mb-10 text-center whitespace-normal">
-            {question.date}
+          <div className="flex flex-row items-center justify-center mb-3">
+            <button className="m-0 p-0 mr-2">◀</button>
+            <div className="text-xs text-gray-600 text-center whitespace-normal">
+              {question.date}
+            </div>
+            <button className="m-0 p-0 ml-2">▶</button>
           </div>
           <p className="text-center border my-10 p-10 text-4xl">
             " {question.content} "
