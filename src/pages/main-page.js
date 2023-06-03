@@ -16,6 +16,7 @@ const Main = ({ isAnsweredToday, setIsAnsweredToday }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [answerList, setAnswerList] = useState([]);
   const [mbti, setMbti] = useState("");
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
     async function fetchUser() {
@@ -44,12 +45,17 @@ const Main = ({ isAnsweredToday, setIsAnsweredToday }) => {
               <Question
                 isAnsweredToday={isAnsweredToday}
                 setIsAnsweredToday={setIsAnsweredToday}
+                currentDate={currentDate}
+                setCurrentDate={setCurrentDate}
               />
               <MbtiSelector defaultMbti={mbti} setDefaultMbti={setMbti} />
             </div>
             <div className="basis-2/3 px-10 w-full">
               {/* content 이 부분은 한번에 렌더링 할거긴 함 */}
-              <AnswerList mbti={mbti} />
+              <AnswerList
+                mbti={mbti}
+                date={currentDate.toISOString().split("T")[0]}
+              />
             </div>
           </div>
         </>

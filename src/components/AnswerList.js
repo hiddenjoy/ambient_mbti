@@ -33,8 +33,6 @@ const AnswerList = ({ mbti, date }) => {
     );
 
     const results = await getDocs(q);
-    console.log(mbti);
-    console.log(date);
 
     const newAnswers = [];
     results.docs.forEach((doc) => {
