@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from '@/firebase/index.js';
+import { db } from "@/firebase/index.js";
 
 export default function SignedIn() {
   const router = useRouter();
@@ -12,7 +12,7 @@ export default function SignedIn() {
   useEffect(() => {
     async function fetchUser() {
       if (session) {
-        const userRef = doc(db, 'users', session.user.id);
+        const userRef = doc(db, "users", session.user.id);
         const userDoc = await getDoc(userRef);
 
         if (userDoc.exists()) {
@@ -32,9 +32,8 @@ export default function SignedIn() {
     <div className="flex justify-center h-screen">
       {user && user.mbti ? (
         <div className="grid m-auto text-center">
-          <div className="m-4">
-            {user.mbti + " " + user.name}님 환영합니다.
-          </div>
+          <div className="m-4">{user.mbti + " " + user.name}님 환영합니다.</div>
+
           {user.isAdmin && (
             <button
               className={`w-40

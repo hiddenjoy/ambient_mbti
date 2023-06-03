@@ -1,16 +1,23 @@
 import Link from "next/link";
-import { questions } from "@/data";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
-import Question from "../components/Question";
-import SmallAnswer from "../components/SmallAnswer";
+import SmallAnswerList from "../components/SmallAnswerList";
 import { answer } from "@/data/answer.js";
+import AnswerList from "../components/AnswerList";
+import TempAnswerList from "@/components/tempAnswerList";
+import Question from "@/components/Question";
+import MbtiSelector from "@/components/mbtiSelector";
+import { is } from "date-fns/locale";
 
-const Main = () => {
+const Main = ({ isAnsweredToday }) => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [answerList, setAnswerList] = useState([]);
+  const [mbti, setMbti] = useState("");
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
     async function fetchUser() {
@@ -20,6 +27,8 @@ const Main = () => {
 
         if (userDoc.exists()) {
           setUser(userDoc.data());
+          setIsLoggedIn(true);
+          setMbti(userDoc.data().mbti);
         }
       }
     }
@@ -29,40 +38,40 @@ const Main = () => {
 
   return (
     <>
-      {console.log(user)}
-      <main className="flex min-h-screen flex-col items-center divide-y divide-slate-700">
+      {/* 랜덤한 답변 보여주기 */}
+      {isLoggedIn ? (
+        <>
+          <div className="flex flex-row items-center h-full">
+            <div className=" basis-1/3 flex h-full flex-col  items-center">
+              <div className="mb-10 border-4 bg-neutral-100">
+                <Question
+                  isAnsweredToday={isAnsweredToday}
+                  currentDate={currentDate}
+                  setCurrentDate={setCurrentDate}
+                />
+              </div>
+              <div className="border-2 border-primary mr-0 w-full">
+                <MbtiSelector defaultMbti={mbti} setDefaultMbti={setMbti} />
+              </div>
+            </div>
 
-        <Question />
+            <div className="flex flex-col items-center basis-2/3 px-10 w-full">
+              {/* content 이 부분은 한번에 렌더링 할거긴 함 */}
 
-        {/* 랜덤한 답변 보여주기 */}
-        <div className="bg-white w-full p-5 text-black">
-          <h1>{user?.mbti} 친구들의 답변 모아보기</h1>
-          {/* 답변들 div */}
-          <div className="mt-3 px-20 flex items-center justify-between">
-            {/* content 이 부분은 한번에렌더링 할거긴 함 */}
-            <div className="border-lime-200 border-2 rounded-lg p-2">이런저런</div>
-            <div className="border-lime-200 border-2 rounded-lg p-2">이런저런</div>
-            <div className="border-lime-200 border-2 rounded-lg p-2">이런저런</div>
+              <AnswerList
+                mbti={mbti}
+                date={currentDate.toISOString().split("T")[0]}
+              />
+            </div>
           </div>
-        </div>
-        {/* mbti별 인기 답변 */}
-        <div className=" bg-neutral-200 w-full p-5 text-black">
-          MBTI별 인기 답변
-
-          <div className="mt-3 grid grid-cols-4 gap-4">
-            {answer.map((item) => (
-              <SmallAnswer answer={item} />
-            ))}
-
+        </>
+      ) : (
+        <>
+          <div className="w-full text-center mt-5">
+            로그인을 하시면 더 많은 답변을 보실 수 있습니다!
           </div>
-        </div>
-        <Link
-  href="/compare"
-  className="inline-block text-2xl font-bold p-5 text-center bg-gray-400 text-white rounded-full mt-5"
->
-  MBTI 별로 비교
-</Link>
-      </main>
+        </>
+      )}
     </>
   );
 };
