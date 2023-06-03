@@ -63,10 +63,34 @@ li {
   align-items: center;
 }
 
+button {
+  background-color: white;
+  padding: 10px 0px;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 10px 0px;
+}
+
+button:hover {
+  background-color: gray;
+  color: white;
+}
+
+.smallbutton {
+  background-color: rgba(0, 0, 0, 0);
+  font-size: small;
+  transition: font-size 0.3s, font-size 0.3s;
+}
+
+.smallbutton:hover {
+  background-color: rgba(0, 0, 0, 0);
+  color: gray;
+  font-size: medium;
+}
+
 .container {
   height: 85vh;
-  max-width: 90vw;
-  margin: 15px 0px auto;
+  max-width: 82vw;
+  margin: 15px 0px 10px 0px;
   padding: 15px;
   background-color: white;
   border-radius: 10px;

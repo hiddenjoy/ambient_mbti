@@ -126,14 +126,15 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
 
   return (
     <div className="w-full p-5">
-      <div className="text-center text-xl font-bold">오늘의 질문</div>
-      <div className="text-xs text-gray-600 mb-3 text-center whitespace-normal">
-        {question.date}
-      </div>
-      <p className="text-center border my-5 text-xl">" {question.content} "</p>
-
       {isAnsweredToday ? (
         <>
+          <div className="text-center text-xl font-bold">오늘의 질문</div>
+          <div className="text-xs text-gray-600 mb-3 text-center whitespace-normal">
+            {question.date}
+          </div>
+          <p className="text-center border my-5 text-xl">
+            " {question.content} "
+          </p>
           <div className="flex text-sm text-gray-600">나의 답변:</div>
 
           <div className="flex flex-col bg-gray-600 p-5 items-center">
@@ -145,7 +146,7 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
                   value={answer}
                   onChange={(e) => setAnswer(e.target.value)}
                 />
-                <div className="flex flex-row justify-center text-xs text-white w-full">
+                <div className="flex flex-row justify-center text-xs w-full">
                   <button
                     onClick={handleIsEdit}
                     className="w-1/4 p-2 mt-3 mx-2 border-2"
@@ -176,17 +177,26 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
           </div>
         </>
       ) : (
-        <div className="flex ">
-          <input
-            className="w-full p-2 mt-3 border-2 border-neutral-400 rounded-lg"
-            placeholder="답변을 입력해주세요"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <button onClick={addAnswer} className="w-1/5 p-2 mt-3 border-2">
-            제출
-          </button>
-        </div>
+        <>
+          <div className="text-center text-3xl font-bold">오늘의 질문</div>
+          <div className="text-sm text-gray-600 mb-10 text-center whitespace-normal">
+            {question.date}
+          </div>
+          <p className="text-center border my-10 p-10 text-4xl">
+            " {question.content} "
+          </p>
+          <div className="flex flex-col items-center">
+            <input
+              className="w-full h-20 p-2 mt-3 border-2 border-neutral-400 rounded-lg text-xl"
+              placeholder="답변을 입력해주세요"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <button onClick={addAnswer} className="w-1/6 p-2 mt-3 border-2">
+              제출
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
