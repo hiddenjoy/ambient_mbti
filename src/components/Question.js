@@ -17,7 +17,12 @@ import {
   where,
 } from "firebase/firestore";
 
-const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
+const Question = ({
+  isAnsweredToday,
+  setIsAnsweredToday,
+  currentDate,
+  setCurrentDate,
+}) => {
   const answerCollection = collection(db, "answers");
   const userCollection = collection(db, "users");
   const questionCollection = collection(db, "questions");
@@ -45,9 +50,10 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
   }, [data]);
 
   const getQuestion = async () => {
-    const today = new Date().toISOString().split("T")[0];
-
-    const q = query(questionCollection, where("date", "==", today));
+    const q = query(
+      questionCollection,
+      where("date", "==", currentDate.toISOString().split("T")[0])
+    );
     const results = await getDocs(q);
 
     setQuestion(results.docs[0].data());
@@ -56,11 +62,10 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
   const getAnswer = async () => {
     if (data) {
       const userId = data.user.id;
-      const today = new Date().toISOString().split("T")[0];
 
       const q = query(
         answerCollection,
-        where("questionDate", "==", today),
+        where("questionDate", "==", currentDate.toISOString().split("T")[0]),
         where("user.id", "==", userId)
       );
 
@@ -68,14 +73,40 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
 
       if (results.docs.length > 0) {
         setAnswer(results.docs[0].data().content);
+      } else {
+        setAnswer("답변이 없어요 ㅠㅠ");
       }
     }
+  };
+
+  const goPrevious = async () => {
+    const previousDate = new Date(currentDate);
+    previousDate.setDate(previousDate.getDate() - 1);
+    if (previousDate.getMonth() + 1 < 6 && previousDate.getYear() < 2024) {
+      return alert("과거의 답변은 볼 수 없습니다.");
+    }
+    setCurrentDate(previousDate);
+  };
+
+  const goNext = async () => {
+    const nextDate = new Date(currentDate);
+    nextDate.setDate(nextDate.getDate() + 1);
+    if (nextDate > new Date()) {
+      return alert("미래의 답변은 볼 수 없습니다.");
+    }
+
+    setCurrentDate(nextDate);
   };
 
   useEffect(() => {
     getQuestion();
     getAnswer();
   }, []);
+
+  useEffect(() => {
+    getQuestion();
+    getAnswer();
+  }, [currentDate]);
 
   const addAnswer = async () => {
     // 입력값이 비어있는 경우 함수를 종료합니다.
@@ -98,11 +129,9 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
     if (data) {
       const userId = data.user.id;
 
-      const today = new Date().toISOString().split("T")[0];
-
       const q = query(
         answerCollection,
-        where("questionDate", "==", today),
+        where("questionDate", "==", currentDate.toISOString().split("T")[0]),
         where("user.id", "==", userId)
       );
 
@@ -130,11 +159,15 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
         <>
           <div className="text-center text-xl font-bold">오늘의 질문</div>
           <div className="flex flex-row items-center justify-center mb-3">
-            <button className="m-0 p-0 mr-2">◀</button>
+            <button className="m-0 p-0 mr-2" onClick={goPrevious}>
+              ◀
+            </button>
             <div className="text-xs text-gray-600 text-center whitespace-normal">
               {question.date}
             </div>
-            <button className="m-0 p-0 ml-2">▶</button>
+            <button className="m-0 p-0 ml-2" onClick={goNext}>
+              ▶
+            </button>
           </div>
           <p className="text-center border my-5 text-xl">
             " {question.content} "
@@ -183,12 +216,8 @@ const Question = ({ isAnsweredToday, setIsAnsweredToday }) => {
       ) : (
         <>
           <div className="text-center text-3xl font-bold">오늘의 질문</div>
-          <div className="flex flex-row items-center justify-center mb-3">
-            <button className="m-0 p-0 mr-2">◀</button>
-            <div className="text-xs text-gray-600 text-center whitespace-normal">
-              {question.date}
-            </div>
-            <button className="m-0 p-0 ml-2">▶</button>
+          <div className="text-sm text-gray-600 mb-10 text-center whitespace-normal">
+            {question.date}
           </div>
           <p className="text-center border my-10 p-10 text-4xl">
             " {question.content} "

@@ -59,12 +59,19 @@ export default function Compare() {
   const goPrevious = async () => {
     const previousDate = new Date(currentDate);
     previousDate.setDate(previousDate.getDate() - 1);
+    if (previousDate.getMonth() + 1 < 6 && previousDate.getYear() < 2024) {
+      return alert("과거의 답변은 볼 수 없습니다.");
+    }
     setCurrentDate(previousDate);
   };
 
   const goNext = async () => {
     const nextDate = new Date(currentDate);
     nextDate.setDate(nextDate.getDate() + 1);
+    if (nextDate > new Date()) {
+      return alert("미래의 답변은 볼 수 없습니다.");
+    }
+
     setCurrentDate(nextDate);
   };
 
