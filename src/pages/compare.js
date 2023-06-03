@@ -80,28 +80,31 @@ export default function Compare() {
         {isLoggedIn ? (
           <>
             <div className="flex flex-col">
-              <div className="flex flex-row w-full p-5 mb-5 border items-center justify-center">
-                {currentDate.toISOString().split("T")[0] == "2023-06-01" ? (
-                  <div className="m-0 p-0 mr-6"></div>
-                ) : (
-                  <button className="m-0 p-0 mr-2" onClick={goPrevious}>
-                    ◀
-                  </button>
-                )}
-
-                <div className="text-xs text-gray-600 text-center whitespace-normal">
-                  {question.date}
-                </div>
-                {currentDate.toISOString().split("T")[0] ==
-                new Date().toISOString().split("T")[0] ? (
-                  <div className="m-0 p-0 ml-6"> </div>
-                ) : (
-                  <>
-                    <button className="m-0 p-0 ml-2" onClick={goNext}>
-                      ▶
+              <div className="flex flex-col items-center border p-5 mb-5">
+                <div className="flex flex-row w-full  items-center justify-center">
+                  {currentDate.toISOString().split("T")[0] == "2023-06-01" ? (
+                    <div className="m-0 p-0 mr-6"></div>
+                  ) : (
+                    <button className="m-0 p-0 mr-2" onClick={goPrevious}>
+                      ◀
                     </button>
-                  </>
-                )}
+                  )}
+
+                  <div className="text-xs text-gray-600 text-center whitespace-normal">
+                    {question.date}
+                  </div>
+                  {currentDate.toISOString().split("T")[0] ==
+                  new Date().toISOString().split("T")[0] ? (
+                    <div className="m-0 p-0 ml-6"> </div>
+                  ) : (
+                    <>
+                      <button className="m-0 p-0 ml-2" onClick={goNext}>
+                        ▶
+                      </button>
+                    </>
+                  )}
+                </div>
+                <div className="text-xl">" {question.content} "</div>
               </div>
 
               <div className="flex flex-row">

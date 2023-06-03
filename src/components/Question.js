@@ -150,26 +150,9 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
         <>
           <div className="text-center text-xl font-bold">오늘의 질문</div>
           <div className="flex flex-row items-center justify-center mb-3">
-            {currentDate.toISOString().split("T")[0] == "2023-06-01" ? (
-              <div className="m-0 p-0 mr-6"></div>
-            ) : (
-              <button className="m-0 p-0 mr-2" onClick={goPrevious}>
-                ◀
-              </button>
-            )}
             <div className="text-xs text-gray-600 text-center whitespace-normal">
               {question.date}
             </div>
-            {currentDate.toISOString().split("T")[0] ==
-            new Date().toISOString().split("T")[0] ? (
-              <div className="m-0 p-0 ml-6"> </div>
-            ) : (
-              <>
-                <button className="m-0 p-0 ml-2" onClick={goNext}>
-                  ▶
-                </button>
-              </>
-            )}
           </div>
           <p className="text-center border my-5 text-xl">
             " {question.content} "
