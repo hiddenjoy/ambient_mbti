@@ -82,18 +82,13 @@ const Question = ({
   const goPrevious = async () => {
     const previousDate = new Date(currentDate);
     previousDate.setDate(previousDate.getDate() - 1);
-    if (previousDate.getMonth() + 1 < 6 && previousDate.getYear() < 2024) {
-      return alert("과거의 답변은 볼 수 없습니다.");
-    }
+
     setCurrentDate(previousDate);
   };
 
   const goNext = async () => {
     const nextDate = new Date(currentDate);
     nextDate.setDate(nextDate.getDate() + 1);
-    if (nextDate > new Date()) {
-      return alert("미래의 답변은 볼 수 없습니다.");
-    }
 
     setCurrentDate(nextDate);
   };
@@ -159,15 +154,26 @@ const Question = ({
         <>
           <div className="text-center text-xl font-bold">오늘의 질문</div>
           <div className="flex flex-row items-center justify-center mb-3">
-            <button className="m-0 p-0 mr-2" onClick={goPrevious}>
-              ◀
-            </button>
+            {currentDate.toISOString().split("T")[0] == "2023-06-01" ? (
+              <div className="m-0 p-0 mr-6"></div>
+            ) : (
+              <button className="m-0 p-0 mr-2" onClick={goPrevious}>
+                ◀
+              </button>
+            )}
             <div className="text-xs text-gray-600 text-center whitespace-normal">
               {question.date}
             </div>
-            <button className="m-0 p-0 ml-2" onClick={goNext}>
-              ▶
-            </button>
+            {currentDate.toISOString().split("T")[0] ==
+            new Date().toISOString().split("T")[0] ? (
+              <div className="m-0 p-0 ml-6"> </div>
+            ) : (
+              <>
+                <button className="m-0 p-0 ml-2" onClick={goNext}>
+                  ▶
+                </button>
+              </>
+            )}
           </div>
           <p className="text-center border my-5 text-xl">
             " {question.content} "
