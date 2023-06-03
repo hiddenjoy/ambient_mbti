@@ -104,7 +104,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col h-screen justify-between">
+      <div className="flex flex-col justify-between">
         <Layout>
           {isLoggedIn && !isAnsweredToday ? (
             <Today />

@@ -34,51 +34,36 @@ const Header = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-between bg-lime-200 p-3 sticky top-0 text-black w-1/12 m-3">
+      <div className="flex flex-col justify-between pl-3 py-3 sticky text-black w-1/6 mr-0 my-3 ml-5px">
         <div className="flex flex-col">
-          <Link
-            href="/"
-            className="border-4 text-xl font-bold text-center text-primary m-1 p-1"
-          >
-            Ambient MBTI
-          </Link>
-          <Link
-            href="/compare"
-            className="border-4 font-bold text-center text-gray-400 m-1 p-1"
-          >
-            MBTI vs. MBTI
-          </Link>
+          <button className="text-xl font-bold text-center text-primary">
+            <Link href="/">Ambient MBTI</Link>
+          </button>
+          <button className="font-bold text-center text-gray-400">
+            <Link href="/compare">MBTI vs. MBTI</Link>
+          </button>
         </div>
 
         {isLogin ? (
           <div className="flex flex-col">
             <button
               onClick={() => signOut()}
-              className="font-bold text-center text-primary border-4 m-1 p-1 text-xs"
+              className="smallbutton text-center text-primary p-1"
             >
               로그아웃
             </button>
-            <Link
-              href="/my-page"
-              className="font-bold text-center text-primary border-4 m-1 p-1 text-xs"
-            >
-              마이페이지
-            </Link>
+            <button className="smallbutton text-center text-primary p-1">
+              <Link href="/my-page">마이페이지</Link>
+            </button>
           </div>
         ) : (
           <div className="flex flex-col">
-            <Link
-              href="./auth/login"
-              className="font-bold text-center text-primary border-4 m-1 p-1 text-xs"
-            >
-              로그인
-            </Link>
-            <Link
-              href="./auth/signin"
-              className="font-bold text-center text-primary border-4 m-1 p-1 text-xs"
-            >
-              회원가입
-            </Link>
+            <button className="smallbutton text-center text-primary p-1">
+              <Link href="./auth/login">로그인</Link>
+            </button>
+            <button className="smallbutton text-center text-primary  p-1">
+              <Link href="./auth/signin">회원가입</Link>
+            </button>
           </div>
         )}
       </div>

@@ -59,13 +59,13 @@ export default function askMBTI() {
           </button>
           <button
             className={`p-1 ${
-              mbti[1] === "N"
+              mbti[1] === "S"
                 ? "bg-blue-500 text-white"
                 : "border border-blue-500"
             }`}
-            onClick={() => handleButtonChange("N", 1)}
+            onClick={() => handleButtonChange("S", 1)}
           >
-            N
+            S
           </button>
           <button
             className={`p-1 ${
@@ -99,13 +99,13 @@ export default function askMBTI() {
           </button>
           <button
             className={`p-1 ${
-              mbti[1] === "S"
+              mbti[1] === "N"
                 ? "bg-blue-500 text-white"
                 : "border border-blue-500"
             }`}
-            onClick={() => handleButtonChange("S", 1)}
+            onClick={() => handleButtonChange("N", 1)}
           >
-            S
+            N
           </button>
           <button
             className={`p-1 ${
