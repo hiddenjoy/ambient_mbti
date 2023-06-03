@@ -1,5 +1,9 @@
 import Layout from "@/components/Layout";
-import { format, addDays, startOfWeek, endOfWeek, subWeeks, addWeeks } from "date-fns";
+import UserProfile from "@/components/UserProfile";
+import WeeklyCalendar from "@/components/WeeklyCalendar";
+import FollowingUsers from "@/components/FollowingUser";
+import LikedAnswers from "@/components/LikedAnswer";
+import { format } from "date-fns";
 import { questions } from "@/data";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
@@ -126,6 +130,7 @@ const WeeklyCalendar = ({ handleDatePopup }) => {
 const Home = () => {
   const { data: session, status } = useSession();
 
+
   useEffect(() => {
     const fetchData = async () => {
       if (session) {
@@ -153,9 +158,11 @@ const Home = () => {
           <h1 className="text-2xl font-bold mt-8 mb-4">주간 캘린더</h1>
           <WeeklyCalendar handleDatePopup={(date) => console.log("선택한 날짜:", date)} />
         </div>
+
       </div>
     </Layout>
   );
 };
 
 export default Home;
+
