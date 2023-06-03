@@ -1,10 +1,9 @@
 import Layout from "@/components/Layout";
 import UserProfile from "@/components/UserProfile";
-import WeeklyCalendar from "@/components/WeeklyCalendar";
 import FollowingUsers from "@/components/FollowingUser";
 import LikedAnswers from "@/components/LikedAnswer";
 import { format } from "date-fns";
-import { questions } from "@/data";
+import WeeklyCalendar from "@/components/WeeklyCalendar";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { doc, getDoc } from "firebase/firestore";
