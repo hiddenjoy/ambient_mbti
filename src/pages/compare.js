@@ -113,13 +113,12 @@ export default function Compare() {
                       setDefaultMbti={setFirstMbti}
                     />
                   </div>
-                  <div>
-                    <div className="w-full">
-                      <AnswerList
-                        mbti={firstMbti}
-                        date={currentDate.toISOString().split("T")[0]}
-                      />
-                    </div>
+
+                  <div className="w-full">
+                    <AnswerList
+                      mbti={firstMbti}
+                      date={currentDate.toISOString().split("T")[0]}
+                    />
                   </div>
                 </div>
                 <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-3">
@@ -130,7 +129,7 @@ export default function Compare() {
                       setDefaultMbti={setSecondMbti}
                     />
                   </div>
-                  <div>
+                  <div className="w-full">
                     <AnswerList
                       mbti={secondMbti}
                       date={currentDate.toISOString().split("T")[0]}
