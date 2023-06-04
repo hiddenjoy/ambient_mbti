@@ -42,12 +42,12 @@ const Header = ({ whichPage }) => {
           <Link href="/">
             {whichPage === "main" ? 
             (
-              <button className="banner w-40  text-xl font-bold text-center text-primary">
+              <button className="banner w-40 text-xl font-bold text-center text-primary">
                 Ambient MBTI
               </button>
             )
             : (
-              <button className="banner w-40  text-xl font-bold text-center text-primary bg-gray-200">
+              <button className="banner w-32 text-l text-center text-primary bg-gray-200">
                 Ambient MBTI
               </button>
             )}
@@ -57,11 +57,11 @@ const Header = ({ whichPage }) => {
           <Link href="/compare">
             {whichPage === "compare" ?
             (
-              <button className="banner w-40 font-bold text-center text-primary">
+              <button className="banner w-40 text-xl font-bold text-center text-primary">
                 MBTI vs. MBTI
               </button>
             ):(
-              <button className="banner w-40 font-bold text-center text-primary bg-gray-200">
+              <button className="banner w-32 text-l text-center text-primary bg-gray-200">
                 MBTI vs. MBTI
               </button>
             )}
