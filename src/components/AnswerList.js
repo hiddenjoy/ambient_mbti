@@ -79,13 +79,13 @@ const AnswerList = ({ mbti, date }) => {
             }`}
           >
             {answers.map((item) => (
-              <SmallAnswerList key={item.id} answer={item} />
+              <SmallAnswerList key={item.id} answer={item}/>
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-3 gap-2">
             {answers.map((item) => (
-              <SmallAnswerList key={item.id} answer={item} />
+              <SmallAnswerList key={item.id} answer={item}/>
             ))}
           </div>
         )}

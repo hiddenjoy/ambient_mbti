@@ -1,10 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { db } from "@/firebase";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 
-const SmallAnswerList = ({ key, answer }) => {
-  const [liked, setLiked] = useState(false);
+const userCollection = collection(db, "users");
+const answerCollection = collection(db, "answers");
 
-  const toggleLike = () => {
-    setLiked(!liked);
+const SmallAnswerList = ({ answer }) => {
+  const { data } = useSession();
+  const [liked, setLiked] = useState();
+  const [likedUserNum, setLikedUserNum] = useState();
+
+  useEffect(() => {
+    setLiked(answer.likeUsers.length > 0 && answer.likeUsers.find((i) => i === data.user.id))
+  }, []);
+
+  useEffect(() => {
+    setLikedUserNum(answer.likeUsers.length);
+  }, [answer.likeUsers]);
+
+  const likeAnswer = async (answerId) => {
+    const answerRef = doc(answerCollection, answerId);
+    const answerSnapShot = await getDoc(answerRef);
+    const answerData = answerSnapShot.data();
+    const likedAnswerData = Boolean(answerData.likeUsers.length > 0 && answerData.likeUsers.find((i) => i === data.user.id));
+
+    if(likedAnswerData) {
+      const updatedLikeUsers = answerData.likeUsers.filter(
+        (userId) => userId !== data.user.id
+      );
+      await updateDoc(answerRef, { likeUsers: updatedLikeUsers });
+      setLiked(false);
+      setLikedUserNum(updatedLikeUsers.length);
+    } else {
+      const updatedLikeUsers = [...answerData.likeUsers, data.user.id];
+      await updateDoc(answerRef, { likeUsers: updatedLikeUsers });
+      setLiked(true);
+      setLikedUserNum(updatedLikeUsers.length);
+    }
   };
 
   return (
@@ -13,11 +46,12 @@ const SmallAnswerList = ({ key, answer }) => {
       <div className=" border text-xl text-center mb-3">
         " {answer.content} "
       </div>
-      <div className="text-end text-xs italic">
-        by. {answer.user.mbti} {answer.user.id}
+      <div className="flex flex-row justify-end items-center">
+        <div className="text-end text-xs italic">
+          by. {answer.user.mbti} {answer.user.id}
+        </div>
+        <button onClick={() => likeAnswer(answer.id)} className=" mx-3 my-0 px-2 py-0 text-black">{liked ? "❤️" : "🤍"}  {likedUserNum}</button>
       </div>
-      <button onClick={toggleLike}>{liked ? "❤️" : "🤍"}  {answer.likeUsers.length}</button>
-
     </div>
   );
 };
