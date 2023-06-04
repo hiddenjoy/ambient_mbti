@@ -32,7 +32,7 @@ export default function askMBTI() {
     if (session) {
       await updateUserMbti(session.user.id, finalMbti);
     }
-    router.push("askInterstedMBTI");
+    router.push("askInterestedMBTI");
   };
 
   const updateUserMbti = async (userId, mbti) => {
