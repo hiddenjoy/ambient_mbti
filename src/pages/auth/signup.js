@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { db } from "@/firebase/index.js";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default function SignUp() {
+  const router = useRouter();
   const [userEmail, setUserEmail] = useState("");
   const [emailChecked, setEmailChecked] = useState(false);
   const [userEmailExists, setUserEmailExists] = useState(false);
@@ -105,15 +107,22 @@ export default function SignUp() {
     }
   };
 
+  const handleLoginClick = () => {
+    router.push("/auth/login");
+  };
+
   return (
     <div className="flex justify-center items-center h-screen">
       {signupSuccess ? (
         // 회원가입이 성공한 경우 표시될 UI
         <div className="rounded-lg border border-gray-300 p-4 m-4 w-1/4 text-center">
-          <h2 className="font-bold mb-4">회원가입이 성공했습니다. 로그인해주세요!</h2>
-          <Link href="/auth/login">
-              Log in
-          </Link>
+          <h2 className="text-center font-bold mb-4">회원가입이 성공적으로 완료되었습니다</h2>
+          <button
+            className="p-2 bg-blue-500 text-white border border-blue-500 rounded hover:bg-white hover:text-blue-500"
+            onClick={handleLoginClick}
+          >
+            Log In
+          </button>
         </div>
       ) : (
         // 회원가입 진행 중 표시될 UI
