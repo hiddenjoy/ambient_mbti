@@ -4,12 +4,11 @@ import { useState, useEffect } from "react";
 import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 
-export default function askMBTI() {
+export default function askInterestedMBTI() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [mbti, setMbti] = useState(["", "", "", ""]);
-  const [confirmChange, setConfirmChange] = useState(false);
-
+  
   const handleButtonChange = (value, index) => {
     if (mbti[index] === value) {
       const newMbti = [...mbti];
@@ -32,19 +31,19 @@ export default function askMBTI() {
     if (session) {
       await updateUserMbti(session.user.id, finalMbti);
     }
-    router.push("askInterstedMBTI");
+    router.push("askFirstQuestion");
   };
 
-  const updateUserMbti = async (userId, mbti) => {
+  const updateUserMbti = async (userId, interestedMbti) => {
     const userRef = doc(db, "users", userId);
-    await setDoc(userRef, { mbti }, { merge: true });
+    await setDoc(userRef, { interestedMbti }, { merge: true });
   };
 
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="rounded-lg border border-gray-300 p-4 m-4 w-1/4">
         <h2 className="text-center font-bold mb-4">
-          Q. 당신의 MBTI는 무엇인가요?
+          Q. 당신에게 가장 궁금한 MBTI는 무엇인가요?
         </h2>
         <div className="grid grid-cols-4 gap-2 mb-4">
           <button
@@ -135,13 +134,6 @@ export default function askMBTI() {
           Continue
         </button>
       </div>
-      {confirmChange && (
-        <div>
-          <p>MBTI가 이미 설정되어 있습니다. 변경하시겠습니까?</p>
-          <button onClick={() => handleConfirmChange(true)}>Yes</button>
-          <button onClick={() => handleConfirmChange(false)}>No</button>
-        </div>
-      )}
     </div>
   );
 }
