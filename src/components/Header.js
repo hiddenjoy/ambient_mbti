@@ -89,7 +89,7 @@ const Header = ({ whichPage }) => {
               <Link href="./auth/login">로그인</Link>
             </button>
             <button className="smallbutton text-center text-primary">
-              <Link href="./auth/signin">회원가입</Link>
+              <Link href="./auth/signup">회원가입</Link>
             </button>
           </div>
         )}
