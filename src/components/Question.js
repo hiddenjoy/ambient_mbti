@@ -28,6 +28,11 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isEdit, setIsEdit] = useState(false);
+  const formattedDate = new Date(
+    currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .split("T")[0];
 
   useEffect(() => {
     async function fetchUser() {
@@ -45,10 +50,7 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   }, [data]);
 
   const getQuestion = async () => {
-    const q = query(
-      questionCollection,
-      where("date", "==", currentDate.toISOString().split("T")[0])
-    );
+    const q = query(questionCollection, where("date", "==", formattedDate));
     const results = await getDocs(q);
 
     setQuestion(results.docs[0].data());
@@ -60,7 +62,7 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
 
       const q = query(
         answerCollection,
-        where("questionDate", "==", currentDate.toISOString().split("T")[0]),
+        where("questionDate", "==", formattedDate),
         where("user.id", "==", userId)
       );
 
@@ -102,13 +104,12 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
     // 입력값이 비어있는 경우 함수를 종료합니다.
     if (input.trim() === "") return;
     const userId = data.user.id;
-    const today = new Date().toISOString().split("T")[0];
 
     const docRef = await addDoc(answerCollection, {
       user: { id: userId, mbti: user?.mbti },
       likeUsers: [],
       content: input,
-      questionDate: today,
+      questionDate: formattedDate,
     });
 
     location.reload();
@@ -122,7 +123,7 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
 
       const q = query(
         answerCollection,
-        where("questionDate", "==", currentDate.toISOString().split("T")[0]),
+        where("questionDate", "==", formattedDate),
         where("user.id", "==", userId)
       );
 

@@ -24,6 +24,11 @@ export default function Compare() {
   const questionCollection = collection(db, "questions");
   const [question, setQuestion] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
+  const formattedDate = new Date(
+    currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .split("T")[0];
 
   useEffect(() => {
     async function fetchUser() {
@@ -44,8 +49,6 @@ export default function Compare() {
   }, [session]);
 
   const getQuestion = async () => {
-    const formattedDate = currentDate.toISOString().split("T")[0];
-
     const q = query(questionCollection, where("date", "==", formattedDate));
     const results = await getDocs(q);
 
@@ -118,10 +121,7 @@ export default function Compare() {
                   </div>
 
                   <div className="w-full">
-                    <AnswerList
-                      mbti={firstMbti}
-                      date={currentDate.toISOString().split("T")[0]}
-                    />
+                    <AnswerList mbti={firstMbti} date={formattedDate} />
                   </div>
                 </div>
                 <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-3">
@@ -133,10 +133,7 @@ export default function Compare() {
                     />
                   </div>
                   <div className="w-full">
-                    <AnswerList
-                      mbti={secondMbti}
-                      date={currentDate.toISOString().split("T")[0]}
-                    />
+                    <AnswerList mbti={secondMbti} date={formattedDate} />
                   </div>
                 </div>
               </div>
