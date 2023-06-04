@@ -28,13 +28,6 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isEdit, setIsEdit] = useState(false);
-  const [currentDate, setCurrentDate] = useState(new Date());
-
-  const formattedDate = new Date(
-    currentDate.getTime() - new Date().getTimezoneOffset() * 60000
-  )
-    .toISOString()
-    .split("T")[0];
 
   useEffect(() => {
     async function fetchUser() {
@@ -52,6 +45,12 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   }, [data]);
 
   const getQuestion = async () => {
+    const formattedDate = new Date(
+      currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
+
     const q = query(questionCollection, where("date", "==", formattedDate));
     const results = await getDocs(q);
 
@@ -61,7 +60,11 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   const getAnswer = async () => {
     if (data) {
       const userId = data.user.id;
-
+      const formattedDate = new Date(
+        currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
       const q = query(
         answerCollection,
         where("questionDate", "==", formattedDate),
@@ -106,7 +109,11 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
     // 입력값이 비어있는 경우 함수를 종료합니다.
     if (input.trim() === "") return;
     const userId = data.user.id;
-
+    const formattedDate = new Date(
+      currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
     const docRef = await addDoc(answerCollection, {
       user: { id: userId, mbti: user?.mbti },
       likeUsers: [],
@@ -122,7 +129,11 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
     if (answer.trim() === "") return;
     if (data) {
       const userId = data.user.id;
-
+      const formattedDate = new Date(
+        currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
       const q = query(
         answerCollection,
         where("questionDate", "==", formattedDate),
