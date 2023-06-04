@@ -28,6 +28,8 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isEdit, setIsEdit] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
+
   const formattedDate = new Date(
     currentDate.getTime() - new Date().getTimezoneOffset() * 60000
   )
