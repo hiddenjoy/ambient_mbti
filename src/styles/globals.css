@@ -87,9 +87,14 @@ button {
 }
 
 button:hover {
-  background-color: gray;
+  background-color: #a6a6a6;
   color: white;
 }
+
+button:active {
+  background-color: #616161;
+}
+
 .banner {
   box-shadow: -5px 2px 5px rgba(0, 0, 0, 0.2);
 }

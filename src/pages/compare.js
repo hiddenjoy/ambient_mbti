@@ -76,7 +76,7 @@ export default function Compare() {
 
   return (
     <>
-      <Layout>
+      <Layout whichPage={"compare"}>
         {isLoggedIn ? (
           <>
             <div className="flex flex-col">
