@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 
-const Header = () => {
+const Header = ({ isMain }) => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
@@ -31,21 +31,40 @@ const Header = () => {
       setIsLogin(false);
     }
   }, [session]);
+  useEffect(() => {
+    console.log(isMain);
+  }, []);
 
   return (
     <>
       <div className="flex flex-col justify-between pl-3 py-3 sticky text-black mr-0 my-3 ml-5px">
         <div className="flex flex-col items-end">
           <Link href="/">
-            <button className="banner w-40  text-xl font-bold text-center text-primary">
-              Ambient MBTI
-            </button>
+            {isMain ? 
+            (
+              <button className="banner w-40  text-xl font-bold text-center text-primary">
+                Ambient MBTI
+              </button>
+            )
+            : (
+              <button className="banner w-40  text-xl font-bold text-center text-primary bg-gray-200">
+                Ambient MBTI
+              </button>
+            )}
+            
           </Link>
 
           <Link href="/compare">
-            <button className="banner w-40 font-bold text-center text-primary">
-              MBTI vs. MBTI
-            </button>
+            {isMain ?
+            (
+              <button className="banner w-40 font-bold text-center text-primary bg-gray-200">
+                MBTI vs. MBTI
+              </button>
+            ):(
+              <button className="banner w-40 font-bold text-center text-primary">
+                MBTI vs. MBTI
+              </button>
+            )}
           </Link>
         </div>
 
