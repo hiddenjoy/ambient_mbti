@@ -19,6 +19,12 @@ const Main = ({ isAnsweredToday }) => {
   const [mbti, setMbti] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
 
+  const formattedDate = new Date(
+    currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .split("T")[0];
+
   useEffect(() => {
     async function fetchUser() {
       if (session) {
@@ -58,10 +64,7 @@ const Main = ({ isAnsweredToday }) => {
             <div className="flex flex-col items-center basis-2/3 px-10 w-full">
               {/* content 이 부분은 한번에 렌더링 할거긴 함 */}
 
-              <AnswerList
-                mbti={mbti}
-                date={currentDate.toISOString().split("T")[0]}
-              />
+              <AnswerList mbti={mbti} date={formattedDate} />
             </div>
           </div>
         </>
