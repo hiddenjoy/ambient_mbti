@@ -1,38 +1,54 @@
+// import { useRouter } from "next/router";
+// import { useSession, signIn } from "next-auth/react";
+// import { useState } from "react";
+// import { doc, getDoc, setDoc } from "firebase/firestore";
+// import { db, signupEmail } from "@/firebase/index.js";
+// import Link from "next/link";
 
-import { useRouter } from "next/router";
-import { useSession, signIn } from "next-auth/react";
-import { useState } from "react";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db, signupEmail } from "@/firebase/index.js";
-import Link from "next/link";
+// export default function SignUp() {
+//   const router = useRouter();
+//   const [userId, setUserId] = useState("");
+//   const [idChecked, setIdChecked] = useState(false);
+//   const [userIdExists, setUserIdExists] = useState(false);
+//   const [userPassword, setUserPassword] = useState("");
+//   const [passwordChecked, setPasswordChecked] = useState(false);
+//   const [signupError, setSignupError] = useState("");
 
-export default function SignUp() {
-  const router = useRouter();
-  const [userId, setUserId] = useState("");
-  const [idChecked, setIdChecked] = useState(false);
-  const [userIdExists, setUserIdExists] = useState(false);
-  const [userPassword, setUserPassword] = useState("");
-  const [passwordChecked, setPasswordChecked] = useState(false);
+//   const handleIdInputChange = (e) => {
+//     setUserId(e.target.value);
+//   };
 
-  const handleIdInputChange = (e) => {
-    setUserId(e.target.value);
-  };
+//   const handlePasswordInputChange = (e) => {
+//     setUserPassword(e.target.value);
+//     checkUserPassword(e.target.value);
+//   };
 
-  const handlePasswordInputChange = (e) => {
-    setUserPassword(e.target.value);
-    checkUserPassword(e.target.value);
-  };
+//   const checkUserId = async () => {
+//     const userRef = doc(db, "users", userId);
+//     const userSnapshot = await getDoc(userRef);
 
-  const checkUserId = async () => {
-    const userRef = doc(db, "users", userId);
-    const userSnapshot = await getDoc(userRef);
+//     if (userSnapshot.exists()) {
+//       setUserIdExists(true);
+//     } else {
+//       setIdChecked(true);
+//     }
+//   };
 
-    if (userSnapshot.exists()) {
-      setUserIdExists(true);
-    } else {
-      setIdChecked(true);
-    }
-  };
+//   const checkUserPassword = async () => {
+//     if (userPassword.length >= 8) {
+//       setPasswordChecked(true);
+//     } else {
+//       setPasswordChecked(false);
+//     }
+//   };
+
+//   const saveUserAccount = async () => {
+//     if (idChecked && !userIdExists && passwordChecked) {
+//       try {
+//         const result = await signupEmail(userId, userPassword);
+//         const user = result.user;
+//         const userRef = doc(db, "users", user.uid);
+//         await setDoc(userRef, { email: user.email, userId: userId });
 
   const checkUserPassword = async () => {
     if (userPassword.length >= 8) {

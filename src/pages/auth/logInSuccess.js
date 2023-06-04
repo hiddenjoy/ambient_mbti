@@ -4,15 +4,15 @@ import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 
-export default function SignedIn() {
+export default function LoginSuccess() {
   const router = useRouter();
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     async function fetchUser() {
-      if (session) {
-        const userRef = doc(db, "users", session.user.id);
+      if (session && session.user && session.user.uid) {
+        const userRef = doc(db, "users", session.user.uid);
         const userDoc = await getDoc(userRef);
 
         if (userDoc.exists()) {
@@ -23,7 +23,7 @@ export default function SignedIn() {
 
     fetchUser();
   }, [session]);
-
+  
   const handleAdminMode = () => {
     router.push("/admin/admin");
   };
