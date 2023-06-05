@@ -24,6 +24,14 @@ const UserProfile = ({ user }) => {
         <h3 className="text-sm font-bold mb-1">{representativeQuestion}</h3>
         <p className="text-gray-800">{answer}</p>
       </div>
+      <div className="flex justify-between">
+        <div>
+          <p className="font-semibold">팔로워</p>
+        </div>
+        <div>
+          <p className="font-semibold">팔로잉</p>
+        </div>
+      </div>
     </div>
   );
 };
