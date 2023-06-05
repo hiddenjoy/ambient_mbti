@@ -12,7 +12,10 @@ const SmallAnswerList = ({ answer }) => {
   const [likedUserNum, setLikedUserNum] = useState();
 
   useEffect(() => {
-    setLiked(answer.likeUsers.length > 0 && answer.likeUsers.find((i) => i === data.user.id))
+    setLiked(
+      answer.likeUsers.length > 0 &&
+        answer.likeUsers.find((i) => i === data.user.id)
+    );
   }, []);
 
   useEffect(() => {
@@ -20,12 +23,16 @@ const SmallAnswerList = ({ answer }) => {
   }, [answer.likeUsers]);
 
   const likeAnswer = async (answerId) => {
+    console.log(answerId);
     const answerRef = doc(answerCollection, answerId);
     const answerSnapShot = await getDoc(answerRef);
     const answerData = answerSnapShot.data();
-    const likedAnswerData = Boolean(answerData.likeUsers.length > 0 && answerData.likeUsers.find((i) => i === data.user.id));
+    const likedAnswerData = Boolean(
+      answerData.likeUsers.length > 0 &&
+        answerData.likeUsers.find((i) => i === data.user.id)
+    );
 
-    if(likedAnswerData) {
+    if (likedAnswerData) {
       const updatedLikeUsers = answerData.likeUsers.filter(
         (userId) => userId !== data.user.id
       );
@@ -41,16 +48,20 @@ const SmallAnswerList = ({ answer }) => {
   };
 
   return (
-
-    <div className="flex flex-col justify-center my-2 bg-primary text-tertiary p-3 w-full rounded">
+    <div className="flex flex-col justify-between my-2 bg-primary text-tertiary p-3 w-full rounded">
       <div className=" border text-xl text-center mb-3">
         " {answer.content} "
       </div>
-      <div className="flex flex-row justify-end items-center">
+      <div className="flex flex-row justify-end items-end">
         <div className="text-end text-xs italic">
           by. {answer.user.mbti} {answer.user.id}
         </div>
-        <button onClick={() => likeAnswer(answer.id)} className=" mx-3 my-0 px-2 py-0 text-black">{liked ? "❤️" : "🤍"}  {likedUserNum}</button>
+        <button
+          onClick={() => likeAnswer(answer.id)}
+          className="ml-3 my-0 px-2 py-0 text-black"
+        >
+          {liked ? "❤️" : "🤍"} {likedUserNum}
+        </button>
       </div>
     </div>
   );

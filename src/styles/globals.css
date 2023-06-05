@@ -41,9 +41,34 @@ body {
   }
 }
 
+@keyframes slide-left {
+  0% {
+    transform: translateX(10%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes slide-right {
+  0% {
+    transform: translateX(-45%);
+  }
+
+  100% {
+    transform: translateX(10%);
+  }
+}
+
 @layer utilities {
   .animate-slide-up {
     animation: slide-up 30s infinite linear;
+  }
+  .animate-slide-left {
+    animation: slide-left 30s infinite linear;
+  }
+  .animate-slide-right {
+    animation: slide-right 30s infinite linear;
   }
 }
 
