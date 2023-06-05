@@ -50,18 +50,21 @@ const AnswerList = ({ mbti, date }) => {
     console.log("새로고침 기능 구현하기");
   };
 
-  const handleLayout = () => {
-    setLayout(!layout);
+  const toList = () => {
+    setLayout(true);
+  };
+  const toGallery = () => {
+    setLayout(false);
   };
 
   return (
     <div className="flex flex-col w-full">
       <div className="sticky top-0 border w-full flex justify-between bg-white">
         <div>
-          <button className="border my-1 ml-1 p-1" onClick={handleLayout}>
+          <button className="border my-1 ml-1 p-1" onClick={toList}>
             list
           </button>
-          <button className="border my-1 mr-1 p-1" onClick={handleLayout}>
+          <button className="border my-1 mr-1 p-1" onClick={toGallery}>
             gallery
           </button>
         </div>
@@ -79,13 +82,13 @@ const AnswerList = ({ mbti, date }) => {
             }`}
           >
             {answers.map((item) => (
-              <SmallAnswerList key={item.id} answer={item}/>
+              <SmallAnswerList key={item.id} answer={item} />
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-3 gap-2">
             {answers.map((item) => (
-              <SmallAnswerList key={item.id} answer={item}/>
+              <SmallAnswerList key={item.id} answer={item} />
             ))}
           </div>
         )}
