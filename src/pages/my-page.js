@@ -63,7 +63,7 @@ const Mypage = () => {
           <h1 className="text-4xl font-bold text-primary p-3">
             Mypage
           </h1>
-          <UserProfile user={user} />
+          <UserProfile profiledUser={user} />
         </div>
         <div className="basis-4/5 flex flex-col">
           <div className="flex flex-row">

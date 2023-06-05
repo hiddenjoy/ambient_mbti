@@ -40,6 +40,7 @@ export default function askMBTI() {
     await setDoc(userRef, { mbti }, { merge: true });
   };
 
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="rounded-lg border border-gray-300 p-4 m-4 w-1/4">

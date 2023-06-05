@@ -23,7 +23,7 @@ const LikedAnswers = () => {
       id: doc.id,
       ...doc.data(),
     }));
-    console.log(likedAnswers);
+    // console.log(likedAnswers);
     setLikedAnswers(likedAnswers);
   };
 
