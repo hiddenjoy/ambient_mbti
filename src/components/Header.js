@@ -37,7 +37,7 @@ const Header = ({ whichPage }) => {
 
   return (
     <>
-      <div className="flex flex-col justify-between pl-3 py-3 sticky text-black mr-0 my-3 ml-5px">
+      <div className="flex flex-col justify-between pl-3 py-3 sticky text-black mr-0 my-3 ml-5px w-40">
         <div className="flex flex-col items-end">
           <Link href="/ranking">
             {whichPage === "ranking" ? (
