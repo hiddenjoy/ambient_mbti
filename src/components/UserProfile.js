@@ -23,38 +23,26 @@ const UserProfile = ({ profiledUser, profiledUserName, profiledUserMbti }) => {
 
   const [followingUser, setFollowingUser] = useState();
 
-  // const findFollowingUser = async () => {
-  //   const userName = profiledUser.name;
-  //   const userMbti = profiledUser.Mbti;
-  //   const q = query(
-  //     userCollection,
-  //     where("name", "==", userName),
-  //     where("mbti", "==", userMbti)
-  //   );
-
-  //   const results = await getDocs(q);
-
-  //   setFollowingUser(results);
-  //   console.log(profiledUser);
-  // }
-
   const findFollowingUser = async () => {
+    if (profiledUser) {
       const q = query(
         userCollection,
-        where("name", "==", profiledUserName),
-        where("mbti", "==", profiledUserMbti)
+        where("name", "==", profiledUser.name),
+        where("mbti", "==", profiledUser.mbti)
       );
+    }
 
-      const querySnapshot = await getDocs(q);
-      const users = querySnapshot.docs.map((doc) => doc.data());
+    const querySnapshot = await getDocs(q);
+    const users = querySnapshot.docs.map((doc) => doc.data());
 
-      setFollowingUser(users);
+    setFollowingUser(users);
+    console.log(profiledUser);
   };
 
   useEffect(() => {
     // findFollowingUser();
-    console.log(profiledUserName);
-  }, [])
+    console.log(profiledUser);
+  }, [profiledUser]);
 
   const handleFollowing = () => {
     // updateFollowing();

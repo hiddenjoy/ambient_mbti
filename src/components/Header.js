@@ -31,9 +31,6 @@ const Header = ({ whichPage }) => {
       setIsLogin(false);
     }
   }, [session]);
-  useEffect(() => {
-    console.log(whichPage);
-  }, []);
 
   return (
     <>
