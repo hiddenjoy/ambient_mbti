@@ -57,6 +57,11 @@ const AnswerList = ({ mbti, date }) => {
     setLayout(false);
   };
 
+  const handleSort = () => {
+    const sortedAnswers = [...answers];
+    sortedAnswers.sort((a, b) => b.likeUsers.length - a.likeUsers.length);
+    setAnswers(sortedAnswers);
+  };
   return (
     <div className="flex flex-col w-full">
       <div className="sticky top-0 border w-full flex justify-between bg-white">
@@ -69,6 +74,9 @@ const AnswerList = ({ mbti, date }) => {
           </button>
         </div>
         <div>
+          <button className="border my-1 mr-1 p-1 " onClick={handleSort}>
+            좋아요 순
+          </button>
           <button className="border my-1 mr-1 p-1" onClick={handleClick}>
             ↺
           </button>
