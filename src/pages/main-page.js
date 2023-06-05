@@ -11,6 +11,7 @@ import Question from "@/components/Question";
 import MbtiSelector from "@/components/mbtiSelector";
 import { is } from "date-fns/locale";
 
+
 const Main = ({ isAnsweredToday }) => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
@@ -70,9 +71,37 @@ const Main = ({ isAnsweredToday }) => {
         </>
       ) : (
         <>
-          <div className="w-full text-center mt-5">
-            로그인을 하시면 더 많은 답변을 보실 수 있습니다!
-          </div>
+
+< div className >
+<div className="flex flex-row items-center h-full">
+  <div className="basis-1/3 flex h-full flex-col items-end">
+    <div className="mb-10 w-full text-left mt-5">
+      로그인 해주세요!
+    </div>
+  </div>
+  <div className="basis-1/2 flex h-full flex-col items-start ">
+    <div className=" w-full ">
+      <div className="w-full mt-10 mb-10" >
+        <img
+          src="/images/Amber.png"
+          alt="로그인 전 이미지"
+          style={{
+            maxWidth: '60%',
+            height: 'auto',
+            maxHeight: 'auto',
+            display: 'block',
+            marginLeft: 'calc(50%)',
+            marginTop: 'calc(50vh - (45vh * 0.6))',
+            margin: '0 auto',
+
+          }}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
         </>
       )}
     </>
