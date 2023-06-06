@@ -17,36 +17,33 @@ import {
 
 const userCollection = collection(db, "users");
 
-const UserProfile = ({ profiledUser, profiledUserName, profiledUserMbti }) => {  
+const UserProfile = ({ profiledUserId, profiledUserName, profiledUserMbti }) => {  
   const { data } = useSession();
   // const [ following, setFollowing ] = useState();
 
   const [followingUser, setFollowingUser] = useState();
 
   const findFollowingUser = async () => {
-    if (profiledUser) {
       const q = query(
         userCollection,
-        where("name", "==", profiledUser.name),
-        where("mbti", "==", profiledUser.mbti)
+        where("user.id", "==", profiledUserId),
       );
-    }
 
     const querySnapshot = await getDocs(q);
     const users = querySnapshot.docs.map((doc) => doc.data());
 
     setFollowingUser(users);
-    console.log(profiledUser);
+    console.log(users);
   };
 
   useEffect(() => {
-    // findFollowingUser();
-    console.log(profiledUser);
-  }, [profiledUser]);
+    findFollowingUser();
+    // console.log(profiledUserId);
+  }, [data.user.followingId, data.user.followerId]);
 
   const handleFollowing = () => {
-    // updateFollowing();
-    // updateFollower();
+    updateFollowing();
+    updateFollower();
   }
   
   const updateFollowing = async () => {
@@ -69,7 +66,7 @@ const UserProfile = ({ profiledUser, profiledUserName, profiledUserMbti }) => {
     }
   };
 
-  if (!profiledUser) {
+  if (!profiledUserId) {
     return null;
   }
 

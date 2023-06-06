@@ -8,7 +8,7 @@ const anotherUser_id = () => {
 
   useEffect(() => {
     if (!router.isReady) return;
-  }, [router.isReady]);
+  }, [router.isReady, id]);
 
 
   return (

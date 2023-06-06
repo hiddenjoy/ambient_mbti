@@ -61,7 +61,7 @@ const AnotherUser = ({ userId }) => {
           <h1 className="text-4xl font-bold text-primary p-3">
             page
           </h1>
-          <UserProfile profiledUser={anotherUser} />
+          <UserProfile profiledUserId={userId} />
         </div>
         
         {/* 여기 캘린더 부분은 나중에 수정해야함 ㅠㅠ!! */}
