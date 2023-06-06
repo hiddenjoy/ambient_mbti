@@ -80,7 +80,7 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
       }
     }
   };
-
+  
   const goPrevious = async () => {
     const previousDate = new Date(currentDate);
     previousDate.setDate(previousDate.getDate() - 1);

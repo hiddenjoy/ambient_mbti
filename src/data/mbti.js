@@ -21,7 +21,6 @@ export const mbti = [
   },
   {
     id: 6,
-
     content: "ENFP",
   },
   {

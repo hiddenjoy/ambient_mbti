@@ -3,37 +3,22 @@ const UserProfile = ({ user }) => {
     return null;
   }
   
-  const representativeQuestion = "나를 대표하는 질문";
-  const answer = "질문에 대한 답변";
-
   return (
-    <div className="p-3 bg-blue-200 flex flex-col">
-      <div className="flex items-center mr-4">
-        <img
-          src={user.photoURL}
-          alt="Profile"
-          className="w-10 h-10 rounded-full"
-        />
-      </div>
-      <div className="flex flex-col justify-center">
-        <h2 className="text-lg font-bold">{user.name}</h2>
-        <p className="text-lg">MBTI: {user.mbti}</p>
-      </div>
-
-      <div className="mb-4">
-        <h3 className="text-sm font-bold mb-1">{representativeQuestion}</h3>
-        <p className="text-gray-800">{answer}</p>
-      </div>
-      <div className="flex justify-between">
+  <div class="flex justify-center px-12 bg-white dark:bg-gray-950">
+  <div class="h-50 w-50 rounded-3xl p-px bg-gradient-to-b from-green-300 to-yellow-300 dark:from-blue-800 dark:to-purple-800 ">
+    <div class="rounded-[calc(1.5rem-1px)] p-10 bg-white dark:bg-gray-900">
+      <p class="text-gray-700 dark:text-gray-300">"사전질문대답"</p>
+      <div class="mt-4 flex gap-2 items-center">
+        <img class="h-10 w-10 rounded-full" src="{user.photoURL}" alt="profile" />
         <div>
-          <p className="font-semibold">팔로워</p>
-        </div>
-        <div>
-          <p className="font-semibold">팔로잉</p>
+          <h3 class="text-lg font-medium text-gray-700 dark:text-white">{user.name}</h3>
+          <span class="text-sm tracking-wide text-gray-600 dark:text-gray-400">{user.mbti}</span>
         </div>
       </div>
     </div>
-  );
+  </div>
+</div>
+  )
 };
 
 export default UserProfile;
