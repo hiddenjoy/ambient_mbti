@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
+import AnswerList from "@/components/AnswerList.js"; // AnswerList를 가져옵니다.
+import Question from "@/components/Question";
 
 const UserCalendar = ({ handleDatePopup }) => {
   const { data: session } = useSession();
@@ -10,25 +12,26 @@ const UserCalendar = ({ handleDatePopup }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
   const [userAnswer, setUserAnswer] = useState("");
+  const [showQuestion, setShowQuestion] = useState(false);
+
+  const questionCollection = collection(db, "questions");
 
   useEffect(() => {
     async function fetchUserAnswer() {
       if (session && selectedDate) {
         const userId = session.user.id;
-        const selectedDateStr = selectedDate.toISOString().split("T")[0];
-        const answersRef = collection(db, "answers");
+        const questionDate = selectedDate.toISOString().split("T")[0];
 
-        const answersQuery = query(
-          answersRef,
-          where("user.id", "==", userId),
-          where("questionDate", "==", selectedDateStr)
+        const q = query(
+          questionCollection,
+          where("date", "==", questionDate)
         );
-        const answersSnapshot = await getDocs(answersQuery);
+        const questionSnapshot = await getDocs(q);
 
-        if (answersSnapshot.size > 0) {
-          setUserAnswer(answersSnapshot.docs[0].data().content);
+        if (questionSnapshot.size > 0) {
+          setUserAnswer(questionSnapshot.docs[0].data().content);
         } else {
-          setUserAnswer("");
+          setUserAnswer("질문이 없습니다.");
         }
       }
     }
@@ -56,7 +59,8 @@ const UserCalendar = ({ handleDatePopup }) => {
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
-    handleDatePopup(date);
+     // 선택한 날짜에 대한 질문을 표시하도록 상태 변경
+     setShowQuestion(true);
   };
 
   const handleCursorMove = (day) => {
@@ -94,15 +98,7 @@ const UserCalendar = ({ handleDatePopup }) => {
   
   return (
     // ...
-    <div className="flex justify-center">
-      {/* 이전 주로 이동하는 버튼 */}
-      <button
-          className="text-2xl font-bold bg-blue-300 text-white rounded h-1/2"
-          onClick={goToPreviousWeek}
-        >
-          &lt;
-        </button>
-  
+    <div className="flex flex-col h-full">
       <div className="flex flex-col items-center">
       <span className="text-2xl font-bold mb-2">
             {format(currentWeekStart, "yyyy년")} {format(currentWeekStart, "MMM")}
@@ -129,9 +125,6 @@ const UserCalendar = ({ handleDatePopup }) => {
                 >
                   <span className="text-sm font-medium">{format(day, "EEE")}</span>
                   <span className="text-lg font-bold">{format(day, "d")}</span>
-                  {selectedDate === day && userAnswer && (
-                    <span className="text-sm text-gray-600">{userAnswer}</span>
-                  )}
                 </div>
               ))}
             </div>
@@ -140,13 +133,31 @@ const UserCalendar = ({ handleDatePopup }) => {
       </div>
   
       {/* 다음 주로 이동하는 버튼 */}
-      <button
+      <div className="flex justify-between"> 
+      {/* 이전 주로 이동하는 버튼 */}
+  <button
+    className="text-2xl font-bold bg-blue-300 text-white rounded h-1/2"
+    onClick={goToPreviousWeek}
+  >
+    &lt;
+  </button>
+  <button
           className="text-2xl font-bold bg-blue-300 text-white rounded h-1/2"
           onClick={goToNextWeek}
         >
           &gt;
-        </button>
-        </div>
+    </button>
+    </div>
+     {selectedDate && selectedDate.toISOString().split("T")[0] === hoveredDate?.toISOString().split("T")[0] && (
+        <div className="question-container">
+          <Question 
+          isAnsweredToday={true}
+          currentDate={selectedDate}
+          setCurrentDate={setSelectedDate}
+      />
+      <p className="question">{userAnswer}</p>
+        </div>)}
+    </div>
   );
 };
 
