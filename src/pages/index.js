@@ -18,18 +18,24 @@ export default function Home() {
   const { data: session } = useSession();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAnsweredToday, setIsAnsweredToday] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const formattedDate = new Date(
+    currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .split("T")[0];
 
   useEffect(() => {
     async function checkAnsweredToday() {
       if (session) {
         const userId = session.user.id;
-        const today = new Date().toISOString().split("T")[0];
         const answersRef = collection(db, "answers");
 
         const answersQuery = query(
           answersRef,
           where("user.id", "==", userId),
-          where("questionDate", "==", today)
+          where("questionDate", "==", formattedDate)
         );
         const answersSnapshot = await getDocs(answersQuery);
 
