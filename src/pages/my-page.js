@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
+import { mbtiColors } from "@/data/mbtiColors.js";
 
 const Mypage = () => {
   const { data: session } = useSession();
@@ -32,6 +33,8 @@ const Mypage = () => {
     fetchUser();
   }, [session]);
 
+  const backgroundColor = user?.mbti ? mbtiColors[user.mbti] : null;
+
   const handleDatePopup = (date) => {
     setPopupDate(date);
   };
@@ -47,7 +50,8 @@ const Mypage = () => {
 
   return (
     <Layout>
-      <div className="flex flex-row h-full">
+      <div className="mypage-container" style={{ backgroundColor }}>
+        <div className="flex flex-row h-full">
         <div className="h-full basis-1/5 p-3 flex flex-col items-start sticky top-0">
           <h1 className="text-4xl font-bold text-primary p-3">
             Mypage
@@ -73,6 +77,7 @@ const Mypage = () => {
             )}
           </div>
         </div>
+      </div>
       </div>
     </Layout>
   );
