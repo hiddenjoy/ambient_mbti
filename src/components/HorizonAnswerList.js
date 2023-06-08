@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SmallAnswerList from "@/components/SmallAnswerList";
+import AmbientAnswerList from "@/components/AmbientAnswerList";
 import { useSession, signOut } from "next-auth/react";
 
 import { db } from "@/firebase";
@@ -34,8 +34,6 @@ const HorizonAnswerList = ({ range }) => {
       newAnswers.sort((a, b) => b.likeUsers.length - a.likeUsers.length);
     });
 
-    console.log(newAnswers);
-
     const startIndex = (range - 1) * 10;
     const endIndex = 10 + (range - 1) * 10;
     const selectedAnswers = newAnswers.slice(startIndex, endIndex);
@@ -50,7 +48,7 @@ const HorizonAnswerList = ({ range }) => {
   return (
     <>
       {answers.map((item) => (
-        <SmallAnswerList key={item.id} answer={item} />
+        <AmbientAnswerList key={item.id} answer={item} />
       ))}
     </>
   );
