@@ -73,7 +73,7 @@ const Mypage = () => {
           </div>
           <div className="bg-neutral-100 h-full">
             {viewTag === 'calendar' ? (
-              <UserCalendar handleDatePopup={handleDatePopup} bgColor={bgColor}/>
+              <UserCalendar handleDatePopup={handleDatePopup}/>
             ) : viewTag === 'likedAnswers' ? (
               <LikedAnswers/>
             ) : viewTag === 'followingUsers' ? (
