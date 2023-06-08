@@ -15,7 +15,7 @@ const UserCalendar = ({ handleDatePopup }) => {
   const [hoveredDate, setHoveredDate] = useState(null);
   const [userAnswer, setUserAnswer] = useState("");
   const [showQuestion, setShowQuestion] = useState(false);
-  
+
   const questionCollection = collection(db, "questions");
 
   useEffect(() => {
@@ -24,10 +24,7 @@ const UserCalendar = ({ handleDatePopup }) => {
         const userId = session.user.id;
         const questionDate = selectedDate.toISOString().split("T")[0];
 
-        const q = query(
-          questionCollection,
-          where("date", "==", questionDate)
-        );
+        const q = query(questionCollection, where("date", "==", questionDate));
         const questionSnapshot = await getDocs(q);
 
         if (questionSnapshot.size > 0) {
@@ -102,10 +99,12 @@ const UserCalendar = ({ handleDatePopup }) => {
 
   return (
     <div className="flex h-full">
-      <div className="flex-1">
+      <div
+
+ className="flex-1">
         <div className="flex justify-between mb-4">
           <button
-            className="bg-lime-500 hover:bg-lime-600 text-white px-4 py-2 rounded-lg"
+            className="bg-lime-500 hover:bg-lime-600 text-white px-2 py-1 rounded-lg"
             onClick={goToPreviousWeek}
           >
             {"<"}
@@ -117,17 +116,19 @@ const UserCalendar = ({ handleDatePopup }) => {
                   {week.map((day) => (
                     <div
                       key={day.toISOString().split("T")[0]}
-                      className={`flex group hover:bg-lime-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-16 ${
-                        day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0] ? "bg-lime-300 shadow-lg light-shadow" : ""
+                      className={`flex group hover:bg-lime-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-10 h-10 ${
+                        day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0]
+                          ? "bg-lime-300 shadow-lg light-shadow"
+                          : ""
                       }`}
                       onClick={() => handleDateClick(day)}
                       onMouseEnter={() => handleDateHover(day)}
                     >
-                      <span className="flex h-3 w-3 absolute -top-1 -right-1">
+                      <span className="flex h-2 w-2 absolute -top-1 -right-1">
                         <span className="animate-ping absolute group-hover:opacity-75 opacity-0 inline-flex h-full w-full rounded-full bg-lime-400"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-lime-500"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-lime-500"></span>
                       </span>
-                      <div className="flex items-center px-4 py-4">
+                      <div className="flex items-center px-2 py-2">
                         <div className="text-center">
                           <p
                             className={`text-gray-900 group-hover:text-purple-900 text-sm transition-all duration-300 ${
@@ -137,7 +138,7 @@ const UserCalendar = ({ handleDatePopup }) => {
                             {format(day, "E")}
                           </p>
                           <p
-                            className={`text-gray-900 group-hover:text-purple-900 mt-3 group-hover:font-bold transition-all duration-300 ${
+                            className={`text-gray-900 group-hover:text-purple-900 mt-1 group-hover:font-bold transition-all duration-300 ${
                               day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0] ? "" : "text-gray-900"
                             }`}
                           >
@@ -152,7 +153,7 @@ const UserCalendar = ({ handleDatePopup }) => {
             </div>
           </div>
           <button
-            className="bg-lime-500 hover:bg-lime-600 text-white px-4 py-2 rounded-lg"
+            className="bg-lime-500 hover:bg-lime-600 text-white px-2 py-1 rounded-lg"
             onClick={goToNextWeek}
           >
             {">"}
