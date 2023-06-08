@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
-import { mbtiColors } from "@/data/mbtiColors.js";
+import mbtiColors from "@/data/mbtiColors.js";
 
 const Mypage = () => {
   const { data: session } = useSession();

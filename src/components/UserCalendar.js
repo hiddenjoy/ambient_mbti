@@ -5,6 +5,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 import AnswerList from "@/components/AnswerList.js"; // AnswerList를 가져옵니다.
 import Question from "@/components/Question";
+import mbtiColors from "@/data/mbtiColors";
 
 const UserCalendar = ({ handleDatePopup }) => {
   const { data: session } = useSession();
@@ -119,7 +120,6 @@ const UserCalendar = ({ handleDatePopup }) => {
                     }`}
                     onClick={() => handleDateClick(day)}
                     onMouseEnter={() => handleDateHover(day)}
-                    style={{ backgroundColor: bgColor }}
                   >
                     <span className="flex h-3 w-3 absolute -top-1 -right-1">
                       <span className="animate-ping absolute group-hover:opacity-75 opacity-0 inline-flex h-full w-full rounded-full bg-lime-400"></span>
