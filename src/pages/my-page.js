@@ -41,8 +41,6 @@ const Mypage = () => {
     fetchUser();
   }, [session]);
 
-  const backgroundColor = user?.mbti ? mbtiColors[user.mbti] : null;
-
   const handleDatePopup = (date) => {
     setPopupDate(date);
   };
