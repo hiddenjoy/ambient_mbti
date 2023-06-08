@@ -39,14 +39,26 @@ const Header = ({ whichPage }) => {
     <>
       <div className="flex flex-col justify-between pl-3 py-3 sticky text-black mr-0 my-3 ml-5px">
         <div className="flex flex-col items-end">
-          <Link href="/">
-            {whichPage === "main" ? (
+          <Link href="/ranking">
+            {whichPage === "ranking" ? (
               <button className="banner w-40 text-xl font-bold text-center text-primary">
                 Ambient MBTI
               </button>
             ) : (
               <button className="banner w-32 text-l text-center text-primary bg-gray-200">
                 Ambient MBTI
+              </button>
+            )}
+          </Link>
+
+          <Link href="/">
+            {whichPage === "main" ? (
+              <button className="banner w-40 text-xl font-bold text-center text-primary">
+                Today
+              </button>
+            ) : (
+              <button className="banner w-32 text-l text-center text-primary bg-gray-200">
+                Today
               </button>
             )}
           </Link>
@@ -59,18 +71,6 @@ const Header = ({ whichPage }) => {
             ) : (
               <button className="banner w-32 text-l text-center text-primary bg-gray-200">
                 MBTI vs. MBTI
-              </button>
-            )}
-          </Link>
-
-          <Link href="/ranking">
-            {whichPage === "ranking" ? (
-              <button className="banner w-40 text-xl font-bold text-center text-primary">
-                Ranking
-              </button>
-            ) : (
-              <button className="banner w-32 text-l text-center text-primary bg-gray-200">
-                Ranking
               </button>
             )}
           </Link>
