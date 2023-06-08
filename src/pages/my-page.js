@@ -16,6 +16,7 @@ const Mypage = () => {
   const [questionAnswers, setQuestionAnswers] = useState([]);
   const [popupDate, setPopupDate] = useState(null);
   const [viewTag, setViewTag] = useState("calendar");
+  const [bgColor, setBgColor] = useState("#E5E7EB"); // 기본 배경색 설정
 
   useEffect(() => {
     async function fetchUser() {
@@ -26,6 +27,13 @@ const Mypage = () => {
         if (userDoc.exists()) {
           setUser(userDoc.data());
           setQuestionAnswers(userDoc.data().questionAnswers);
+        
+          const userMbti = userDoc.data().mbti; // 세션 유저의 mbti 가져오기
+          const mbtiColor = mbtiColors[userMbti]; // mbtiColors에서 해당 mbti의 색상 가져오기
+
+          if (mbtiColor) {
+            setBgColor(mbtiColor);
+          }
         }
       }
     }
@@ -50,8 +58,9 @@ const Mypage = () => {
 
   return (
     <Layout>
-      <div className="mypage-container" style={{ backgroundColor }}>
-        <div className="flex flex-row h-full">
+      <div 
+      className="flex flex-row h-full"
+      style={{ backgroundColor: bgColor }}>
         <div className="h-full basis-1/5 p-3 flex flex-col items-start sticky top-0">
           <h1 className="text-4xl font-bold text-primary p-3">
             Mypage
@@ -77,7 +86,6 @@ const Mypage = () => {
             )}
           </div>
         </div>
-      </div>
       </div>
     </Layout>
   );
