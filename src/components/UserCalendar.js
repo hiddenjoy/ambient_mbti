@@ -60,22 +60,27 @@ const UserCalendar = ({ handleDatePopup }) => {
   const handleDateClick = (date) => {
     setSelectedDate(date);
      // 선택한 날짜에 대한 질문을 표시하도록 상태 변경
+     setHoveredDate(date); // 선택한 날짜로 hoveredDate도 업데이트
      setShowQuestion(true);
   };
 
   const handleCursorMove = (day) => {
     const index = calendarDays.findIndex((date) => date === day);
     if (index !== -1) {
-      const newWeekStart = addDays(currentWeekStart, index - 3);
+      const newIndex = index - 3; // 선택 가능한 범위 조정
+    if (newIndex >= 0 && newIndex < calendarDays.length) {
+      const newWeekStart = addDays(currentWeekStart, newIndex);
       setCurrentWeekStart(newWeekStart);
-      setTimeout(() => {
-        setCurrentWeekStart(newWeekStart);
-      }, 300);
+      }
     }
   };
 
   const handleDateHover = (date) => {
-    setHoveredDate(date);
+    if (selectedDate && date && date.toISOString().split("T")[0] === selectedDate.toISOString().split("T")[0]) {
+      setHoveredDate(date);
+    } else {
+      setHoveredDate(null);
+    }
   };
 
   const weeks = [];
@@ -132,16 +137,16 @@ const UserCalendar = ({ handleDatePopup }) => {
         </div>
       </div>
   
-      {/* 다음 주로 이동하는 버튼 */}
+      
       <div className="flex justify-between"> 
-      {/* 이전 주로 이동하는 버튼 */}
-  <button
-    className="text-2xl font-bold bg-blue-300 text-white rounded h-1/2"
-    onClick={goToPreviousWeek}
-  >
-    &lt;
+      {/* 이전 주로 이동하는 버튼 */} 
+      <button
+      className="text-2xl font-bold bg-blue-300 text-white rounded h-1/2"
+      onClick={goToPreviousWeek}
+  > &lt;
   </button>
-  <button
+     {/* 다음 주로 이동하는 버튼 */}
+     <button
           className="text-2xl font-bold bg-blue-300 text-white rounded h-1/2"
           onClick={goToNextWeek}
         >
