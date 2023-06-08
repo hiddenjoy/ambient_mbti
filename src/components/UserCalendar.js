@@ -102,7 +102,7 @@ const UserCalendar = ({ handleDatePopup }) => {
     <div className="flex flex-col h-full">
       <div className="flex justify-between mb-4">
         <button
-          className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg"
+          className="bg-lime-500 hover:bg-lime-600 text-white px-4 py-2 rounded-lg"
           onClick={goToPreviousWeek}
         >
           {"<"}
@@ -114,15 +114,15 @@ const UserCalendar = ({ handleDatePopup }) => {
                 {week.map((day) => (
                   <div
                     key={day.toISOString().split("T")[0]}
-                    className={`flex group hover:bg-purple-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-16 ${
-                      day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0] ? "bg-purple-300 shadow-lg light-shadow" : ""
+                    className={`flex group hover:bg-lime-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-16 ${
+                      day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0] ? "bg-lime-300 shadow-lg light-shadow" : ""
                     }`}
                     onClick={() => handleDateClick(day)}
                     onMouseEnter={() => handleDateHover(day)}
                   >
                     <span className="flex h-3 w-3 absolute -top-1 -right-1">
-                      <span className="animate-ping absolute group-hover:opacity-75 opacity-0 inline-flex h-full w-full rounded-full bg-purple-400"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+                      <span className="animate-ping absolute group-hover:opacity-75 opacity-0 inline-flex h-full w-full rounded-full bg-lime-400"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-lime-500"></span>
                     </span>
                     <div className="flex items-center px-4 py-4">
                       <div className="text-center">
@@ -149,7 +149,7 @@ const UserCalendar = ({ handleDatePopup }) => {
           </div>
         </div>
         <button
-          className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg"
+          className="bg-lime-500 hover:bg-lime-600 text-white px-4 py-2 rounded-lg"
           onClick={goToNextWeek}
         >
           {">"}
