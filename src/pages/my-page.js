@@ -66,7 +66,6 @@ const Mypage = () => {
           <UserProfile user={user} />
         </div>
         <div className="basis-4/5 flex flex-col">
-          <div>버튼</div>
           <div className="flex flex-row">
             <ViewTagButton value="calendar"/>
             <ViewTagButton value="likedAnswers"/>

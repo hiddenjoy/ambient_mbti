@@ -1,9 +1,9 @@
 import Header from "./Header";
 
-export default function Layout({ children }) {
+export default function Layout({ children, whichPage }) {
   return (
     <div className="flex">
-      <Header />
+      <Header whichPage={whichPage}/>
       <div className="container grow w-5/6">
         <div>{children}</div>
       </div>

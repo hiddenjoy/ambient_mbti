@@ -46,27 +46,47 @@ const AnswerList = ({ mbti, date }) => {
     getAnswers();
   }, [mbti, date]);
 
-  const handleClick = () => {
-    console.log("새로고침 기능 구현하기");
+  const handleRandom = () => {
+    const shuffledAnswers = [...answers];
+    for (let i = shuffledAnswers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledAnswers[i], shuffledAnswers[j]] = [
+        shuffledAnswers[j],
+        shuffledAnswers[i],
+      ];
+    }
+    setAnswers(shuffledAnswers);
   };
 
-  const handleLayout = () => {
-    setLayout(!layout);
+  const toList = () => {
+    setLayout(true);
+  };
+  const toGallery = () => {
+    setLayout(false);
+  };
+
+  const handleSort = () => {
+    const sortedAnswers = [...answers];
+    sortedAnswers.sort((a, b) => b.likeUsers.length - a.likeUsers.length);
+    setAnswers(sortedAnswers);
   };
 
   return (
     <div className="flex flex-col w-full">
       <div className="sticky top-0 border w-full flex justify-between bg-white">
         <div>
-          <button className="border my-1 ml-1 p-1" onClick={handleLayout}>
+          <button className="border my-1 ml-1 p-1" onClick={toList}>
             list
           </button>
-          <button className="border my-1 mr-1 p-1" onClick={handleLayout}>
+          <button className="border my-1 mr-1 p-1" onClick={toGallery}>
             gallery
           </button>
         </div>
         <div>
-          <button className="border my-1 mr-1 p-1" onClick={handleClick}>
+          <button className="border my-1 mr-1 p-1 " onClick={handleSort}>
+            좋아요 순
+          </button>
+          <button className="border my-1 mr-1 p-1" onClick={handleRandom}>
             ↺
           </button>
         </div>

@@ -45,10 +45,13 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   }, [data]);
 
   const getQuestion = async () => {
-    const q = query(
-      questionCollection,
-      where("date", "==", currentDate.toISOString().split("T")[0])
-    );
+    const formattedDate = new Date(
+      currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
+
+    const q = query(questionCollection, where("date", "==", formattedDate));
     const results = await getDocs(q);
 
     setQuestion(results.docs[0].data());
@@ -57,10 +60,14 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   const getAnswer = async () => {
     if (data) {
       const userId = data.user.id;
-
+      const formattedDate = new Date(
+        currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
       const q = query(
         answerCollection,
-        where("questionDate", "==", currentDate.toISOString().split("T")[0]),
+        where("questionDate", "==", formattedDate),
         where("user.id", "==", userId)
       );
 
@@ -102,13 +109,16 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
     // 입력값이 비어있는 경우 함수를 종료합니다.
     if (input.trim() === "") return;
     const userId = data.user.id;
-    const today = new Date().toISOString().split("T")[0];
-
+    const formattedDate = new Date(
+      currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
     const docRef = await addDoc(answerCollection, {
       user: { id: userId, mbti: user?.mbti },
       likeUsers: [],
       content: input,
-      questionDate: today,
+      questionDate: formattedDate,
     });
 
     location.reload();
@@ -119,10 +129,14 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
     if (answer.trim() === "") return;
     if (data) {
       const userId = data.user.id;
-
+      const formattedDate = new Date(
+        currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
       const q = query(
         answerCollection,
-        where("questionDate", "==", currentDate.toISOString().split("T")[0]),
+        where("questionDate", "==", formattedDate),
         where("user.id", "==", userId)
       );
 
@@ -146,31 +160,13 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
 
   return (
     <div className="w-full p-5 h-full">
-      {console.log(isAnsweredToday)}
       {isAnsweredToday ? (
         <>
           <div className="text-center text-xl font-bold">오늘의 질문</div>
           <div className="flex flex-row items-center justify-center mb-3">
-            {currentDate.toISOString().split("T")[0] == "2023-06-01" ? (
-              <div className="m-0 p-0 mr-6"></div>
-            ) : (
-              <button className="m-0 p-0 mr-2" onClick={goPrevious}>
-                ◀
-              </button>
-            )}
             <div className="text-xs text-gray-600 text-center whitespace-normal">
               {question.date}
             </div>
-            {currentDate.toISOString().split("T")[0] ==
-            new Date().toISOString().split("T")[0] ? (
-              <div className="m-0 p-0 ml-6"> </div>
-            ) : (
-              <>
-                <button className="m-0 p-0 ml-2" onClick={goNext}>
-                  ▶
-                </button>
-              </>
-            )}
           </div>
           <p className="text-center border my-5 text-xl">
             " {question.content} "
