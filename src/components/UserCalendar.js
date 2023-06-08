@@ -59,18 +59,17 @@ const UserCalendar = ({ handleDatePopup }) => {
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
-     // 선택한 날짜에 대한 질문을 표시하도록 상태 변경
-     setHoveredDate(date); // 선택한 날짜로 hoveredDate도 업데이트
-     setShowQuestion(true);
+    setHoveredDate(date);
+    setShowQuestion(true);
   };
 
   const handleCursorMove = (day) => {
     const index = calendarDays.findIndex((date) => date === day);
     if (index !== -1) {
-      const newIndex = index - 3; // 선택 가능한 범위 조정
-    if (newIndex >= 0 && newIndex < calendarDays.length) {
-      const newWeekStart = addDays(currentWeekStart, newIndex);
-      setCurrentWeekStart(newWeekStart);
+      const newIndex = index - 3;
+      if (newIndex >= 0 && newIndex < calendarDays.length) {
+        const newWeekStart = addDays(currentWeekStart, newIndex);
+        setCurrentWeekStart(newWeekStart);
       }
     }
   };
@@ -95,73 +94,73 @@ const UserCalendar = ({ handleDatePopup }) => {
     }
   }
 
-  // 나머지 남은 일자가 있는 경우 마지막 주에 추가
   if (week.length > 0) {
     weeks.push(week);
   }
 
-  
   return (
-    // ...
     <div className="flex flex-col h-full">
-      <div className="flex flex-col items-center">
-      <span className="text-2xl font-bold mb-2">
-            {format(currentWeekStart, "yyyy년")} {format(currentWeekStart, "MMM")}
-          </span>
-  
-        <div className="flex justify-center">
-          {/* 주간 캘린더 */}
-          {weeks.map((week) => (
-            <div className="flex" key={week[0]}>
-              {week.map((day) => (
-                <div
-                  key={day}
-                  className={`flex flex-col items-center justify-center w-20 h-20 border ${
-                    selectedDate === day
-                      ? "bg-blue-200"
-                      : hoveredDate === day
-                      ? "bg-blue-100"
-                      : "border-gray-300"
-                  }`}
-                  onClick={() => handleDateClick(day)}
-                  onMouseEnter={() => handleCursorMove(day)}
-                  onMouseOver={() => handleDateHover(day)}
-                  onMouseLeave={() => handleDateHover(null)}
-                >
-                  <span className="text-sm font-medium">{format(day, "EEE")}</span>
-                  <span className="text-lg font-bold">{format(day, "d")}</span>
-                </div>
-              ))}
-            </div>
-          ))}
+      <div className="flex justify-between mb-4">
+        <button
+          className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg"
+          onClick={goToPreviousWeek}
+        >
+          {"<"}
+        </button>
+        <div className="flex-1 justify-center">
+          <div className="grid grid-cols-7 gap-1">
+            {weeks.map((week, index) => (
+              <div key={index} className="flex">
+                {week.map((day) => (
+                  <div
+                    key={day.toISOString().split("T")[0]}
+                    className={`flex group hover:bg-purple-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-16 ${
+                      day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0] ? "bg-purple-300 shadow-lg light-shadow" : ""
+                    }`}
+                    onClick={() => handleDateClick(day)}
+                    onMouseEnter={() => handleDateHover(day)}
+                  >
+                    <span className="flex h-3 w-3 absolute -top-1 -right-1">
+                      <span className="animate-ping absolute group-hover:opacity-75 opacity-0 inline-flex h-full w-full rounded-full bg-purple-400"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+                    </span>
+                    <div className="flex items-center px-4 py-4">
+                      <div className="text-center">
+                        <p
+                          className={`text-gray-900 group-hover:text-purple-900 text-sm transition-all duration-300 ${
+                            day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0] ? "" : "text-gray-900"
+                          }`}
+                        >
+                          {format(day, "E")}
+                        </p>
+                        <p
+                          className={`text-gray-900 group-hover:text-purple-900 mt-3 group-hover:font-bold transition-all duration-300 ${
+                            day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0] ? "" : "text-gray-900"
+                          }`}
+                        >
+                          {format(day, "d")}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-  
-      
-      <div className="flex justify-between"> 
-      {/* 이전 주로 이동하는 버튼 */} 
-      <button
-      className="text-2xl font-bold bg-blue-300 text-white rounded h-1/2"
-      onClick={goToPreviousWeek}
-  > &lt;
-  </button>
-     {/* 다음 주로 이동하는 버튼 */}
-     <button
-          className="text-2xl font-bold bg-blue-300 text-white rounded h-1/2"
+        <button
+          className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg"
           onClick={goToNextWeek}
         >
-          &gt;
-    </button>
-    </div>
-     {selectedDate && selectedDate.toISOString().split("T")[0] === hoveredDate?.toISOString().split("T")[0] && (
+          {">"}
+        </button>
+      </div>
+      {selectedDate && selectedDate.toISOString().split("T")[0] === hoveredDate?.toISOString().split("T")[0] && (
         <div className="question-container">
-          <Question 
-          isAnsweredToday={true}
-          currentDate={selectedDate}
-          setCurrentDate={setSelectedDate}
-      />
-      <p className="question">{userAnswer}</p>
-        </div>)}
+          <Question isAnsweredToday={true} currentDate={selectedDate} setCurrentDate={setSelectedDate} />
+          <p className="question">{userAnswer}</p>
+        </div>
+      )}
     </div>
   );
 };

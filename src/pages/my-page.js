@@ -66,7 +66,6 @@ const Mypage = () => {
           <UserProfile user={user} />
         </div>
         <div className="basis-4/5 flex flex-col">
-          <div>버튼</div>
           <div className="flex flex-row">
             <ViewTagButton value="calendar"/>
             <ViewTagButton value="likedAnswers"/>
@@ -74,7 +73,7 @@ const Mypage = () => {
           </div>
           <div className="bg-neutral-100 h-full">
             {viewTag === 'calendar' ? (
-              <UserCalendar handleDatePopup={handleDatePopup}/>
+              <UserCalendar handleDatePopup={handleDatePopup} bgColor={bgColor}/>
             ) : viewTag === 'likedAnswers' ? (
               <LikedAnswers/>
             ) : viewTag === 'followingUsers' ? (
