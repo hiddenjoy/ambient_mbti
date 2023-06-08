@@ -12,10 +12,6 @@ const UserProfile = ({ user }) => {
         <a href="#" className="text-blue-500 hover:text-blue-700 mx-2">팔로잉</a>
         <a href="#" className="text-blue-500 hover:text-blue-700 mx-2">팔로우</a>
       </div>
-      <div className="mt-5">
-        <h3 className="text-center font-semibold mt-1">가장 나다운 순간은</h3>
-        <p className="text-center text-gray-600 mt-2">"바로 지금"</p>
-      </div>
     </div>
   );
 };
