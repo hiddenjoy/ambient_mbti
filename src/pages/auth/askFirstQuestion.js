@@ -34,7 +34,7 @@ export default function AskFirstQuestion() {
         />
         <button
           className="w-full p-1 bg-blue-500 text-white border border-blue-500 rounded hover:bg-white hover:text-blue-500"
-          onClick={() => {saveAnswer(); router.push('signInSuccess'); }}
+          onClick={() => {saveAnswer(); router.push('login'); }}
         >
           Finish
         </button>

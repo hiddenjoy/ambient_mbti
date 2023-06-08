@@ -1,6 +1,7 @@
 // data/mbtiColors.js
 
 const mbtiColors = {
+
     INTP: "#CEEA81",
     ENTP: "#FFBDAB",
     INTJ: "#5BB2A1",
@@ -19,3 +20,5 @@ const mbtiColors = {
     ESFJ: "#FFC5D6"
   };
   export default mbtiColors;
+
+

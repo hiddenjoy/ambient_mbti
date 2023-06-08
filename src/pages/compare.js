@@ -24,6 +24,11 @@ export default function Compare() {
   const questionCollection = collection(db, "questions");
   const [question, setQuestion] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
+  const formattedDate = new Date(
+    currentDate.getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .split("T")[0];
 
   useEffect(() => {
     async function fetchUser() {
@@ -44,8 +49,6 @@ export default function Compare() {
   }, [session]);
 
   const getQuestion = async () => {
-    const formattedDate = currentDate.toISOString().split("T")[0];
-
     const q = query(questionCollection, where("date", "==", formattedDate));
     const results = await getDocs(q);
 
@@ -76,32 +79,35 @@ export default function Compare() {
 
   return (
     <>
-      <Layout>
+      <Layout whichPage={"compare"}>
         {isLoggedIn ? (
           <>
             <div className="flex flex-col">
-              <div className="flex flex-row w-full p-5 mb-5 border items-center justify-center">
-                {currentDate.toISOString().split("T")[0] == "2023-06-01" ? (
-                  <div className="m-0 p-0 mr-6"></div>
-                ) : (
-                  <button className="m-0 p-0 mr-2" onClick={goPrevious}>
-                    ◀
-                  </button>
-                )}
-
-                <div className="text-xs text-gray-600 text-center whitespace-normal">
-                  {question.date}
-                </div>
-                {currentDate.toISOString().split("T")[0] ==
-                new Date().toISOString().split("T")[0] ? (
-                  <div className="m-0 p-0 ml-6"> </div>
-                ) : (
-                  <>
-                    <button className="m-0 p-0 ml-2" onClick={goNext}>
-                      ▶
+              <div className="flex flex-col items-center border p-5 mb-5">
+                <div className="flex flex-row w-full  items-center justify-center">
+                  {currentDate.toISOString().split("T")[0] == "2023-06-01" ? (
+                    <div className="m-0 p-0 mr-6"></div>
+                  ) : (
+                    <button className="m-0 p-0 mr-2" onClick={goPrevious}>
+                      ◀
                     </button>
-                  </>
-                )}
+                  )}
+
+                  <div className="text-xs text-gray-600 text-center whitespace-normal">
+                    {question.date}
+                  </div>
+                  {currentDate.toISOString().split("T")[0] ==
+                  new Date().toISOString().split("T")[0] ? (
+                    <div className="m-0 p-0 ml-6"> </div>
+                  ) : (
+                    <>
+                      <button className="m-0 p-0 ml-2" onClick={goNext}>
+                        ▶
+                      </button>
+                    </>
+                  )}
+                </div>
+                <div className="text-xl">" {question.content} "</div>
               </div>
 
               <div className="flex flex-row">
@@ -115,10 +121,7 @@ export default function Compare() {
                   </div>
 
                   <div className="w-full">
-                    <AnswerList
-                      mbti={firstMbti}
-                      date={currentDate.toISOString().split("T")[0]}
-                    />
+                    <AnswerList mbti={firstMbti} date={formattedDate} />
                   </div>
                 </div>
                 <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-3">
@@ -130,10 +133,7 @@ export default function Compare() {
                     />
                   </div>
                   <div className="w-full">
-                    <AnswerList
-                      mbti={secondMbti}
-                      date={currentDate.toISOString().split("T")[0]}
-                    />
+                    <AnswerList mbti={secondMbti} date={formattedDate} />
                   </div>
                 </div>
               </div>
