@@ -46,11 +46,20 @@ const SmallAnswerList = ({ answer }) => {
       setLikedUserNum(updatedLikeUsers.length);
     }
   };
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    } else {
+      return text;
+    }
+  };
+
+  const truncatedContent = truncateText(answer.content, 50); // 글자 제한을 50으로 설정
 
   return (
     <div className="flex flex-col justify-between my-2 bg-primary text-tertiary p-3 w-full rounded">
-      <div className=" border text-xl text-center mb-3">
-        " {answer.content} "
+      <div className=" border text-lg text-center mb-3">
+        " {truncatedContent} "
       </div>
       <div className="flex flex-row justify-end items-end">
         <div className="text-end text-xs italic">

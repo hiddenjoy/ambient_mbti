@@ -24,13 +24,17 @@ const HorizonAnswerList = ({ range }) => {
   const [answers, setAnswers] = useState([]);
 
   const getAnswer = async () => {
-    const q = query(answerCollection, orderBy("likeUsers", "desc"), limit(30));
+    const q = query(answerCollection);
     const results = await getDocs(q);
 
     const newAnswers = [];
     results.docs.forEach((doc) => {
       newAnswers.push({ id: doc.id, ...doc.data() });
+
+      newAnswers.sort((a, b) => b.likeUsers.length - a.likeUsers.length);
     });
+
+    console.log(newAnswers);
 
     const startIndex = (range - 1) * 10;
     const endIndex = 10 + (range - 1) * 10;

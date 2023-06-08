@@ -65,10 +65,10 @@ body {
     animation: slide-up 30s infinite linear;
   }
   .animate-slide-left {
-    animation: slide-left 30s infinite linear;
+    animation: slide-left 45s infinite linear;
   }
   .animate-slide-right {
-    animation: slide-right 30s infinite linear;
+    animation: slide-right 45s infinite linear;
   }
 }
 
