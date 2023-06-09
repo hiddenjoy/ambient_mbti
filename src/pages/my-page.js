@@ -13,7 +13,7 @@ import mbtiColors from "@/data/mbtiColors.js";
 const Mypage = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
-  const [ userId, setUserId ] = useState();
+  const [userId, setUserId] = useState();
   const [questionAnswers, setQuestionAnswers] = useState([]);
   const [popupDate, setPopupDate] = useState(null);
   const [viewTag, setViewTag] = useState("calendar");
@@ -29,7 +29,7 @@ const Mypage = () => {
           setUserId(userRef.id);
           setUser(userDoc.data());
           setQuestionAnswers(userDoc.data().questionAnswers);
-        
+
           const userMbti = userDoc.data().mbti; // 세션 유저의 mbti 가져오기
           const mbtiColor = mbtiColors[userMbti]; // mbtiColors에서 해당 mbti의 색상 가져오기
 
@@ -47,38 +47,50 @@ const Mypage = () => {
     setPopupDate(date);
   };
 
-  const ViewTagButton = ({value}) => {
-    return(
+  const ViewTagButton = ({ value }) => {
+    return (
       <div className="flex flex-row">
-        <button onClick={() => {setViewTag(value)}} className="mr-3 my-3 px-2 bg-lime-100 rounded ">{value}</button>
+        <button
+          onClick={() => {
+            setViewTag(value);
+          }}
+          className="mr-3 my-3 px-2 bg-lime-100 rounded "
+        >
+          {value}
+        </button>
       </div>
     );
-  }
-
+  };
 
   return (
     <Layout>
-      <div 
-      className="flex flex-row h-full"
-      style={{ backgroundColor: bgColor }}>
+      <div
+        className="flex flex-row h-full"
+        style={{ backgroundColor: bgColor }}
+      >
         <div className="h-full basis-1/5 p-3 flex flex-col items-start sticky top-0">
-          <h1 className="text-4xl font-bold text-primary p-3">
-            Mypage
-          </h1>
-          <UserProfile profiledUserId={userId} />
+          <h1 className="text-4xl font-bold text-primary p-3">Mypage</h1>
+          {session && userId ? (
+            <UserProfile profiledUserId={userId} />
+          ) : (
+            <div>로그인이 필요합니다.</div>
+          )}
         </div>
         <div className="basis-4/5 flex flex-col">
           <div className="flex flex-row">
-            <ViewTagButton value="calendar"/>
-            <ViewTagButton value="likedAnswers"/>
-            <ViewTagButton value="followingUsers"/>
+            <ViewTagButton value="calendar" />
+            <ViewTagButton value="likedAnswers" />
+            <ViewTagButton value="followingUsers" />
           </div>
           <div className="bg-neutral-100 h-full">
-            {viewTag === 'calendar' ? (
-              <UserCalendar handleDatePopup={handleDatePopup} bgColor={bgColor}/>
-            ) : viewTag === 'likedAnswers' ? (
-              <LikedAnswers/>
-            ) : viewTag === 'followingUsers' ? (
+            {viewTag === "calendar" ? (
+              <UserCalendar
+                handleDatePopup={handleDatePopup}
+                bgColor={bgColor}
+              />
+            ) : viewTag === "likedAnswers" ? (
+              <LikedAnswers />
+            ) : viewTag === "followingUsers" ? (
               <FollowingUsers />
             ) : (
               <div>Invalid viewTag</div>
