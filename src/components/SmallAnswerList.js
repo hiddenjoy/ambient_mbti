@@ -71,25 +71,29 @@ const SmallAnswerList = ({ answer }) => {
   }, []);
 
   return (
-    <div
-      className="flex flex-col justify-between my-2 text-neutral-800 p-3 w-full rounded"
-      style={{ backgroundColor: bgColor }} // 배경색을 동적으로 설정
-    >
-      <div className=" border text-lg text-center mb-3">
-        " {truncatedContent} "
-      </div>
-      <div className="flex flex-row justify-end items-end">
-        <div className="text-end text-xs italic">
-          by. {answer.user.mbti} {answer.user.id}
-        </div>
-        <button
-          onClick={() => likeAnswer(answer.id)}
-          className="ml-3 my-0 px-2 py-0 text-black"
+    <>
+      <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`}>
+        <div
+          className="flex flex-col justify-between my-2 text-neutral-800 p-3 w-full rounded"
+          style={{ backgroundColor: bgColor }} // 배경색을 동적으로 설정
         >
-          {liked ? "❤️" : "🤍"} {likedUserNum}
-        </button>
-      </div>
-    </div>
+          <div className=" border text-lg text-center mb-3">
+            " {truncatedContent} "
+          </div>
+        </div>
+      </Link>
+        <div className="flex flex-row justify-end items-end">
+          <div className="text-end text-xs italic">
+            by. {answer.user.mbti} {answer.user.id}
+          </div>
+          <button
+            onClick={() => likeAnswer(answer.id)}
+            className="ml-3 my-0 px-2 py-0 text-black"
+          >
+            {liked ? "❤️" : "🤍"} {likedUserNum}
+          </button>
+        </div>
+    </>
   );
 };
 

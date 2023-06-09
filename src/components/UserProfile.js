@@ -19,54 +19,24 @@ const userCollection = collection(db, "users");
 
 const UserProfile = ({ profiledUserId, profiledUserName, profiledUserMbti }) => {  
   const { data } = useSession();
-  // const [ following, setFollowing ] = useState();
+  const [ followerNum, setFollowerNum ] = useState();
 
-  const [followingUser, setFollowingUser] = useState();
+  const [ profiledUser, setProfiledUser ] = useState();
 
-  const findFollowingUser = async () => {
-      const q = query(
-        userCollection,
-        where("user.id", "==", profiledUserId),
-      );
+  const findProfiledUser = async () => {
+    const userRef = doc(userCollection, profiledUserId);
+    const querySnapshot = await getDoc(userRef);
+    const users = querySnapshot.data();
 
-    const querySnapshot = await getDocs(q);
-    const users = querySnapshot.docs.map((doc) => doc.data());
-
-    setFollowingUser(users);
-    console.log(users);
+    setProfiledUser(users);
   };
 
   useEffect(() => {
-    findFollowingUser();
-    // console.log(profiledUserId);
-  }, [data.user.followingId, data.user.followerId]);
+    findProfiledUser();
+  }, [profiledUserId]);
 
-  const handleFollowing = () => {
-    updateFollowing();
-    updateFollower();
-  }
-  
-  const updateFollowing = async () => {
-    const userRef = doc(userCollection, data.user.id);
-    if(data.user.followingId){
-      const updatedFollowing = [...data.user.followingId, followingUser.id]
-      await updateDoc(userRef, { followingId: updatedFollowing });
-    } else {
-      await setDoc(userRef, {followingId: [followingUser.id] }, {merge: true})
-    }
-  };
 
-  const updateFollower = async () => {
-    const userRef = doc(userCollection, followingUser.id);
-    if(data.user.followingId){
-      const updatedFollower = [...followingUser.followerId, data.user.id]
-      await updateDoc(userRef, { followerId: updatedFollower });
-    } else {
-      await setDoc(userRef, { followerId: [data.user.id] }, {merge: true})
-    }
-  };
-
-  if (!profiledUserId) {
+  if (!profiledUser) {
     return null;
   }
 
