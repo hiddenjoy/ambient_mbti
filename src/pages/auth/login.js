@@ -78,8 +78,8 @@ export default function LogIn() {
 
         if (userDoc.exists()) {
           setUser(userDoc.data());
-          if (!userDoc.data().name) {
-            router.push("/auth/askName");
+          if (!userDoc.data().name || !userDoc.data().mbti || !userDoc.data().interestedMbti) {
+            //router.push("/auth/askName");
           } else {
             router.push("/");  // If login is successful, redirect to the homepage
           }
@@ -152,9 +152,21 @@ export default function LogIn() {
     );
   } else {
     if (user) {
-      return (
-        <div className="flex justify-center h-screen">
-          {user ? (
+      if (!user.name || !user.mbti || !user.interestedMbti) {
+        return (
+          <div className="flex flex-col items-center justify-center h-screen">
+            <h2 className="text-2xl font-bold mb-6">성공적인 시작을 위해 3가지 질문에 답변해주세요!</h2>
+            <button
+              className="p-2 bg-blue-500 text-white rounded"
+              onClick={() => router.push("/auth/askName")}
+            >
+              답변하러 가기
+            </button>
+          </div>
+        );
+      } else {
+        return (
+          <div className="flex justify-center h-screen">
             <div className="grid m-auto text-center">
               <div className="m-4">{user.mbti + " " + user.name}님 환영합니다.</div>
 
@@ -194,24 +206,9 @@ export default function LogIn() {
                 Sign out
               </button>
             </div>
-          ) : (
-            <div className="grid m-auto text-center">
-              <div className="m-4">Not signed in</div>
-              <button
-                className={`w-40
-                            justify-self-center
-                            p-1 mb-4
-                          bg-blue-500 text-white
-                            border border-blue-500 rounded
-                          hover:bg-white hover:text-blue-500`}
-                onClick={() => signIn()}
-              >
-                Sign in
-              </button>
-            </div>
-          )}
-        </div>
-      );
+          </div>
+        );
+      }
     } else {
       return <div>Loading...</div>;
     }
