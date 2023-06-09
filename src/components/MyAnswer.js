@@ -26,7 +26,7 @@ const MyAnswers = () => {
   const getAnswers = async () => {
     const q = query(
       answerCollection,
-      where("user.email", "==", data?.user?.email)
+      where("user.id", "==", data?.user?.id)
     );
 
     const results = await getDocs(q);
