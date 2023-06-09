@@ -92,7 +92,6 @@ const Mypage = () => {
             ) : viewTag === "likedAnswers" ? (
               <LikedAnswers />
             ) : viewTag === "followingUsers" ? (
-
               <FollowingUsers />
             ) : (
               <div>Invalid viewTag</div>

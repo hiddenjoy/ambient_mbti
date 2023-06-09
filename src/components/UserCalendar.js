@@ -140,11 +140,12 @@ const UserCalendar = ({ handleDatePopup }) => {
                 )}
               </div>
               <div className="h-full">
-                <AnswerList
+                {/* <AnswerList
                   userId={session?.user.id}
                   selectedDate={selectedDate}
                   handleDatePopup={handleDatePopup}
-                />
+                  mbti={session?.user.mbti}
+                /> */}
               </div>
             </div>
           </div>
