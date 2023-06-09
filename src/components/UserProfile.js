@@ -20,6 +20,7 @@ const userCollection = collection(db, "users");
 const UserProfile = ({ profiledUserId, profiledUserName, profiledUserMbti }) => {  
   const { data } = useSession();
   const [ followerNum, setFollowerNum ] = useState();
+  const [ followingNum, setFollowingNum ] = useState();
 
   const [ profiledUser, setProfiledUser ] = useState();
 
@@ -29,6 +30,8 @@ const UserProfile = ({ profiledUserId, profiledUserName, profiledUserMbti }) => 
     const users = querySnapshot.data();
 
     setProfiledUser(users);
+    setFollowerNum(users.followerNum ? users.followerNum.length : 0);
+    setFollowingNum(users.followingNum ? users.followingNum.length : 0);
   };
 
   useEffect(() => {
@@ -41,13 +44,13 @@ const UserProfile = ({ profiledUserId, profiledUserName, profiledUserMbti }) => 
   }
 
   return (
-    <div className="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
+    <div className="max-w-lg mx-auto mt-10 bg-white rounded-lg shadow-md p-5">
       <img className="w-32 h-32 rounded-full mx-auto" src={profiledUser.photoURL} alt="profile" />
       <h2 className="text-center text-2xl font-semibold mt-3">{profiledUser.name}</h2>
       <p className="text-center text-gray-600 mt-1">{profiledUser.mbti}</p>
+      <div>팔로워 : {followerNum}</div>
+      <div>팔로잉 : {followingNum}</div>
       <div className="flex justify-center mt-5">
-        <a href="#" className="text-blue-500 hover:text-blue-700 mx-2">팔로잉</a>
-        <a href="#" className="text-blue-500 hover:text-blue-700 mx-2">팔로우</a>
       </div>
     </div>
   );
