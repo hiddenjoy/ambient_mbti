@@ -13,6 +13,7 @@ import mbtiColors from "@/data/mbtiColors.js";
 const Mypage = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
+  const [ userId, setUserId ] = useState();
   const [questionAnswers, setQuestionAnswers] = useState([]);
   const [popupDate, setPopupDate] = useState(null);
   const [viewTag, setViewTag] = useState("calendar");
@@ -25,6 +26,7 @@ const Mypage = () => {
         const userDoc = await getDoc(userRef);
 
         if (userDoc.exists()) {
+          setUserId(userRef.id);
           setUser(userDoc.data());
           setQuestionAnswers(userDoc.data().questionAnswers);
         
@@ -63,7 +65,7 @@ const Mypage = () => {
           <h1 className="text-4xl font-bold text-primary p-3">
             Mypage
           </h1>
-          <UserProfile user={user} />
+          <UserProfile profiledUserId={userId} />
         </div>
         <div className="basis-4/5 flex flex-col">
           <div className="flex flex-row">
