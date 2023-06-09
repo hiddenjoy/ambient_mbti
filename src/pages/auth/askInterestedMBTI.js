@@ -31,7 +31,7 @@ export default function askInterestedMBTI() {
     if (session) {
       await updateUserMbti(session.user.id, finalMbti);
     }
-    router.push("askFirstQuestion");
+    router.push("/");
   };
 
   const updateUserMbti = async (userId, interestedMbti) => {
