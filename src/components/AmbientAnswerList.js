@@ -107,22 +107,22 @@ const AmbientAnswerList = ({ answer }) => {
         )}
       </div>
 
-      <div className="flex flex-col justify-end items-end my-0">
-        <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`}>
-          <div className="border text-base text-end mb-3 bg-white">
-            " {truncatedContent} "
-          </div>
-        </Link>
-        <div className="text-end text-xs italic">
-          by. {answer.user.mbti} {answer.user.id}
+        <div className="flex flex-col justify-end items-end my-0">
+          <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`}>
+            <div className="border text-base text-end mb-3 bg-white">
+              " {truncatedContent} "
+            </div>
+            <div className="text-end text-xs italic">
+              by. {answer.user.mbti} {answer.user.id}
+            </div>  
+          </Link>
+          <button
+            onClick={() => likeAnswer(answer.id)}
+            className="ml-3 my-0 px-2 py-0 text-black text-xs"
+          >
+            {liked ? "❤️" : "🤍"} {likedUserNum}
+          </button>
         </div>
-        <button
-          onClick={() => likeAnswer(answer.id)}
-          className="ml-3 my-0 px-2 py-0 text-black text-xs"
-        >
-          {liked ? "❤️" : "🤍"} {likedUserNum}
-        </button>
-      </div>
     </div>
   );
 };
