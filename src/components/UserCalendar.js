@@ -1,170 +1,159 @@
-import { format, addDays, startOfWeek, endOfWeek, subWeeks, addWeeks } from "date-fns";
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/firebase/index.js";
-import AnswerList from "@/components/AnswerList.js";
-import Question from "@/components/Question";
-import mbtiColors from "@/data/mbtiColors";
-import MyAnswer from "@/components/MyAnswer";
+import React, { useState, useEffect } from 'react';
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay, addDays, parseISO } from 'date-fns';
+import { useSession } from 'next-auth/react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '@/firebase/index.js';
+import AnswerList from '@/components/AnswerList.js';
+import Question from '@/components/Question';
+import mbtiColors from '@/data/mbtiColors';
+import MyAnswer from '@/components/MyAnswer';
 
 const UserCalendar = ({ handleDatePopup }) => {
   const { data: session } = useSession();
-  const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date()));
+  const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
-  const [userAnswer, setUserAnswer] = useState("");
+  const [userAnswer, setUserAnswer] = useState('');
   const [showQuestion, setShowQuestion] = useState(false);
+  const [userAnswerDates, setUserAnswerDates] = useState([]);
 
-  const questionCollection = collection(db, "questions");
+  const questionCollection = collection(db, 'questions');
 
-  useEffect(() => {
-    async function fetchUserAnswer() {
-      if (session && selectedDate) {
-        const userId = session.user.id;
-        const questionDate = selectedDate.toISOString().split("T")[0];
+  const prevMonth = () => {
+    setCurrentMonth(subMonths(currentMonth, 1));
+  };
 
-        const q = query(questionCollection, where("date", "==", questionDate));
-        const questionSnapshot = await getDocs(q);
+  const nextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 1));
+  };
 
-        if (questionSnapshot.size > 0) {
-          setUserAnswer(questionSnapshot.docs[0].data().content);
-        } else {
-          setUserAnswer("질문이 없습니다.");
-        }
+  const onDateClick = async (day) => {
+    setSelectedDate(day);
+    setHoveredDate(day);
+    setShowQuestion(true);
+
+    if (session) {
+      const userId = session.user.id;
+      const questionDate = format(day, 'yyyy-MM-dd');
+
+      const q = query(questionCollection, where('date', '==', questionDate), where('userId', '==', userId));
+      const questionSnapshot = await getDocs(q);
+
+      if (questionSnapshot.size > 0) {
+        setUserAnswer(questionSnapshot.docs[0].data().content);
+      } else {
+        setUserAnswer('질문이 없습니다.');
       }
     }
-
-    fetchUserAnswer();
-  }, [session, selectedDate]);
-
-  const goToPreviousWeek = () => {
-    setCurrentWeekStart(subWeeks(currentWeekStart, 1));
   };
 
-  const goToNextWeek = () => {
-    setCurrentWeekStart(addWeeks(currentWeekStart, 1));
-  };
+  useEffect(() => {
+    if (session) {
+      // 유저가 질문에 답변한 날짜 가져오기
+      const userId = session.user.id;
 
-  const startDate = currentWeekStart;
-  const endDate = endOfWeek(currentWeekStart);
-  const calendarDays = [];
+      const fetchUserAnswerDates = async () => {
+        const q = query(collection(db, 'answers'), where('userId', '==', userId));
+        const answerSnapshot = await getDocs(q);
+        const dates = answerSnapshot.docs.map((doc) => parseISO(doc.data().date));
+        setUserAnswerDates(dates);
+      };
+
+      fetchUserAnswerDates();
+    }
+  }, [session]);
+
+  const startDate = startOfWeek(startOfMonth(currentMonth));
+  const endDate = endOfWeek(endOfMonth(currentMonth));
+  const calendarCells = [];
   let currentDate = startDate;
 
   while (currentDate <= endDate) {
-    calendarDays.push(currentDate);
+    calendarCells.push(currentDate);
     currentDate = addDays(currentDate, 1);
-  }
-
-  const handleDateClick = (date) => {
-    setSelectedDate(date);
-    setHoveredDate(date);
-    setShowQuestion(true);
-  };
-
-  const handleCursorMove = (day) => {
-    const index = calendarDays.findIndex((date) => date === day);
-    if (index !== -1) {
-      const newIndex = index - 3;
-      if (newIndex >= 0 && newIndex < calendarDays.length) {
-        const newWeekStart = addDays(currentWeekStart, newIndex);
-        setCurrentWeekStart(newWeekStart);
-      }
-    }
-  };
-
-  const handleDateHover = (date) => {
-    if (selectedDate && date && date.toISOString().split("T")[0] === selectedDate.toISOString().split("T")[0]) {
-      setHoveredDate(date);
-    } else {
-      setHoveredDate(null);
-    }
-  };
-
-  const weeks = [];
-  let week = [];
-
-  while (calendarDays.length > 0) {
-    week.push(calendarDays.shift());
-
-    if (week.length === 7) {
-      weeks.push(week);
-      week = [];
-    }
-  }
-
-  if (week.length > 0) {
-    weeks.push(week);
   }
 
   return (
     <div className="flex h-full">
-      <div
-
- className="flex-1">
+      <div className="flex-1">
         <div className="flex justify-between mb-4">
-          <button
-            className="bg-lime-500 hover:bg-lime-600 text-white px-2 py-1 rounded-lg"
-            onClick={goToPreviousWeek}
-          >
-            {"<"}
-          </button>
-          <div className="flex-1 justify-center">
-            <div className="grid grid-cols-7 gap-1">
-              {weeks.map((week, index) => (
-                <div key={index} className="flex">
-                  {week.map((day) => (
-                    <div
-                      key={day.toISOString().split("T")[0]}
-                      className={`flex group hover:bg-lime-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-10 h-10 ${
-                        day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0]
-                          ? "bg-lime-300 shadow-lg light-shadow"
-                          : ""
-                      }`}
-                      onClick={() => handleDateClick(day)}
-                      onMouseEnter={() => handleDateHover(day)}
-                    >
-                      <span className="flex h-2 w-2 absolute -top-1 -right-1">
-                        <span className="animate-ping absolute group-hover:opacity-75 opacity-0 inline-flex h-full w-full rounded-full bg-lime-400"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-lime-500"></span>
-                      </span>
-                      <div className="flex items-center px-2 py-2">
-                        <div className="text-center">
-                          <p
-                            className={`text-gray-900 group-hover:text-purple-900 text-sm transition-all duration-300 ${
-                              day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0] ? "" : "text-gray-900"
-                            }`}
-                          >
-                            {format(day, "E")}
-                          </p>
-                          <p
-                            className={`text-gray-900 group-hover:text-purple-900 mt-1 group-hover:font-bold transition-all duration-300 ${
-                              day.toISOString().split("T")[0] === selectedDate?.toISOString().split("T")[0] ? "" : "text-gray-900"
-                            }`}
-                          >
-                            {format(day, "d")}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
+          <div>
+            <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={prevMonth}>
+              {'<'}
+            </button>
+          </div>
+          <div className="text-center">
+            <h2 className="text-lg font-semibold mb-2">
+              {format(currentMonth, 'yyyy년 MM월')}
+            </h2>
+          </div>
+          <div>
+            <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={nextMonth}>
+              {'>'}
+            </button>
+          </div>
+        </div>
+        <div className="h-full">
+          <div className="flex">
+            <div className="w-1/2">
+              <div className="grid grid-cols-7 gap-1">
+                {calendarCells.map((day) => (
+                  <div
+                    key={day.toISOString().split('T')[0]}
+                    className={`flex group hover:bg-lime-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-10 h-10 ${
+                      isSameMonth(day, currentMonth)
+                        ? ''
+                        : 'text-gray-400 pointer-events-none'
+                    } ${
+                      isSameDay(day, selectedDate)
+                        ? 'bg-lime-300 shadow-lg light-shadow'
+                        : ''
+                    } ${
+                      userAnswerDates.includes(+day)
+                        ? `bg-${mbtiColors[session.user.mbti]}`
+                        : ''
+                    }`}
+                    onClick={() => onDateClick(day)}
+                    onMouseEnter={() => setHoveredDate(day)}
+                  >
+                    <span className="flex h-2 w-2 absolute -top-1 -right-1">
+                      <span className="animate-ping absolute group-hover:animate-none h-2 w-2 rounded-full bg-lime-500 opacity-75" />
+                      <span className={`relative inline-flex rounded-full h-2 w-2 bg-lime-500 ${isSameDay(day, hoveredDate) ? 'opacity-100' : 'opacity-0'}`} />
+                    </span>
+                    <span className="flex items-center">{format(day, 'd')}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="w-1/2">
+              <div className="mb-2">
+                {showQuestion ? (
+                  <Question
+                    questionDate={selectedDate}
+                    userAnswer={userAnswer}
+                    setShowQuestion={setShowQuestion}
+                  />
+                ) : (
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 text-gray-500 text-center">
+                    <p>질문을 보려면 날짜를 선택하세요.</p>
+                  </div>
+                )}
+              </div>
+              <div className="h-full">
+                <AnswerList
+                  userId={session?.user.id}
+                  selectedDate={selectedDate}
+                  handleDatePopup={handleDatePopup}
+                />
+              </div>
             </div>
           </div>
-          <button
-            className="bg-lime-500 hover:bg-lime-600 text-white px-2 py-1 rounded-lg"
-            onClick={goToNextWeek}
-          >
-            {">"}
-          </button>
         </div>
       </div>
-      <div className="flex-1">
-        {selectedDate && selectedDate.toISOString().split("T")[0] === hoveredDate?.toISOString().split("T")[0] && (
-          <div className="question-container">
-            <MyAnswer isAnsweredToday={true} currentDate={selectedDate} setCurrentDate={setSelectedDate} />
-            <p className="question">{userAnswer}</p>
+      <div className="flex-shrink-0 w-72 ml-4">
+        {session && (
+          <div className="mb-4">
+            <MyAnswer userId={session.user.id} />
           </div>
         )}
       </div>
