@@ -17,11 +17,11 @@ import {
 
 const userCollection = collection(db, "users");
 
-const UserProfile = ({ profiledUserId, followerNum, followingNum }) => {  
+const UserProfile = ({ profiledUserId }) => {  
   // const { data } = useSession();
 
-  // const [ followerNum, setFollowerNum ] = useState();
-  // const [ followingNum, setFollowingNum ] = useState();
+  const [ followerNum, setFollowerNum ] = useState();
+  const [ followingNum, setFollowingNum ] = useState();
 
   const [profiledUser, setProfiledUser] = useState();
 
@@ -38,7 +38,6 @@ const UserProfile = ({ profiledUserId, followerNum, followingNum }) => {
       }
     }
 
-
     // const collectionRef = collection(db, 'users');
     // const querySnapshot = await getDocs(collectionRef);
     // querySnapshot.forEach((doc) => {
@@ -46,8 +45,7 @@ const UserProfile = ({ profiledUserId, followerNum, followingNum }) => {
     //     console.log(userData);
     // });
 
-    // setFollowerNum(userRef.followerNum ? userRef.followerNum.length : 0);
-    // setFollowingNum(userRef.followingNum ? userRef.followingNum.length : 0);
+   
   };
 
   useEffect(() => {

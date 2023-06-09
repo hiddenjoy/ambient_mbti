@@ -131,7 +131,7 @@ const AnotherUserId = () => {
               's page
             </h1>
             <div className="relative">
-              <UserProfile profiledUserId={id} followerNum={followerNum} followingNum={followingNum} />
+              <UserProfile profiledUserId={id} />
               <div className="m-0 absolute bottom-2 right-2">
                 {following ? (
                   <button onClick={handleUnFollowing} className="bg-neutral-100 m-0 p-1 rounded-xl">
