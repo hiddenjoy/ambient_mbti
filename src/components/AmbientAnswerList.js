@@ -30,7 +30,7 @@ const AmbientAnswerList = ({ answer }) => {
     const answerData = answerSnapShot.data();
     const likedAnswerData = Boolean(
       answerData.likeUsers.length > 0 &&
-        answerData.likeUsers.find((i) => i === data.user.id)
+      answerData.likeUsers.find((i) => i === data.user.id)
     );
 
     if (likedAnswerData) {

@@ -17,19 +17,35 @@ import {
 
 const userCollection = collection(db, "users");
 
-const UserProfile = ({ profiledUserId }) => {  
-  const { data } = useSession();
+const UserProfile = ({ profiledUserId, followerNum, followingNum }) => {  
+  // const { data } = useSession();
+
   // const [ followerNum, setFollowerNum ] = useState();
   // const [ followingNum, setFollowingNum ] = useState();
 
   const [profiledUser, setProfiledUser] = useState();
 
-  const findProfiledUser = async () => {
-    const userRef = doc(userCollection, profiledUserId);
-    const querySnapshot = await getDoc(userRef);
-    const users = querySnapshot.data();
 
-    setProfiledUser(users);
+  const findProfiledUser = async () => {
+    if (profiledUserId) {
+      const userRef = doc(db, "users", profiledUserId);
+      const querySnapshot = await getDoc(userRef);
+      const users = querySnapshot.data();
+
+      if (querySnapshot.exists()) {
+        setProfiledUser(users);
+        console.log(users);
+      }
+    }
+
+
+    // const collectionRef = collection(db, 'users');
+    // const querySnapshot = await getDocs(collectionRef);
+    // querySnapshot.forEach((doc) => {
+    //     const userData = doc.data();
+    //     console.log(userData);
+    // });
+
     // setFollowerNum(userRef.followerNum ? userRef.followerNum.length : 0);
     // setFollowingNum(userRef.followingNum ? userRef.followingNum.length : 0);
   };

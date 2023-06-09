@@ -27,9 +27,8 @@ const AnotherUserId = () => {
   const { id } = router.query;
 
   const { data } = useSession();
-  // const [user, setUser] = useState(null);
   const [anotherUserId, setanotherUserId] = useState();
-  const [anotherUser, setAnotherUser] = useState();
+  // const [anotherUser, setAnotherUser] = useState();
 
   const [questionAnswers, setQuestionAnswers] = useState([]);
   const [popupDate, setPopupDate] = useState(null); // 날짜
@@ -45,31 +44,31 @@ const AnotherUserId = () => {
   }, [router.isReady, id]);
 
   const getAnotherUser = async () => {
-      const userRef = doc(userCollection, id);
-      const userSnapshot = await getDoc(userRef);
-      const userData = userSnapshot.data();
+    const userRef = doc(userCollection, id);
+    const userSnapshot = await getDoc(userRef);
+    const userData = userSnapshot.data();
 
-      setAnotherUser(userData);
-      setanotherUserId(userRef.id);
-      setFollowing(Boolean(
-        userRef.followerId &&
-        userRef.followerId.find((i) => i === id)
-      ));
+    // setAnotherUser(userData);
+    setanotherUserId(id);
 
-      setFollowerNum(userRef.followerNum ? userRef.followerNum.length : 0);
-      setFollowingNum(userRef.followingNum ? userRef.followingNum.length : 0);
+    setFollowing(Boolean(
+      userRef.followerId &&
+      userRef.followerId.find((i) => i === id)
+    ));
+
+    setFollowerNum(userRef.followerId ? userRef.followerId.length : 0);
+    setFollowingNum(userRef.followingId ? userRef.followingId.length : 0);
   };
     
   useEffect(() => {
     getAnotherUser();
-  },[]);
+  },[id]);
 
   const handleDatePopup = (date) => {
     setPopupDate(date);
   };
 
   // 팔로잉 구현
-
   const handleFollowing = () => {
     updateFollow();
   };
@@ -95,7 +94,7 @@ const AnotherUserId = () => {
       await setDoc(profiledUserRef, { followerId: updatedFollwerID });
 
       setFollowing(!following);
-      setFollowerNum(profiledUserRef.followerNum ? profiledUserRef.followerNum.length : 0);
+      setFollowerNum(profiledUserRef.followerId ? profiledUserRef.followerId.length : 0);
   };
 
   const unFollow = async () => {
@@ -119,7 +118,7 @@ const AnotherUserId = () => {
     await setDoc(profiledUserRef, { followerId: updatedFollwerID});
 
     setFollowing(!following);
-    setFollowerNum(profiledUserRef.followerNum ? profiledUserRef.followerNum.length : 0);
+    setFollowerNum(profiledUserRef.followerId ? profiledUserRef.followerId.length : 0);
   };
 
 
@@ -132,7 +131,7 @@ const AnotherUserId = () => {
               's page
             </h1>
             <div className="relative">
-              <UserProfile profiledUserId={id} />
+              <UserProfile profiledUserId={id} followerNum={followerNum} followingNum={followingNum} />
               <div className="m-0 absolute bottom-2 right-2">
                 {following ? (
                   <button onClick={handleUnFollowing} className="bg-neutral-100 m-0 p-1 rounded-xl">
