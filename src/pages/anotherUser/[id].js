@@ -88,10 +88,10 @@ const AnotherUserId = () => {
     const profiledUserData = profiledUserSnapshot.data();
 
       const updatedFollowingId = [...userData.followingId || [], profiledUserRef.id];
-      await setDoc(userRef, { followingId: updatedFollowingId });
+      await updateDoc(userRef, { followingId: updatedFollowingId });
       
       const updatedFollwerID = [...profiledUserData.followerId || [], userRef.id];
-      await setDoc(profiledUserRef, { followerId: updatedFollwerID });
+      await updateDoc(profiledUserRef, { followerId: updatedFollwerID });
 
       setFollowing(!following);
       setFollowerNum(profiledUserRef.followerId ? profiledUserRef.followerId.length : 0);
@@ -110,12 +110,12 @@ const AnotherUserId = () => {
     const updatedFollowingId = userData.followingId.filter(
       (id) => id !== anotherUserId
     );
-    await setDoc(userRef, { followingId: updatedFollowingId});
+    await setDoc(userRef, { followingId: updatedFollowingId}, { merge: true });
 
     const updatedFollwerID = profiledUserData.followerId.filter(
       (id) => id !== data.user.id
     );
-    await setDoc(profiledUserRef, { followerId: updatedFollwerID});
+    await setDoc(profiledUserRef, { followerId: updatedFollwerID}, { merge: true });
 
     setFollowing(!following);
     setFollowerNum(profiledUserRef.followerId ? profiledUserRef.followerId.length : 0);
