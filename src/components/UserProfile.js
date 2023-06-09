@@ -17,12 +17,16 @@ import {
 
 const userCollection = collection(db, "users");
 
-const UserProfile = ({ profiledUserId, profiledUserName, profiledUserMbti }) => {  
+const UserProfile = ({
+  profiledUserId,
+  profiledUserName,
+  profiledUserMbti,
+}) => {
   const { data } = useSession();
-  const [ followerNum, setFollowerNum ] = useState();
-  const [ followingNum, setFollowingNum ] = useState();
+  const [followerNum, setFollowerNum] = useState();
+  const [followingNum, setFollowingNum] = useState();
 
-  const [ profiledUser, setProfiledUser ] = useState();
+  const [profiledUser, setProfiledUser] = useState();
 
   const findProfiledUser = async () => {
     const userRef = doc(userCollection, profiledUserId);
@@ -38,20 +42,24 @@ const UserProfile = ({ profiledUserId, profiledUserName, profiledUserMbti }) => 
     findProfiledUser();
   }, [profiledUserId]);
 
-
   if (!profiledUser) {
     return null;
   }
 
   return (
     <div className="max-w-lg mx-auto mt-10 bg-white rounded-lg shadow-md p-5">
-      <img className="w-32 h-32 rounded-full mx-auto" src={profiledUser.photoURL} alt="profile" />
-      <h2 className="text-center text-2xl font-semibold mt-3">{profiledUser.name}</h2>
+      <img
+        className="w-32 h-32 rounded-full mx-auto"
+        src={profiledUser.photoURL}
+        alt="profile"
+      />
+      <h2 className="text-center text-2xl font-semibold mt-3">
+        {profiledUser.name}
+      </h2>
       <p className="text-center text-gray-600 mt-1">{profiledUser.mbti}</p>
       <div>팔로워 : {followerNum}</div>
       <div>팔로잉 : {followingNum}</div>
-      <div className="flex justify-center mt-5">
-      </div>
+      <div className="flex justify-center mt-5"></div>
     </div>
   );
 };
