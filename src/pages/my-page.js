@@ -83,6 +83,7 @@ const Mypage = () => {
             <ViewTagButton value="followingUsers" />
           </div>
           <div className="bg-neutral-100 h-full">
+
             {viewTag === "calendar" ? (
               <UserCalendar
                 handleDatePopup={handleDatePopup}
@@ -91,6 +92,7 @@ const Mypage = () => {
             ) : viewTag === "likedAnswers" ? (
               <LikedAnswers />
             ) : viewTag === "followingUsers" ? (
+
               <FollowingUsers />
             ) : (
               <div>Invalid viewTag</div>
