@@ -17,10 +17,10 @@ import {
 
 const userCollection = collection(db, "users");
 
-const UserProfile = ({ profiledUserId, profiledUserName, profiledUserMbti }) => {  
+const UserProfile = ({ profiledUserId }) => {  
   const { data } = useSession();
-  const [ followerNum, setFollowerNum ] = useState();
-  const [ followingNum, setFollowingNum ] = useState();
+  // const [ followerNum, setFollowerNum ] = useState();
+  // const [ followingNum, setFollowingNum ] = useState();
 
   const [ profiledUser, setProfiledUser ] = useState();
 
@@ -30,13 +30,18 @@ const UserProfile = ({ profiledUserId, profiledUserName, profiledUserMbti }) => 
     const users = querySnapshot.data();
 
     setProfiledUser(users);
-    setFollowerNum(users.followerNum ? users.followerNum.length : 0);
-    setFollowingNum(users.followingNum ? users.followingNum.length : 0);
+    // setFollowerNum(userRef.followerNum ? userRef.followerNum.length : 0);
+    // setFollowingNum(userRef.followingNum ? userRef.followingNum.length : 0);
   };
 
   useEffect(() => {
     findProfiledUser();
   }, [profiledUserId]);
+
+  useEffect(() => {
+    // setFollowerNum(profiledUser.followerNum ? profiledUser.followerNum.length : 0);
+    // setFollowingNum(profiledUser.followingNum ? profiledUser.followingNum.length : 0);
+  }, [followerNum]);
 
 
   if (!profiledUser) {

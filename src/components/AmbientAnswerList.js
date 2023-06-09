@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { db } from "@/firebase";
@@ -107,9 +108,11 @@ const AmbientAnswerList = ({ answer }) => {
       </div>
 
       <div className="flex flex-col justify-end items-end my-0">
-        <div className="border text-base text-end mb-3 bg-white">
-          " {truncatedContent} "
-        </div>
+        <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`}>
+          <div className="border text-base text-end mb-3 bg-white">
+            " {truncatedContent} "
+          </div>
+        </Link>
         <div className="text-end text-xs italic">
           by. {answer.user.mbti} {answer.user.id}
         </div>
