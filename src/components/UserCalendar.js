@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay, addDays, parseISO } from 'date-fns';
 import { useSession } from 'next-auth/react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, doc, query, where, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '@/firebase/index.js';
 import AnswerList from '@/components/AnswerList.js';
 import Question from '@/components/Question';
@@ -18,6 +18,7 @@ const UserCalendar = ({ handleDatePopup }) => {
   const [userAnswerDates, setUserAnswerDates] = useState([]);
 
   const questionCollection = collection(db, 'questions');
+  const answerCollection = collection(db, "answers");
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
@@ -74,7 +75,7 @@ const UserCalendar = ({ handleDatePopup }) => {
   }
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full w-1/3">
       <div className="flex-1">
         <div className="flex justify-between mb-4">
           <div>
@@ -93,9 +94,9 @@ const UserCalendar = ({ handleDatePopup }) => {
             </button>
           </div>
         </div>
-        <div className="h-full">
-          <div className="flex">
-            <div className="w-1/2">
+        <div className="h-full w-full">
+          <div className="flex items-center">
+            <div className="w-full">
               <div className="grid grid-cols-7 gap-1">
                 {calendarCells.map((day) => (
                   <div
@@ -125,37 +126,8 @@ const UserCalendar = ({ handleDatePopup }) => {
                 ))}
               </div>
             </div>
-            <div className="w-1/2">
-              <div className="mb-2">
-                {showQuestion ? (
-                  <Question
-                    questionDate={selectedDate}
-                    userAnswer={userAnswer}
-                    setShowQuestion={setShowQuestion}
-                  />
-                ) : (
-                  <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 text-gray-500 text-center">
-                    <p>질문을 보려면 날짜를 선택하세요.</p>
-                  </div>
-                )}
-              </div>
-              <div className="h-full">
-                <AnswerList
-                  userId={session?.user.id}
-                  selectedDate={selectedDate}
-                  handleDatePopup={handleDatePopup}
-                />
-              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="flex-shrink-0 w-72 ml-4">
-        {session && (
-          <div className="mb-4">
-            <MyAnswer userId={session.user.id} />
-          </div>
-        )}
       </div>
     </div>
   );
