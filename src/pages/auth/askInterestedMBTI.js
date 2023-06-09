@@ -42,6 +42,17 @@ export default function askInterestedMBTI() {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="rounded-lg border border-gray-300 p-4 m-4 w-1/4">
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex w-8 h-8 bg-blue-500 rounded-full mx-1 items-center justify-center">
+            <span className="text-white">1</span>
+          </div>
+          <div className="inline-flex w-8 h-8 bg-blue-500 rounded-full mx-1 items-center justify-center">
+            <span className="text-white">2</span>
+          </div>
+          <div className="inline-flex w-8 h-8 bg-blue-500 rounded-full mx-1 items-center justify-center">
+            <span className="text-white">3</span>
+          </div>
+        </div>
         <h2 className="text-center font-bold mb-4">
           Q. 당신에게 가장 궁금한 MBTI는 무엇인가요?
         </h2>
