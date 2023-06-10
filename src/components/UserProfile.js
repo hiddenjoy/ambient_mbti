@@ -73,10 +73,10 @@ const UserProfile = ({ profiledUserId }) => {
     const profiledUserSnapshot = await getDoc(profiledUserRef);
     const profiledUserData = profiledUserSnapshot.data();
 
-    const updatedFollowingId = [...userData.followingId, profiledUserRef.id];
+    const updatedFollowingId = [...userData.followingId || [], profiledUserRef.id];
     await updateDoc(userRef, { followingId: updatedFollowingId });
       
-    const updatedFollwerId = [...profiledUserData.followerId, userRef.id];
+    const updatedFollwerId = [...profiledUserData.followerId || [], userRef.id];
     await updateDoc(profiledUserRef, { followerId: updatedFollwerId });
 
     const updatedUserSnapshot = await getDoc(profiledUserRef);
