@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 import mbtiColors from "@/data/mbtiColors.js";
+import MyAnswer from "@/components/MyAnswer.js"
 
 const Mypage = () => {
   const { data: session } = useSession();
@@ -54,7 +55,8 @@ const Mypage = () => {
           onClick={() => {
             setViewTag(value);
           }}
-          className="mr-3 my-3 px-2 bg-lime-100 rounded "
+          className="mr-3 my-3 px-2 bg-lime-100 rounded"
+          style={{ backgroundColor: bgColor }}
         >
           {value}
         </button>
@@ -65,9 +67,7 @@ const Mypage = () => {
   return (
     <Layout>
       <div
-        className="flex flex-row h-full"
-        style={{ backgroundColor: bgColor }}
-      >
+        className="flex flex-row h-full">
         <div className="h-full basis-1/5 p-3 flex flex-col items-start sticky top-0">
           <h1 className="text-4xl font-bold text-primary p-3">Mypage</h1>
           {session && userId ? (
