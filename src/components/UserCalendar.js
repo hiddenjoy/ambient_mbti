@@ -77,11 +77,7 @@ const UserCalendar = ({ handleDatePopup }) => {
   }
 
   return (
-<<<<<<< Updated upstream
-    <div className="flex h-full w-1/3">
-=======
     <div className="flex h-full w-1/3 mx-auto mt-10 bg-white rounded-lg shadow-md p-5">
->>>>>>> Stashed changes
       <div className="flex-1">
         <div className="flex justify-between mb-4">
           <div>
@@ -100,11 +96,7 @@ const UserCalendar = ({ handleDatePopup }) => {
             </button>
           </div>
         </div>
-<<<<<<< Updated upstream
-        <div className="h-full w-full">
-=======
         <div className="h-2/3 w-full">
->>>>>>> Stashed changes
           <div className="flex items-center">
             <div className="w-full">
               <div className="grid grid-cols-7 gap-1">
