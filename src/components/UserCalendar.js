@@ -77,66 +77,80 @@ const UserCalendar = ({ handleDatePopup }) => {
   }
 
   return (
-    <div className="flex h-full w-1/3 mx-auto mt-10 bg-white rounded-lg shadow-md p-5">
-      <div className="flex-1">
-        <div className="flex justify-between mb-4">
-          <div>
-            <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={prevMonth} style={{ backgroundColor: bgColor }}>
-              {'<'}
-            </button>
-          </div>
-          <div className="text-center">
-            <h2 className="text-lg font-semibold mb-2">
-              {format(currentMonth, 'yyyy년 MM월')}
-            </h2>
-          </div>
-          <div>
-            <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={nextMonth} style={{ backgroundColor: bgColor }}>
-              {'>'}
-            </button>
-          </div>
-        </div>
-        <div className="h-2/3 w-full">
-          <div className="flex items-center">
-            <div className="w-full">
-              <div className="grid grid-cols-7 gap-1">
-                {calendarCells.map((day) => (
-                  <div
-                    key={day.toISOString().split('T')[0]}
-                    className={`flex group hover:bg-lime-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-10 h-10 ${
-                      isSameMonth(day, currentMonth)
-                        ? ''
-                        : 'text-gray-400 pointer-events-none'
-                    } ${
-                      isSameDay(day, selectedDate)
-                        ? 'bg-lime-300 shadow-lg light-shadow'
-                        : ''
-                    } ${
-                      userAnswerDates.includes(+day)
-                        ? `bg-${mbtiColors[session.user.mbti]}`
-                        : ''
-                    }`}
-                    onClick={() => onDateClick(day)}
-                    onMouseEnter={() => setHoveredDate(day)}
-                  >
-                    <span className="flex h-2 w-2 absolute -top-1 -right-1">
-                      <span className="animate-ping absolute group-hover:animate-none h-2 w-2 rounded-full bg-lime-500 opacity-75" />
-                      <span className={`relative inline-flex rounded-full h-2 w-2 bg-lime-500 ${isSameDay(day, hoveredDate) ? 'opacity-100' : 'opacity-0'}`} />
-                    </span>
-                    <span className="flex items-center">{format(day, 'd')}</span>
+    <div className="flex mt-10">
+      <div className="flex-1 mx-auto">
+        <div className="flex items-stretch h-full">
+          <div className="w-1/3 mx-auto">
+            <div className="bg-white rounded-lg shadow-md p-5">
+              <div className="flex justify-between mb-4">
+                <div>
+                  <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={prevMonth} style={{ backgroundColor: bgColor }}>
+                    {'<'}
+                  </button>
+                </div>
+                <div className="text-center">
+                  <h2 className="text-lg font-semibold mb-2">
+                    {format(currentMonth, 'yyyy년 MM월')}
+                  </h2>
+                </div>
+                <div>
+                  <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={nextMonth} style={{ backgroundColor: bgColor }}>
+                    {'>'}
+                  </button>
+                </div>
+              </div>
+              <div className="h-2/3 w-full">
+                <div className="flex items-center">
+                  <div className="w-full">
+                    <div className="grid grid-cols-7 gap-1">
+                      {calendarCells.map((day) => (
+                        <div
+                          key={day.toISOString().split('T')[0]}
+                          className={`flex group hover:bg-lime-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-10 h-10 ${
+                            isSameMonth(day, currentMonth)
+                              ? ''
+                              : 'text-gray-400 pointer-events-none'
+                          } ${
+                            isSameDay(day, selectedDate)
+                              ? 'bg-lime-300 shadow-lg light-shadow'
+                              : ''
+                          } ${
+                            userAnswerDates.includes(+day)
+                              ? `bg-${mbtiColors[session.user.mbti]}`
+                              : ''
+                          }`}
+                          onClick={() => onDateClick(day)}
+                          onMouseEnter={() => setHoveredDate(day)}
+                        >
+                          <span className="flex h-2 w-2 absolute -top-1 -right-1">
+                            <span className="animate-ping absolute group-hover:animate-none h-2 w-2 rounded-full bg-lime-500 opacity-75" />
+                            <span className={`relative inline-flex rounded-full h-2 w-2 bg-lime-500 ${isSameDay(day, hoveredDate) ? 'opacity-100' : 'opacity-0'}`} />
+                          </span>
+                          <span className="flex items-center">{format(day, 'd')}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
-                <div className="flex-shrink-0 w-72 ml-4">
-              {session && (
+                </div>
+              </div>
+            </div>
+          </div>
+          {session && (
+            <>
+              <div className="w-1/3 mx-auto ml-4">
                 <div className="mb-4">
                   <MyAnswer userId={session.user.id} selectedDate={selectedDate} handleDatePopup={handleDatePopup} />
                 </div>
-              )}
               </div>
+              <div className="w-1/3 mx-auto ml-4">
+                <div className="bg-white rounded-lg shadow-md p-4">
+                  <h3 className="text-lg font-semibold mb-2">나의 답변</h3>
+                  <p>{userAnswer}</p>
+                </div>
               </div>
-            </div>
-            </div>
-          </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
