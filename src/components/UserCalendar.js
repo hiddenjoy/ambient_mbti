@@ -28,6 +28,8 @@ const UserCalendar = ({ handleDatePopup }) => {
     setCurrentMonth(addMonths(currentMonth, 1));
   };
 
+  const [bgColor, setBgColor] = useState("lime-500");
+
   const onDateClick = async (day) => {
     setSelectedDate(day);
     setHoveredDate(day);
@@ -75,11 +77,15 @@ const UserCalendar = ({ handleDatePopup }) => {
   }
 
   return (
+<<<<<<< Updated upstream
     <div className="flex h-full w-1/3">
+=======
+    <div className="flex h-full w-1/3 mx-auto mt-10 bg-white rounded-lg shadow-md p-5">
+>>>>>>> Stashed changes
       <div className="flex-1">
         <div className="flex justify-between mb-4">
           <div>
-            <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={prevMonth}>
+            <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={prevMonth} style={{ backgroundColor: bgColor }}>
               {'<'}
             </button>
           </div>
@@ -89,12 +95,16 @@ const UserCalendar = ({ handleDatePopup }) => {
             </h2>
           </div>
           <div>
-            <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={nextMonth}>
+            <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={nextMonth} style={{ backgroundColor: bgColor }}>
               {'>'}
             </button>
           </div>
         </div>
+<<<<<<< Updated upstream
         <div className="h-full w-full">
+=======
+        <div className="h-2/3 w-full">
+>>>>>>> Stashed changes
           <div className="flex items-center">
             <div className="w-full">
               <div className="grid grid-cols-7 gap-1">
@@ -124,6 +134,13 @@ const UserCalendar = ({ handleDatePopup }) => {
                     <span className="flex items-center">{format(day, 'd')}</span>
                   </div>
                 ))}
+                <div className="flex-shrink-0 w-72 ml-4">
+              {session && (
+                <div className="mb-4">
+                  <MyAnswer userId={session.user.id} selectedDate={selectedDate} handleDatePopup={handleDatePopup} />
+                </div>
+              )}
+              </div>
               </div>
             </div>
             </div>
