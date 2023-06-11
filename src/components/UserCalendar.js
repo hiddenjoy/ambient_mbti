@@ -18,6 +18,9 @@ const UserCalendar = ({ handleDatePopup }) => {
   const [showQuestion, setShowQuestion] = useState(false);
   const [userAnswerDates, setUserAnswerDates] = useState([]);
   const [showAllAnswers, setShowAllAnswers] = useState(true);
+  const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
+  const [questionAnswers, setQuestionAnswers] = useState(null);
 
   const questionCollection = collection(db, 'questions');
   const answerCollection = collection(db, "answers");
@@ -38,8 +41,8 @@ const UserCalendar = ({ handleDatePopup }) => {
       setShowQuestion(false);
       setUserAnswer('');
       return;
-    } /*선택해제기능 추가!*/
-    
+    }
+
     setSelectedDate(day);
     setHoveredDate(day);
     setShowQuestion(true);
@@ -60,19 +63,40 @@ const UserCalendar = ({ handleDatePopup }) => {
   };
 
   useEffect(() => {
-    if (session) {
-      // 유저가 질문에 답변한 날짜 가져오기
-      const userId = session.user.id;
+    async function fetchUser() {
+      if (session && session.user) {
+        const userRef = doc(db, "users", session.user.id);
+        const userDoc = await getDoc(userRef);
 
-      const fetchUserAnswerDates = async () => {
-        const q = query(collection(db, 'answers'), where('userId', '==', userId));
-        const answerSnapshot = await getDocs(q);
-        const dates = answerSnapshot.docs.map((doc) => parseISO(doc.data().date));
-        setUserAnswerDates(dates);
-      };
+        if (userDoc.exists()) {
+          setUserId(userRef.id);
+          setUser(userDoc.data());
+          setQuestionAnswers(userDoc.data().questionAnswers);
 
-      fetchUserAnswerDates();
+          const userMbti = userDoc.data().mbti;
+          const mbtiColor = mbtiColors[userMbti];
+
+          if (mbtiColor) {
+            setBgColor(mbtiColor);
+          }
+        }
+      }
     }
+
+    async function fetchUserAnswerDates() {
+      if (session && session.user) {
+        const userId = session.user.id;
+
+        const q = query(answerCollection, where('userId', '==', userId));
+        const answerSnapshot = await getDocs(q);
+
+        const dates = answerSnapshot.docs.map(doc => format(parseISO(doc.data().date), 'd'));
+        setUserAnswerDates(dates);
+      }
+    }
+
+    fetchUser();
+    fetchUserAnswerDates();
   }, [session]);
 
   const startDate = startOfWeek(startOfMonth(currentMonth));
@@ -93,85 +117,100 @@ const UserCalendar = ({ handleDatePopup }) => {
       <div className="flex flex-col md:flex-row md:space-x-4">
         <div className="md:w-2/4">
           <div className="bg-white rounded-lg shadow-md p-3">
-          <div className="flex justify-between mb-3">
-                <div>
-                  <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={prevMonth} style={{ backgroundColor: bgColor }}>
-                    {'<'}
-                  </button>
-                </div>
-                <div className="text-center">
-                  <h2 className="text-lg font-semibold mb-2">
-                    {format(currentMonth, 'yyyy년 MM월')}
-                  </h2>
-                </div>
-                <div>
-                  <button className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg" onClick={nextMonth} style={{ backgroundColor: bgColor }}>
-                    {'>'}
-                  </button>
-                </div>
+            <div className="flex justify-between mb-3">
+              <div>
+                <button
+                  className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg"
+                  onClick={prevMonth}
+                >
+                  {'<'}
+                </button>
               </div>
-              <div className="h-2/3 w-full">
-                <div className="flex items-center">
-                  <div className="w-full">
-                    <div className="grid grid-cols-7 gap-1">
-                      {calendarCells.map((day) => (
-                        <div
-                          key={day.toISOString().split('T')[0]}
-                          className={`flex group hover:bg-lime-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-10 h-10 ${
-                            isSameMonth(day, currentMonth)
-                              ? ''
-                              : 'text-gray-400 pointer-events-none'
-                          } ${
-                            isSameDay(day, selectedDate)
-                              ? 'bg-lime-300 shadow-lg light-shadow'
-                              : ''
-                          } ${
-                            userAnswerDates.includes(+day)
-                              ? `bg-${mbtiColors[session.user.mbti]}`
-                              : ''
-                          }`}
-                          onClick={() => onDateClick(day)}
-                          onMouseEnter={() => setHoveredDate(day)}
-                        >
-                          <span className="flex h-2 w-2 absolute -top-1 -right-1">
-                            <span className="animate-ping absolute group-hover:animate-none h-2 w-2 rounded-full bg-lime-500 opacity-75" />
-                            <span className={`relative inline-flex rounded-full h-2 w-2 bg-lime-500 ${isSameDay(day, hoveredDate) ? 'opacity-100' : 'opacity-0'}`} />
-                          </span>
-                          <span className="flex items-center">{format(day, 'd')}</span>
+              <div className="text-center">
+                <h2 className="text-lg font-semibold mb-2">
+                  {format(currentMonth, 'yyyy년 MM월')}
+                </h2>
+              </div>
+              <div>
+                <button
+                  className="bg-lime-500 hover:bg-lime-600 text-white px-1 py-1 rounded-lg"
+                  onClick={nextMonth}
+                >
+                  {'>'}
+                </button>
+              </div>
+            </div>
+            <div className="h-2/3 w-full">
+              <div className="flex items-center">
+                <div className="w-full">
+                  <div className="grid grid-cols-7 gap-1">
+                    {calendarCells.map((day) => (
+                      <div
+                        key={day.toISOString().split('T')[0]}
+                        className={`flex group hover:bg-lime-100 hover:shadow-lg hover-light-shadow rounded-lg mx-1 transition-all duration-300 cursor-pointer justify-center w-10 h-10 ${
+                          isSameMonth(day, currentMonth)
+                            ? ''
+                            : 'text-gray-400 pointer-events-none'
+                        } ${
+                          isSameDay(day, selectedDate)
+                            ? 'border border-lime-500'
+                            : ''
+                        }`}
+                        onClick={() => onDateClick(day)}
+                        onMouseEnter={() => setHoveredDate(day)}
+                        onMouseLeave={() => setHoveredDate(null)}
+                      >
+                        <div className="relative">
+                          {session && (
+                            <div className="absolute bottom-0 right-0">
+                              {isSameDay(day, hoveredDate) && (
+                                <img
+                                  className="w-10 h-10"
+                                  src={`/images/MBTIcharacters/${session.user.mbti}.png`}
+                                  alt={`${session.user.mbti} character`}
+                                />
+                              )}
+                              {userAnswerDates.includes(format(day, 'd')) && (
+                                <img
+                                  className="w-10 h-10"
+                                  src={`/images/MBTIcharacters/${session.user.mbti}.png`}
+                                  alt={`${session.user.mbti} character`}
+                                />
+                              )}
+                            </div>
+                          )}
+                          <div className="flex items-center justify-center w-full h-full">
+                            <span>{format(day, 'd')}</span>
+                          </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
-
                 </div>
-
               </div>
+            </div>
           </div>
         </div>
-        <div className="md:w-3/4">
-          <div className="bg-white rounded shadow p-4">
-            <h2 className="text-lg font-bold mb-4">나의 답변</h2>
-             <div className="flex justify-start mb-2">
-              <button
-                className="border mr-2 px-2 py-1"
-                onClick={() => setShowAllAnswers(!showAllAnswers)}
-              >
-                {showAllAnswers ? "선택 날짜만 보기" : "전체 답변 보기"}
-              </button>
-            </div>
-            {session && (
-              <div className="w-full mx-auto ml-4">
-                <div className="mb-4">
+        <div className="md:w-2/4">
+          <div className="bg-white rounded-lg shadow-md p-3">
+            <div className="mb-4">
+            <h2 className="text-xl font-bold">나의 답변</h2>
+              {selectedDate ? (
                 <CellAnswers selectedDate={selectedDate} />
-                <MyAnswer userId={session.user.id} selectedDate={selectedDate} handleDatePopup={handleDatePopup} />
-    </div>
-              </div>
-            )}
+              ) : (
+                session && (
+                  <MyAnswer
+                    selectedDate={selectedDate}
+                    handleDatePopup={handleDatePopup}
+                  />
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
- };
+};
 
 export default UserCalendar;
