@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SmallAnswerList from "@/components/SmallAnswerList";
+import AmbientAnswerList from "@/components/AmbientAnswerList";
 import { useSession, signOut } from "next-auth/react";
-
 import { db } from "@/firebase";
 import {
   collection,
@@ -15,6 +15,7 @@ import {
   orderBy,
   where,
 } from "firebase/firestore";
+
 
 const answerCollection = collection(db, "answers");
 const userCollection = collection(db, "users");
@@ -48,7 +49,7 @@ const MyAnswers = () => {
       <div className="overflow-y-auto w-full h-[450px]">
         <div className={`flex flex-col items-center w-full`}>
           {answers.map((item) => (
-            <SmallAnswerList key={item.id} answer={item} />
+            <AmbientAnswerList key={item.id} answer={item} /> /*질문함께 표시되도록 함*/
           ))}
         </div>
       </div>
