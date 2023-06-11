@@ -112,8 +112,8 @@ const AmbientAnswerList = ({ answer }) => {
             <div className="border text-base text-end mb-3 bg-white">
               " {truncatedContent} "
             </div>
-            <div className="text-end text-xs italic">
-              by. {answer.user.mbti} {answer.user.id}
+            <div className="text-end text-xs italic flex flex-row items-center justify-end">
+              by. <img src={`/images/MBTIcharacters/${answer.user.mbti}.png`} className="w-8"/>{answer.user.mbti}
             </div>  
           </Link>
           <button
