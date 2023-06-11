@@ -33,6 +33,13 @@ const UserCalendar = ({ handleDatePopup }) => {
   const [bgColor, setBgColor] = useState("lime-500");
 
   const onDateClick = async (day) => {
+    if (isSameDay(day, selectedDate)) {
+      setSelectedDate(null);
+      setShowQuestion(false);
+      setUserAnswer('');
+      return;
+    } /*선택해제기능 추가!*/
+    
     setSelectedDate(day);
     setHoveredDate(day);
     setShowQuestion(true);
