@@ -16,6 +16,7 @@ import {
   where,
 } from "firebase/firestore";
 import mbtiColors from "@/data/mbtiColors.js";
+// import ENFJ from '@/images/MBTIcharacters/ENFJ.png';
 
 
 const userCollection = collection(db, "users");
@@ -47,10 +48,10 @@ const FollowingUsers = () => {
       (
         followingUsers.map((user) => (
           <Link href="/anotherUser/[id]" as={`/anotherUser/${user.id}`}>
-            <div className="m-5 p-3 flex flex-col items-center rounded-xl"
+            <div className="m-5 p-3 flex flex-col items-center rounded-xl w-32"
               style={{backgroundColor: mbtiColors[user.mbti]}}
             >
-              <div className="bg-neutral-100 w-20 h-20 m-3">사진</div>
+              <img src={`/images/MBTIcharacters/${user.mbti}.png`} alt={`${user.mbti}character`} />
               <div key={user.id}>{user.name}</div>
               <div key={user.id}>{user.mbti}</div>
             </div>

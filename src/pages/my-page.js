@@ -58,7 +58,14 @@ const Mypage = () => {
           className="mr-3 my-3 px-2 bg-lime-100 rounded"
           style={{ backgroundColor: bgColor }}
         >
-          {value}
+          {value === "calendar" ? (
+            <p>달력</p>
+          ) : value === "likedAnswers" ? (
+            <p>좋아요한 답변</p>
+          ) : value === "followingUsers" ? (
+            <p>팔로우</p>
+          ) : (
+            <p>invalid</p>)}
         </button>
       </div>
     );
