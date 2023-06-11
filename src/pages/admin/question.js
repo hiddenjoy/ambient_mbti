@@ -1,6 +1,6 @@
 // pages/admin/question.js
 import { useState, useEffect } from "react";
-import { collection, getDocs, addDoc, serverTimestamp, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, orderBy } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 import { useRouter } from "next/router";
 import Calendar from 'react-calendar';
@@ -18,21 +18,14 @@ export default function AdminQuestion() {
     async function fetchQuestions() {
       const questionsCollection = collection(db, "questions");
       const questionSnapshot = await getDocs(query(questionsCollection, orderBy("date", "desc")));
-      const questionsArray = questionSnapshot.docs.reduce((accumulator, doc) => {
+      const questionsArray = questionSnapshot.docs.map((doc) => {
         const data = doc.data();
-        try {
-          const date = new Date(data.date.seconds * 1000); // Convert Firestore timestamp to JavaScript Date
-          const formattedDate = date.toISOString().split("T")[0]; // Convert to yyyy-mm-dd format
-          accumulator.push({
-            id: doc.id,
-            date: formattedDate,
-            content: data.content,
-          });
-        } catch (e) {
-          console.error(`Invalid date in document ${doc.id}: `, e);
-        }
-        return accumulator;
-      }, []);
+        return {
+          id: doc.id,
+          date: data.date,
+          content: data.content,
+        };
+      });
       setQuestions(questionsArray);
     }
 
@@ -42,18 +35,14 @@ export default function AdminQuestion() {
   useEffect(() => {
     if (selectedDate) {
       const foundQuestion = questions.find(question => question.date === selectedDate);
-      if (foundQuestion) {
-        setCurrentQuestion(foundQuestion);
-      } else {
-        setCurrentQuestion(null);
-      }
+      setCurrentQuestion(foundQuestion || null);
     }
   }, [selectedDate, questions]);
 
   async function handleAddQuestion() {
     try {
       const docRef = await addDoc(collection(db, "questions"), {
-        date: new Date(selectedDate),
+        date: selectedDate,
         content: "질문을 입력하세요."
       });
       const newQuestion = {
@@ -69,14 +58,9 @@ export default function AdminQuestion() {
   }
 
   function handleQuestionUpdate(questionDate, updatedContent) {
-    setQuestions((prevQuestions) => {
-      return prevQuestions.map((question) => {
-        if (question.date === questionDate) {
-          return { ...question, content: updatedContent };
-        }
-        return question;
-      });
-    });
+    setQuestions(prevQuestions => prevQuestions.map(question => 
+      question.date === questionDate ? { ...question, content: updatedContent } : question
+    ));
   }
 
   return (
@@ -102,20 +86,20 @@ export default function AdminQuestion() {
           <div className={`${styles.reactCalendar} w-1/2 p-4`}>
             <h2 className="text-2xl mb-4">날짜</h2>
             <div className={`${styles.calendarWrapper}`}>
-                <Calendar
-                    locale="ko-KR"
-                    value={selectedDate}
-                    onClickDay={date => {
-                        const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-                        setSelectedDate(localDate.toISOString().split('T')[0]);
-                    }}
-                    tileClassName={({ date, view }) => {
-                        const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-                        const dateString = localDate.toISOString().split('T')[0];
-                        const questionExists = !!questions.find((q) => q.date === dateString); 
-                        return questionExists ? styles.calendarDayQuestionExists : styles.calendarDayQuestionNotExists;
-                    }}
-                    />
+              <Calendar
+                locale="ko-KR"
+                value={selectedDate ? new Date(selectedDate) : new Date()}
+                onClickDay={date => {
+                  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+                  setSelectedDate(localDate.toISOString().split('T')[0]);
+                }}
+                tileClassName={({ date, view }) => {
+                  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+                  const dateString = localDate.toISOString().split('T')[0];
+                  const questionExists = !!questions.find((q) => q.date === dateString); 
+                  return questionExists ? styles.calendarDayQuestionExists : styles.calendarDayQuestionNotExists;
+                }}
+              />
             </div>
           </div>
           <div className="w-1/2 p-4">
