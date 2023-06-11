@@ -24,26 +24,21 @@ export default function Admin() {
     fetchUsers();
   }, []);
 
+  function getChosung(char) {
+    const chosung = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+    const base = '가'.charCodeAt(0);
+    return chosung[Math.floor((char.charCodeAt(0) - base) / 588)];
+  }
+  
   const filteredUsers = users.filter((user) => {
     if (filter === "기타") {
-      return user.name && !/^[ㄱ-ㅎ]/.test(user.name);
+      return user.name && !/^[ㄱ-ㅎ]/.test(getChosung(user.name[0]));
     }
-    return user.name && user.name.startsWith(filter);
+    return user.name && getChosung(user.name[0]) === filter;
   });
 
   return (
     <div className="flex justify-center h-screen p-4 m-8">
-      <div className="w-1/12 bg-white rounded-lg shadow p-4">
-        {['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ','기타'].map((letter, index) => (
-          <button 
-            key={index}
-            className="w-full mb-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => setFilter(letter)}
-          >
-            {letter}
-          </button>
-        ))}
-      </div>
       <div className="w-3/4 bg-white rounded-lg shadow p-4 ml-4">
         <div className="flex justify-between mb-4">
           <button 
@@ -64,6 +59,17 @@ export default function Admin() {
         </div>
         {filteredUsers.slice((page - 1) * 5, page * 5).map((user, index) => (
           <UserProfileForAdminPage key={index} user={user} />
+        ))}
+      </div>
+      <div className="w-1/12 bg-white rounded-lg shadow p-4 ml-4">
+        {['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ','기타'].map((letter, index) => (
+          <button 
+            key={index}
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+            onClick={() => { setPage(1); setFilter(letter); }}
+          >
+            {letter}
+          </button>
         ))}
       </div>
     </div>
