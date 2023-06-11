@@ -1,6 +1,6 @@
 // components/QuestionForAdminPage.js
 import { useState } from "react";
-import { updateDoc, doc, setDoc, getDoc } from "firebase/firestore";
+import { updateDoc, doc, setDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 
 export default function QuestionForAdminPage({ question, onQuestionUpdate }) {
@@ -8,24 +8,12 @@ export default function QuestionForAdminPage({ question, onQuestionUpdate }) {
   const [updatedContent, setUpdatedContent] = useState(question.content);
 
   async function handleUpdateQuestion() {
-    const questionRef = doc(db, "questions", question.id); // Updated line
+    const questionRef = doc(db, "questions", question.id);
   
     try {
-      const docSnap = await getDoc(questionRef);
-  
-      if (docSnap.exists()) {
-        // If the document exists, update it
-        await updateDoc(questionRef, {
-          content: updatedContent.trim(),
-        });
-      } else {
-        // If the document does not exist, create a new one
-        await setDoc(questionRef, {
-          date: question.date,
-          content: updatedContent.trim(),
-        });
-      }
-  
+      await updateDoc(questionRef, {
+        content: updatedContent.trim(),
+      });
       onQuestionUpdate(question.date, updatedContent);
       setIsEditing(false);
     } catch (error) {
