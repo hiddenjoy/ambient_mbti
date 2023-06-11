@@ -86,6 +86,11 @@ const Header = ({ whichPage }) => {
                 마이페이지
               </button>
             </Link>
+            <Link href="./admin/admin">
+              <button className="smallbutton text-center text-primary">
+                관리자페이지
+              </button>
+            </Link>
           </div>
         ) : (
           <div className="flex flex-col">

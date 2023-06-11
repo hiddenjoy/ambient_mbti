@@ -15,7 +15,7 @@ import {
   orderBy,
   where,
 } from "firebase/firestore";
-// import { dummy_user } from "@/data/dummy_user";
+import mbtiColors from "@/data/mbtiColors.js";
 
 
 const userCollection = collection(db, "users");
@@ -35,6 +35,8 @@ const FollowingUsers = () => {
       ...doc.data(),
     }));
     setFollowingUsers(getFollowingUsers);
+
+    // console.log(getFollowingUsers);
   }
 
   useEffect(() => {
@@ -42,12 +44,14 @@ const FollowingUsers = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap" >
       {followingUsers.length > 0 ?
       (
         followingUsers.map((user) => (
           <Link href="/anotherUser/[id]" as={`/anotherUser/${followingUsers.id}`}>
-            <div className="m-5 p-3 bg-lime-200 flex flex-col items-center rounded-xl">
+            <div className="m-5 p-3 flex flex-col items-center rounded-xl"
+              style={{backgroundColor: mbtiColors[user.mbti]}}
+            >
               <div className="bg-neutral-100 w-20 h-20 m-3">사진</div>
               <div key={user.id}>{user.name}</div>
               <div key={user.id}>{user.mbti}</div>
@@ -55,7 +59,43 @@ const FollowingUsers = () => {
           </Link>
         ))
       ) : (
-        <div>팔로워가 없습니다 ㅠㅠ</div>
+        // <div>팔로워가 없습니다 ㅠㅠ</div>
+<div className="flex flex-row items-center h-full">
+  <div className="flex-grow items-center"></div>
+  <div className="basis-4/5 flex h-full flex-col items-center justify-center text-center" style={{ maxWidth: "80%", minWidth : "70%" }}>
+    <div className="w-full mt-10 mb-10 flex flex-col items-center">
+      <div className="flex justify-center items-center border">
+        <img
+          src="/images/Ambers follow.png"
+          alt="0 팔로잉 이미지"
+          style={{
+            maxWidth: "40%",
+            height: "auto",
+            maxHeight: "auto",
+            display: "block",
+            margin: "0 auto",
+          }}
+        />
+      </div>
+      <div
+        className="mb-5 w-full text-center mt-5"
+        style={{
+          fontWeight: "bold",
+          fontSize: "20px",
+          color: "#",
+          whiteSpace: "nowrap",
+          textAlign: "center",
+        }}
+      >
+        팔로우한 유저가 없어요!
+      </div>
+    </div>
+  </div>
+  <div className="flex-grow"></div>
+</div>
+
+
+
       )}
       </div>
   );
