@@ -82,9 +82,9 @@ const SmallAnswerList = ({ answer }) => {
           </div>
         </div>
       </Link>
-        <div className="flex flex-row justify-end items-end">
-          <div className="text-end text-xs italic">
-            by. {answer.user.mbti} {answer.user.id}
+        <div className="flex flex-row justify-end items-center">
+          <div className="text-end text-xs italic flex flex-row items-center justify-end">
+            by. <img src={`/images/MBTIcharacters/${answer.user.mbti}.png`} className="w-8"/>{answer.user.mbti}
           </div>
           <button
             onClick={() => likeAnswer(answer.id)}

@@ -38,11 +38,11 @@ const UserProfile = ({ profiledUserId }) => {
 
       //최초 팔로잉 가져오기
       setFollowing(Boolean(
-        profiledUserRef.followerId &&
-        profiledUserRef.followerId.find((i) => i === data.user.id)
+        users.followerId &&
+        users.followerId.find((i) => i === data.user.id)
       ));
-      setFollowerNum(profiledUserRef.followerId ? profiledUserRef.followerId.length : 0);
-      setFollowingNum(profiledUserRef.followingId ? profiledUserRef.followingId.length : 0);
+      setFollowerNum(users.followerId ? users.followerId.length : 0);
+      setFollowingNum(users.followingId ? users.followingId.length : 0);
     }
   };
 
