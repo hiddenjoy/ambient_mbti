@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import UserProfile from "@/components/UserProfile";
 import { format } from "date-fns";
-import UserCalendar from "@/components/UserCalendar";
+import AmbientAnswerList from "@/components/AmbientAnswerList";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { db } from "@/firebase/index.js";
@@ -19,19 +19,20 @@ import {
   orderBy,
   where,
 } from "firebase/firestore";
+import SmallAnswerList from "@/components/SmallAnswerList";
 
 const userCollection = collection(db, "users");
+const answerCollection = collection(db, "answers");
 
 const AnotherUserId = () => {
   const router = useRouter();
   const { id } = router.query;
 
   const { data } = useSession();
+  const [anotherUser, setAnotherUser] = useState();
   const [anotherUserId, setanotherUserId] = useState();
 
-  const [questionAnswers, setQuestionAnswers] = useState([]);
-  const [popupDate, setPopupDate] = useState(null); // 날짜
-  const [bgColor, setBgColor] = useState("#E5E7EB"); // 기본 배경색 설정
+  const [answers, setAnswers] = useState([]);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -42,15 +43,28 @@ const AnotherUserId = () => {
     const userSnapshot = await getDoc(userRef);
     const userData = userSnapshot.data();
 
+    setAnotherUser(userData);
     setanotherUserId(id);
   };
     
   useEffect(() => {
     getAnotherUser();
+    getAnswer();
   },[id]);
 
-  const handleDatePopup = (date) => {
-    setPopupDate(date);
+  const getAnswer = async () => {
+    const q = query(
+      answerCollection, 
+      where("user.id", "==", id)
+    );
+    const results = await getDocs(q);
+
+    const newAnswers = [];
+    results.docs.forEach((doc) => {
+      newAnswers.push({ id: doc.id, ...doc.data() });
+    });
+
+    setAnswers(newAnswers);
   };
 
   return (
@@ -59,15 +73,15 @@ const AnotherUserId = () => {
         <div className="flex flex-row h-full">
           <div className="w-full h-full basis-1/5 p-3 flex flex-col items-start sticky top-0">
             <h1 className="text-4xl font-bold text-primary p-3">
-              's page
+              {anotherUser ? anotherUser.name : <p>...</p> }'s page
             </h1>
-            {/* <div className="relative"> */}
-              <UserProfile profiledUserId={id} />
-              {/* <div className="m-0 absolute bottom-2 right-2">
-              </div>  */}
-            {/* </div> */}
+            <UserProfile profiledUserId={id} />
           </div>
-          <UserCalendar handleDatePopup={handleDatePopup} bgColor={bgColor}/>
+          <div className="basis-4/5 grid grid-cols-4 gap-4">
+            {answers.map((item) => (
+              <AmbientAnswerList key={item.id} answer={item} />
+            ))}
+          </div>
         </div>
       </Layout>
     </>

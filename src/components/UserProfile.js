@@ -38,11 +38,11 @@ const UserProfile = ({ profiledUserId }) => {
 
       //최초 팔로잉 가져오기
       setFollowing(Boolean(
-        profiledUserRef.followerId &&
-        profiledUserRef.followerId.find((i) => i === data.user.id)
+        users.followerId &&
+        users.followerId.find((i) => i === data.user.id)
       ));
-      setFollowerNum(profiledUserRef.followerId ? profiledUserRef.followerId.length : 0);
-      setFollowingNum(profiledUserRef.followingId ? profiledUserRef.followingId.length : 0);
+      setFollowerNum(users.followerId ? users.followerId.length : 0);
+      setFollowingNum(users.followingId ? users.followingId.length : 0);
     }
   };
 
@@ -87,10 +87,6 @@ const UserProfile = ({ profiledUserId }) => {
     setFollowerNum(updatedUserData.followerId ? updatedUserData.followerId.length : 0);
   };
 
-  // useEffect(() => {
-  //   setFollowerNum(profiledUser.followerId ? profiledUser.followerId.length : 0);
-  // }, [profiledUser.followerId]);
-
   const unFollow = async () => {
     //사용자 데이터 참조
     const userRef = doc(userCollection, data.user.id);    
@@ -126,8 +122,8 @@ const UserProfile = ({ profiledUserId }) => {
     <div className="max-w-lg mx-auto mt-10 bg-white rounded-lg shadow-md p-5">
       <img
         className="w-32 h-32 rounded-full mx-auto"
-        src={profiledUser.photoURL}
-        alt="profile"
+        src={`/images/MBTIcharacters/${profiledUser.mbti}.png`}
+        alt={`${profiledUser.mbti} character`}
       />
       <h2 className="text-center text-2xl font-semibold mt-3">
         {profiledUser.name}
