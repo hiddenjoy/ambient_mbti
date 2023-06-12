@@ -39,6 +39,7 @@ const AnotherUserId = () => {
   }, [router.isReady, id]);
 
   const getAnotherUser = async () => {
+    if (!id) return;
     const userRef = doc(userCollection, id);
     const userSnapshot = await getDoc(userRef);
     const userData = userSnapshot.data();
@@ -53,6 +54,7 @@ const AnotherUserId = () => {
   }, [id]);
 
   const getAnswer = async () => {
+    if (!id) return;
     const q = query(answerCollection, where("user.id", "==", id));
     const results = await getDocs(q);
 
@@ -72,6 +74,7 @@ const AnotherUserId = () => {
             <h1 className="text-3xl font-bold text-primary p-3">
               {anotherUser ? anotherUser.name : <p>...</p>}'s page
             </h1>
+
             <UserProfile profiledUserId={id} />
           </div>
           <div className="basis-4/5 grid grid-cols-4 gap-4">
