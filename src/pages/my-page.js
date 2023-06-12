@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 import mbtiColors from "@/data/mbtiColors.js";
-import MyAnswer from "@/components/MyAnswer.js"
+import MyAnswer from "@/components/MyAnswer.js";
 
 const Mypage = () => {
   const { data: session } = useSession();
@@ -64,7 +64,8 @@ const Mypage = () => {
           ) : value === "followingUsers" ? (
             <p>팔로우</p>
           ) : (
-            <p>invalid</p>)}
+            <p>invalid</p>
+          )}
         </button>
       </div>
     );
@@ -72,15 +73,11 @@ const Mypage = () => {
 
   return (
     <Layout>
-      <div style={{ backgroundColor: bgColor }} >
+      {session && userId ? (
         <div className="bg-white/50 flex flex-row h-full">
           <div className="h-full basis-1/5 p-3 flex flex-col items-start sticky top-0">
             <h1 className="text-4xl font-bold text-primary p-3">My page</h1>
-            {session && userId ? (
-              <UserProfile profiledUserId={userId} />
-            ) : (
-              <div>로그인이 필요합니다.</div>
-            )}
+            <UserProfile profiledUserId={userId} />
           </div>
           <div className="basis-4/5 flex flex-col">
             <div className="flex flex-row">
@@ -104,7 +101,50 @@ const Mypage = () => {
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="flex flex-col w-full mb-10 items-center">
+            <img
+              src="/images/Amber.png"
+              alt="로그인 전 이미지"
+              style={{
+                maxWidth: "30%",
+                height: "auto",
+                maxHeight: "auto",
+                display: "block",
+                transform: "translateY(10%)",
+              }}
+            />
+            <div
+              className="basis-1/2 w-full text-center mt-5  "
+              style={{
+                display: "block",
+                fontWeight: "bold",
+                fontSize: "20px",
+                color: "#",
+                whiteSpace: "nowrap",
+              }}
+            >
+              로그인 해주세요!
+            </div>
+
+            <div
+              className="basis-1/2 mb-1 w-full text-center mt-1 textAlign:'center'"
+              style={{
+                marginLeft: "-17%",
+                display: "block",
+                fontWeight: "regular",
+                marginRight: "-17%",
+                fontSize: "14px",
+                color: "#6D6E71",
+                whiteSpace: "nowrap",
+              }}
+            >
+              로그인하여 당신의 이야기를 들려주세요!
+            </div>
+          </div>
+        </>
+      )}
     </Layout>
   );
 };

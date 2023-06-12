@@ -30,7 +30,7 @@ const AmbientAnswerList = ({ answer }) => {
     const answerData = answerSnapShot.data();
     const likedAnswerData = Boolean(
       answerData.likeUsers.length > 0 &&
-      answerData.likeUsers.find((i) => i === data.user.id)
+        answerData.likeUsers.find((i) => i === data.user.id)
     );
 
     if (likedAnswerData) {
@@ -106,25 +106,31 @@ const AmbientAnswerList = ({ answer }) => {
           </>
         )}
       </div>
-
-        <div className="flex flex-col justify-end items-end my-0 w-full">
-          <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`} className="w-full">
-            <div 
-              className="text-base text-end mb-3 h-24 overflow-scroll bg-white/40"
-            >
-              " {truncatedContent} "
-            </div>
-            <div className="text-end text-xs italic flex flex-row items-center justify-end">
-              by. <img src={`/images/MBTIcharacters/${answer.user.mbti}.png`} className="w-8"/>{answer.user.mbti}
-            </div>  
-          </Link>
-          <button
-            onClick={() => likeAnswer(answer.id)}
-            className="ml-3 my-0 px-2 py-0 text-black text-xs"
-          >
-            {liked ? "❤️" : "🤍"} {likedUserNum}
-          </button>
-        </div>
+      <div className="flex flex-col justify-end items-end my-0 w-full">
+        <Link
+          href="/anotherUser/[id]"
+          as={`/anotherUser/${answer.user.id}`}
+          className="w-full"
+        >
+          <div className="text-base text-center mb-3 h-24 overflow-scroll bg-white/40 w-full">
+            " {truncatedContent} "
+          </div>
+          <div className="text-end text-xs italic flex flex-row items-center justify-end">
+            by.{" "}
+            <img
+              src={`/images/MBTIcharacters/${answer.user.mbti}.png`}
+              className="w-8"
+            />
+            {answer.user.mbti}
+          </div>
+        </Link>
+        <button
+          onClick={() => likeAnswer(answer.id)}
+          className="ml-3 my-0 px-2 py-0 text-black text-xs"
+        >
+          {liked ? "❤️" : "🤍"} {likedUserNum}
+        </button>
+      </div>
     </div>
   );
 };
