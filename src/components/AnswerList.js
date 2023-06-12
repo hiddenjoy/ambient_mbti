@@ -89,7 +89,7 @@ const AnswerList = ({ mbti, date }) => {
       </div>
 
       <div
-        className="overflow-auto max-h-[calc(35vh-2rem)]"
+        className="overflow-auto h-[calc(35vh-2rem)]"
         style={{ paddingBottom: "3.5rem" }}
       >
         <div className="w-full">

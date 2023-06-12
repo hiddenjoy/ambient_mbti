@@ -31,7 +31,7 @@ import CellAnswers from "@/components/CellAnswers";
 const UserCalendar = ({ handleDatePopup }) => {
   const { data: session } = useSession();
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [hoveredDate, setHoveredDate] = useState(null);
   const [userAnswer, setUserAnswer] = useState("");
   const [showQuestion, setShowQuestion] = useState(false);
@@ -40,6 +40,7 @@ const UserCalendar = ({ handleDatePopup }) => {
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
   const [questionAnswers, setQuestionAnswers] = useState(null);
+  const [today, setToday] = useState(new Date());
 
   const questionCollection = collection(db, "questions");
   const answerCollection = collection(db, "answers");
@@ -110,12 +111,17 @@ const UserCalendar = ({ handleDatePopup }) => {
       if (session && session.user) {
         const userId = session.user.id;
 
-        const q = query(answerCollection, where("userId", "==", userId));
+        const q = query(answerCollection, where("user.id", "==", userId));
         const answerSnapshot = await getDocs(q);
 
-        const dates = answerSnapshot.docs.map((doc) =>
-          format(parseISO(doc.data().date), "d")
-        );
+        const dates = [];
+        answerSnapshot.forEach((doc) => {
+          const answerData = doc.data();
+          if (answerData.user.id === userId) {
+            dates.push(answerData.questionDate);
+          }
+        });
+
         setUserAnswerDates(dates);
       }
     }
@@ -137,7 +143,7 @@ const UserCalendar = ({ handleDatePopup }) => {
   return (
     <div className="flex flex-col w-full">
       <div className="flex items-center justify-between mb-4"></div>
-      <div className="flex flex-col md:space-x-4">
+      <div className="flex flex-col ">
         <div className="mb-5">
           <div className="bg-white rounded-lg shadow-md p-3">
             <div className="flex justify-center mb-0 items-center">
@@ -166,7 +172,9 @@ const UserCalendar = ({ handleDatePopup }) => {
                     {calendarCells.map((day) => (
                       <div
                         key={day.toISOString().split("T")[0]}
-                        className={`flex hover:bg-lime-100 hover:shadow-lg hover-light-shadow rounded-lg transition-all duration-300 cursor-pointer justify-center w-10 h-10 ${
+                        className={`flex hover:bg-lime-100 hover:shadow-lg hover-light-shadow 
+                        rounded-lg transition-all duration-300 
+                        cursor-pointer w-[8.5vw] h-[6vh] items-center ${
                           isSameMonth(day, currentMonth)
                             ? ""
                             : "text-gray-400 pointer-events-none"
@@ -179,10 +187,16 @@ const UserCalendar = ({ handleDatePopup }) => {
                         onMouseEnter={() => setHoveredDate(day)}
                         onMouseLeave={() => setHoveredDate(null)}
                       >
-                        <div className="relative">
-                          <div className="flex items-center justify-center w-full h-full">
-                            <span>{format(day, "d")}</span>
-                          </div>
+                        <div>{format(day, "d")}</div>
+                        <div>
+                          {userAnswerDates.includes(
+                            addDays(day, 1).toISOString().split("T")[0]
+                          ) && (
+                            <img
+                              src={`/images/MBTIcharacters/${user.mbti}.png`}
+                              className="w-[4vw] h-[7vh] rounded-full"
+                            />
+                          )}
                         </div>
                       </div>
                     ))}
@@ -193,21 +207,27 @@ const UserCalendar = ({ handleDatePopup }) => {
           </div>
         </div>
 
-        <div>
-          <div className="bg-white rounded-lg shadow-md">
-            <div className="mb-4">
-              <h2 className="text-xl font-bold">내 답변 모아보기</h2>
-              {selectedDate ? (
-                <CellAnswers selectedDate={selectedDate} />
-              ) : (
-                session && (
-                  <MyAnswer
-                    selectedDate={selectedDate}
-                    handleDatePopup={handleDatePopup}
-                  />
-                )
-              )}
-            </div>
+        <div className="w-full">
+          <div className="mb-4">
+            {selectedDate &&
+            userAnswerDates.includes(
+              addDays(selectedDate, 1).toISOString().split("T")[0]
+            ) ? (
+              <CellAnswers selectedDate={selectedDate} />
+            ) : (
+              <>
+                {selectedDate &&
+                today.toISOString().split("T")[0] <
+                  addDays(selectedDate, 1).toISOString().split("T")[0] ? (
+                  <div className="text-center">아직 질문이 없어요!</div>
+                ) : (
+                  <>
+                    <div className="text-center">답변이 없어요!😭</div>
+                    <div className="text-center">다음에는 놓치지 마세요!</div>
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>

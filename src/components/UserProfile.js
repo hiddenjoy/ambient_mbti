@@ -132,7 +132,7 @@ const UserProfile = ({ profiledUserId }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-5 h-[70vh]">
+    <div className="bg-white rounded-lg shadow-md p-5 h-[60vh]">
       <img
         className="w-32 h-32 rounded-full mx-auto"
         src={`/images/MBTIcharacters/${profiledUser.mbti}.png`}
@@ -152,20 +152,20 @@ const UserProfile = ({ profiledUserId }) => {
       {data.user.id === profiledUserId ? (
         <></>
       ) : (
-        <div>
+        <div className="flex flex-col mb-5">
           {following ? (
             <button
               onClick={handleUnFollowing}
-              className="bg-neutral-100 m-0 p-1 rounded-xl"
+              className="border m-0 mt-5 p-1 rounded-xl"
             >
-              <p className="font-semibold">팔로잉 취소</p>
+              팔로잉 취소
             </button>
           ) : (
             <button
               onClick={handleFollowing}
-              className="bg-neutral-100 m-0 p-1 rounded-xl"
+              className="bg-neutral-200 m-0 p-1 mt-5 rounded-xl"
             >
-              <p className="font-semibold">팔로우</p>
+              팔로우
             </button>
           )}
         </div>

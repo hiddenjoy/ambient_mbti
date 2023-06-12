@@ -48,27 +48,37 @@ const Mypage = () => {
     setPopupDate(date);
   };
 
-  const ViewTagButton = ({ value }) => {
-    return (
-      <div className="flex flex-row">
-        <button
-          onClick={() => {
-            setViewTag(value);
-          }}
-          className="mr-3 my-3 px-2 rounded bg-white/50"
-        >
-          {value === "calendar" ? (
-            <p>달력</p>
-          ) : value === "likedAnswers" ? (
-            <p>좋아요한 답변</p>
-          ) : value === "followingUsers" ? (
-            <p>팔로우한 친구들</p>
-          ) : (
-            <p>invalid</p>
-          )}
-        </button>
-      </div>
-    );
+  // const ViewTagButton = ({ value }) => {
+  //   return (
+  //     <div className="flex flex-row">
+  //       <button
+  //         onClick={() => {
+  //           setViewTag(value);
+  //         }}
+  //         className="mr-3 my-3 px-2 rounded bg-white/50"
+  //       >
+  //         {value === "calendar" ? (
+  //           <p>달력</p>
+  //         ) : value === "likedAnswers" ? (
+  //           <p>좋아요한 답변</p>
+  //         ) : value === "followingUsers" ? (
+  //           <p>팔로우한 친구들</p>
+  //         ) : (
+  //           <p>invalid</p>
+  //         )}
+  //       </button>
+  //     </div>
+  //   );
+  // };
+
+  const toCalendar = () => {
+    setViewTag("calendar");
+  };
+  const toLike = () => {
+    setViewTag("likedAnswers");
+  };
+  const toFollow = () => {
+    setViewTag("followingUsers");
   };
 
   return (
@@ -81,9 +91,59 @@ const Mypage = () => {
                 MY PAGE
               </div>
               <div className="flex flex-row">
-                <ViewTagButton value="calendar" />
-                <ViewTagButton value="likedAnswers" />
-                <ViewTagButton value="followingUsers" />
+                {console.log(viewTag)}
+                {viewTag === "calendar" ? (
+                  <button
+                    value="calendar"
+                    onClick={toCalendar}
+                    className="bg-neutral-500 text-lg rounded-lg px-2 py-1 text-white/90 mr-3 my-3"
+                  >
+                    내 달력
+                  </button>
+                ) : (
+                  <button
+                    value="calendar"
+                    onClick={toCalendar}
+                    className=" text-lg rounded-lg px-2 py-1  mr-3 my-3"
+                  >
+                    내 달력
+                  </button>
+                )}
+
+                {viewTag === "likedAnswers" ? (
+                  <button
+                    value="likedAnswers"
+                    onClick={toLike}
+                    className="bg-neutral-500 text-lg rounded-lg px-2 py-1 text-white/90 mr-3 my-3"
+                  >
+                    좋아한 답변
+                  </button>
+                ) : (
+                  <button
+                    value="likedAnswers"
+                    onClick={toLike}
+                    className=" text-lg rounded-lg px-2 py-1  mr-3 my-3"
+                  >
+                    좋아한 답변
+                  </button>
+                )}
+                {viewTag === "followingUsers" ? (
+                  <button
+                    value="followingUsers"
+                    onClick={toFollow}
+                    className="bg-neutral-500 text-lg rounded-lg px-2 py-1 text-white/90 mr-3 my-3"
+                  >
+                    팔로우한 친구들
+                  </button>
+                ) : (
+                  <button
+                    value="followingUsers"
+                    onClick={toFollow}
+                    className=" text-lg rounded-lg px-2 py-1  mr-3 my-3"
+                  >
+                    팔로우한 친구들
+                  </button>
+                )}
               </div>
             </div>
           </div>
