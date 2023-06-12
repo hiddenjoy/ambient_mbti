@@ -9,7 +9,7 @@ export default function QuestionForAdminPage({ question, onQuestionUpdate }) {
 
   async function handleUpdateQuestion() {
     const questionRef = doc(db, "questions", question.id);
-  
+
     try {
       await updateDoc(questionRef, {
         content: updatedContent.trim(),
@@ -20,7 +20,7 @@ export default function QuestionForAdminPage({ question, onQuestionUpdate }) {
       console.error("Error updating question: ", error);
     }
   }
-  
+
   return (
     <div className="bg-yellow-100 rounded shadow-lg p-4 mb-4">
       <div className="text-gray-600 mb-2">{question.date}</div>

@@ -33,7 +33,7 @@ const Today = () => {
   }, [session]);
 
   return (
-    <div className=" flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <Question
         isAnsweredToday={false}
         setIsAnsweredToday={false}
