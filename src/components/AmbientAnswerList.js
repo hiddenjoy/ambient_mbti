@@ -101,15 +101,15 @@ const AmbientAnswerList = ({ answer }) => {
       <div className="mb-7">
         {question && (
           <>
-            <div className="flex border text-xs">{question.date}</div>
-            <div className="flex border text-sm">Q: {question.content}</div>
+            <div className="flex text-xs">{question.date}</div>
+            <div className="flex text-base">Q: {question.content}</div>
           </>
         )}
       </div>
 
-        <div className="flex flex-col justify-end items-end my-0">
-          <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`}>
-            <div className="border text-base text-end mb-3 bg-white">
+        <div className="flex flex-col justify-end items-end my-0 w-full">
+          <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`} className="w-full">
+            <div className="text-base text-end mb-3 bg-white h-24 overflow-scroll">
               " {truncatedContent} "
             </div>
             <div className="text-end text-xs italic flex flex-row items-center justify-end">

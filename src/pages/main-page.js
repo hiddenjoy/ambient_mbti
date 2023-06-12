@@ -47,7 +47,7 @@ const Main = ({ isAnsweredToday }) => {
       {/* 랜덤한 답변 보여주기 */}
       {isLoggedIn ? (
         <>
-          <div className="flex flex-row items-center h-full">
+          <div className="flex flex-row items-start h-full">
             <div className=" basis-1/3 flex h-full flex-col  items-center">
               <div className="mb-10 border-4 bg-neutral-100 w-full">
                 <Question
@@ -56,15 +56,10 @@ const Main = ({ isAnsweredToday }) => {
                   setCurrentDate={setCurrentDate}
                 />
               </div>
-              <div className="border-2 border-primary mr-0 w-full">
-                <MbtiSelector defaultMbti={mbti} setDefaultMbti={setMbti} />
-              </div>
             </div>
 
             <div className="flex flex-col items-center basis-2/3 px-10 w-full">
-              {/* content 이 부분은 한번에 렌더링 할거긴 함 */}
-
-              <AnswerList mbti={mbti} date={formattedDate} />
+              <TempAnswerList date={formattedDate} />
             </div>
           </div>
         </>
