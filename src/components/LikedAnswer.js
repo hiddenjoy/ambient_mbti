@@ -11,7 +11,7 @@ const answerCollection = collection(db, "answers");
 const LikedAnswers = () => {
   const { data } = useSession();
   const [likedAnswers, setLikedAnswers] = useState([]);
-  const [showListVer, setShowListVer] = useState(true);
+  const [showListVer, setShowListVer] = useState(false);
 
   const getLikedAnswers = async () => {
     const q = query(
@@ -77,13 +77,13 @@ const LikedAnswers = () => {
             {showListVer ? (
               <div className="flex flex-col items-center w-4/5">
                 {likedAnswers.map((item) => (
-                    <SmallAnswerList key={item.id} answer={item} />
+                    <AmbientAnswerList key={item.id} answer={item} />
                   ))}
               </div>
             ) : (
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-4 gap-2">
                 {likedAnswers.map((item) => (
-                    <SmallAnswerList key={item.id} answer={item} />
+                    <AmbientAnswerList key={item.id} answer={item} />
                   ))}
               </div>
             )}

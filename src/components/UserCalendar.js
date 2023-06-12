@@ -112,7 +112,6 @@ const UserCalendar = ({ handleDatePopup }) => {
   return (
     <div className="flex flex-col w-full">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold">달력</h1>
       </div>
       <div className="flex flex-col md:flex-row md:space-x-4">
         <div className="md:w-2/4">

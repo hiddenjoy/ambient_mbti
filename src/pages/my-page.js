@@ -62,7 +62,7 @@ const Mypage = () => {
           ) : value === "likedAnswers" ? (
             <p>좋아요한 답변</p>
           ) : value === "followingUsers" ? (
-            <p>팔로우</p>
+            <p>팔로우한 친구들</p>
           ) : (
             <p>invalid</p>)}
         </button>
