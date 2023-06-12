@@ -61,9 +61,6 @@ const AnswerList = ({ mbti, date }) => {
   const toList = () => {
     setLayout(true);
   };
-  const toGallery = () => {
-    setLayout(false);
-  };
 
   const handleSort = () => {
     const sortedAnswers = [...answers];
@@ -72,43 +69,33 @@ const AnswerList = ({ mbti, date }) => {
   };
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="sticky top-0 border w-full flex justify-between bg-white">
+    <div className="sticky top-0 w-full border">
+      <div className="flex justify-end bg-neutral-100 p-1">
         <div>
-          <button className="border my-1 ml-1 p-1" onClick={toList}>
-            list
+          <button
+            className="m-1 py-0 px-4 border rounded-lg"
+            onClick={handleSort}
+          >
+            좋아요순
           </button>
-          <button className="border my-1 mr-1 p-1" onClick={toGallery}>
-            gallery
-          </button>
-        </div>
-        <div>
-          <button className="border my-1 mr-1 p-1 " onClick={handleSort}>
-            좋아요 순
-          </button>
-          <button className="border my-1 mr-1 p-1" onClick={handleRandom}>
-            ↺
+          <button
+            className="m-1 py-0 px-4 border rounded-lg"
+            onClick={handleRandom}
+          >
+            셔플
           </button>
         </div>
       </div>
-      <div className="w-full h-[80vh]">
-        {layout ? (
-          <div
-            className={`items-center w-full ${
-              answers.length > 2 ? "animate-slide-up" : ""
-            }`}
-          >
-            {answers.map((item) => (
-              <SmallAnswerList key={item.id} answer={item} />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-3 gap-2">
-            {answers.map((item) => (
-              <SmallAnswerList key={item.id} answer={item} />
-            ))}
-          </div>
-        )}
+
+      <div
+        className="overflow-auto max-h-[calc(35vh-2rem)]"
+        style={{ paddingBottom: "3.5rem" }}
+      >
+        <div className="w-full">
+          {answers.map((item) => (
+            <SmallAnswerList key={item.id} answer={item} className="" />
+          ))}
+        </div>
       </div>
     </div>
   );
