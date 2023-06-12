@@ -5,7 +5,6 @@ import { useSession, signOut } from "next-auth/react";
 
 import mbtiColors from "../data/mbtiColors.js";
 
-
 import { db } from "@/firebase";
 import {
   collection,
@@ -192,22 +191,15 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
                 {question.date}
               </div>
             </div>
-            <p className="text-center border my-5 text-lg whitespace-normal">
-              "{question.content}"
+            <p className="text-center my-5 text-xl bg-white/50">
+              " {question.content} "
             </p>
           </div>
 
-          <p className="text-center my-5 text-xl bg-white/50">
-            " {question.content} "
-          </p>
           <div className="flex text-sm text-gray-600">나의 답변:</div>
 
-          <div 
-            className="drop-shadow-md"
-            style={{ backgroundColor: bgColor}}
-          >
+          <div className="drop-shadow-md" style={{ backgroundColor: bgColor }}>
             <div className="flex flex-col p-5 items-center bg-white/50">
-
               {isEdit ? (
                 <>
                   <input
@@ -233,17 +225,13 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
                 </>
               ) : (
                 <>
-
                   <div className="w-full p-2 text-black text-xl text-center whitespace-normal">
-
                     {answer}
                   </div>
                   <button
                     onClick={handleIsEdit}
-
                     className="w-1/4 mt-3 p-2 text-xs items-center"
-                    style={{backgroundColor: bgColor}}
-
+                    style={{ backgroundColor: bgColor }}
                   >
                     수정
                   </button>
