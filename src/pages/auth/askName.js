@@ -43,7 +43,7 @@ export default function AskName() {
         <input
           type="text"
           className="w-full p-1 border-transparent rounded mb-4"
-          placeholder="Your name..."
+          placeholder="이름을 입력해주세요..."
           onChange={handleNameChange}
           value={name}
         />
@@ -55,7 +55,7 @@ export default function AskName() {
           }}
           disabled={!name}
         >
-          Continue
+          계속
         </button>
       </div>
     </div>

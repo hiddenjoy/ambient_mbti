@@ -127,14 +127,14 @@ export default function SignUp() {
       ) : (
         // 회원가입 진행 중 표시될 UI
         <div className="rounded-lg border border-gray-300 p-4 m-4 w-1/4">
-            <h2 className="text-center font-bold mb-4">Create your account</h2>
+            <h2 className="text-center font-bold mb-4">회원가입</h2>
             <div className="flex justify-between items-center mb-4">
                 <input
                     type="text"
                     className={`flex-grow mr-2 p-1 ${
                     userEmailExists ? "border-red-500" : "border-transparent"
                     } rounded`}
-                    placeholder="Your Email"
+                    placeholder="email을 입력해주세요"
                     onChange={handleEmailInputChange}
                     value={userEmail}
                     style={{ height: "35px" }}
@@ -163,11 +163,11 @@ export default function SignUp() {
             )}
             <div className="flex justify-between items-center mb-4">
                 <input
-                    type="text"
+                    type="password"
                     className={`flex-grow mr-2 p-1 ${
                     passwordChecked ? "border-red-500" : "border-transparent"
                     } rounded`}
-                    placeholder="Your Password"
+                    placeholder="비밀번호를 입력해주세요"
                     onChange={handlePasswordInputChange}
                     value={userPassword}
                     style={{ height: "35px" }}
@@ -191,7 +191,7 @@ export default function SignUp() {
                 }`}
                 onClick={createUserAccount}
             >
-            Sign Up
+                회원가입하기
             </button>
             <div className="flex justify-center items-center my-4">
                 <hr className="w-1/4" />
@@ -204,12 +204,12 @@ export default function SignUp() {
                 signIn("kakao", { callbackUrl: "/auth/askName" })  // "credentials" -> "kakao"
                 }
             >
-                Sign up with Kakao
+                카카오로 로그인
             </button>
             <div>
-                Already have an account?{" "}
+                이미 계정이 있으신가요?{" "}
                 <Link href="/auth/login" className="text-blue-500 hover:underline">
-                    Log in here
+                    로그인 하기
                 </Link>
             </div>
         </div>

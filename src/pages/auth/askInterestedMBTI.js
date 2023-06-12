@@ -142,7 +142,7 @@ export default function askInterestedMBTI() {
           className="w-full p-1 bg-blue-500 text-white border border-blue-500 rounded hover:bg-white hover:text-blue-500"
           onClick={handleSubmit}
         >
-          Continue
+          계속
         </button>
       </div>
     </div>

@@ -94,7 +94,7 @@ export default function LogIn() {
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="rounded-lg border border-gray-300 p-4 m-4 w-1/4">
-          <h2 className="text-center font-bold mb-4">Welcome back!</h2>
+          <h2 className="text-center font-bold mb-4">환영합니다!</h2>
           <div className="flex justify-between items-center mb-4">
             <input
               type="text"
@@ -126,7 +126,7 @@ export default function LogIn() {
             className={`w-full p-1 bg-blue-500 text-white border border-blue-500 rounded hover:bg-white hover:text-blue-500`}
             onClick={handleCredentialsLogin}
           >
-            Log in
+            로그인
           </button>
           <div className="flex justify-center items-center my-4">
             <hr className="w-1/4" />
@@ -139,12 +139,12 @@ export default function LogIn() {
               signIn("kakao")
             }
           >
-            Log in with Kakao
+            카카오로 로그인
           </button>
           <div>
-            Don't have an account?{" "}
+            계정이 없으신가요?{" "}
             <Link href="/auth/signup" className="text-blue-500 hover:underline">
-              Sign up here
+              회원가입 하기
             </Link>
           </div>
         </div>
@@ -192,7 +192,7 @@ export default function LogIn() {
                           hover:bg-white hover:text-blue-500`}
                 onClick={() => router.push("/")}
               >
-                Go to Home
+                홈으로
               </button>
               <button
                 className={`w-40
@@ -203,7 +203,7 @@ export default function LogIn() {
                           hover:bg-white hover:text-blue-500`}
                 onClick={() => signOut()}
               >
-                Sign out
+                로그아웃
               </button>
             </div>
           </div>
