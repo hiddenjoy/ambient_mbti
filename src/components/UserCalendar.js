@@ -222,8 +222,17 @@ const UserCalendar = ({ handleDatePopup }) => {
                   <div className="text-center">아직 질문이 없어요!</div>
                 ) : (
                   <>
-                    <div className="text-center">답변이 없어요!😭</div>
-                    <div className="text-center">다음에는 놓치지 마세요!</div>
+                    {selectedDate ? (
+                      <>
+                        {" "}
+                        <div className="text-center">답변이 없어요!😭</div>
+                        <div className="text-center">
+                          다음에는 놓치지 마세요!
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </>
                 )}
               </>
