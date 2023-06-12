@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SmallAnswerList from "@/components/SmallAnswerList";
+import { format } from 'date-fns';import SmallAnswerList from "@/components/SmallAnswerList";
 import AmbientAnswerList from "@/components/AmbientAnswerList";
 import { useSession, signOut } from "next-auth/react";
 import { db } from "@/firebase";
@@ -20,7 +20,7 @@ const questionCollection = collection(db, "questions");
 const answerCollection = collection(db, "answers");
 const userCollection = collection(db, "users");
 
-const MyAnswers = () => {
+const CellAnswers = ({ selectedDate }) => {
   const [answers, setAnswers] = useState([]);
   const [sortedByLikes, setSortedByLikes] = useState(false);
   const [sortedByTimestamp, setSortedByTimestamp] = useState(false);
@@ -50,60 +50,40 @@ const MyAnswers = () => {
   };
 
   useEffect(() => {
-    getAnswers();
-  }, []);
+    if (data) {
+      const fetchUserAnswers = async () => {
+        const userId = data.user.id;
 
-  const handleSortByLikes = () => {
-    const sortedAnswers = [...answers];
-    sortedAnswers.sort((a, b) => b.likeUsers.length - a.likeUsers.length);
-    setAnswers(sortedAnswers);
-    setSortedByLikes(true);
-    setSortedByTimestamp(false);
-  };
+        const q = query(answerCollection, where('user.id', '==', userId));
+        const answerSnapshot = await getDocs(q);
+        const answers = answerSnapshot.docs.map((doc) => doc.data());
 
-  const handleSortByTimestamp = () => {
-    const sortedAnswers = [...answers];
-    sortedAnswers.sort((a, b) => {
-      return (
-        new Date(b.questionDate).getTime() - new Date(a.questionDate).getTime()
-      );
-    });
-    setAnswers(sortedAnswers);
-    setSortedByLikes(false);
-    setSortedByTimestamp(true);
-  };
+        let filteredAnswers = [];
 
-  const handleResetSort = () => {
-    getAnswers();
-    setSortedByLikes(false);
-    setSortedByTimestamp(false);
-  };
+        if (selectedDate) {
+          // 선택된 날짜의 질문에 대한 답변만 필터링
+          const questionDate = format(selectedDate, 'yyyy-MM-dd');
+          filteredAnswers = answers.filter((answer) => answer.questionDate === questionDate);
+        } else {
+          filteredAnswers = answers;
+        }
+
+        setAnswers(filteredAnswers);
+      };
+
+      fetchUserAnswers();
+    }
+  }, [data, selectedDate]);
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="flex justify-start">
-        <button className="border mr-2 px-2 py-1" onClick={handleSortByLikes}>
-          좋아요순
-        </button>
-        <button
-          className="border mr-2 px-2 py-1"
-          onClick={handleSortByTimestamp}
-        >
-          최신순
-        </button>
-        <button className="border px-2 py-1" onClick={handleResetSort}>
-        ↺
-        </button>
-      </div>
-      <div className="overflow-y-auto w-full h-[450px]">
+    <div className="overflow-y-auto w-full h-[450px]">
         <div className={`flex flex-col items-center w-full`}>
           {answers.map((item) => (
             <AmbientAnswerList key={item.id} answer={item} />
           ))}
         </div>
       </div>
-    </div>
   );
 };
 
-export default MyAnswers;
+export default CellAnswers;
