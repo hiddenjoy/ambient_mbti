@@ -55,8 +55,7 @@ const Mypage = () => {
           onClick={() => {
             setViewTag(value);
           }}
-          className="mr-3 my-3 px-2 bg-lime-100 rounded"
-          style={{ backgroundColor: bgColor }}
+          className="mr-3 my-3 px-2 rounded bg-white/50"
         >
           {value === "calendar" ? (
             <p>달력</p>
@@ -73,36 +72,36 @@ const Mypage = () => {
 
   return (
     <Layout>
-      <div
-        className="flex flex-row h-full">
-        <div className="h-full basis-1/5 p-3 flex flex-col items-start sticky top-0">
-          <h1 className="text-4xl font-bold text-primary p-3">Mypage</h1>
-          {session && userId ? (
-            <UserProfile profiledUserId={userId} />
-          ) : (
-            <div>로그인이 필요합니다.</div>
-          )}
-        </div>
-        <div className="basis-4/5 flex flex-col">
-          <div className="flex flex-row">
-            <ViewTagButton value="calendar" />
-            <ViewTagButton value="likedAnswers" />
-            <ViewTagButton value="followingUsers" />
-          </div>
-          <div className="bg-neutral-100 h-full">
-
-            {viewTag === "calendar" ? (
-              <UserCalendar
-                handleDatePopup={handleDatePopup}
-                bgColor={bgColor}
-              />
-            ) : viewTag === "likedAnswers" ? (
-              <LikedAnswers />
-            ) : viewTag === "followingUsers" ? (
-              <FollowingUsers />
+      <div style={{ backgroundColor: bgColor }} >
+        <div className="bg-white/50 flex flex-row h-full">
+          <div className="h-full basis-1/5 p-3 flex flex-col items-start sticky top-0">
+            <h1 className="text-4xl font-bold text-primary p-3">My page</h1>
+            {session && userId ? (
+              <UserProfile profiledUserId={userId} />
             ) : (
-              <div>Invalid viewTag</div>
+              <div>로그인이 필요합니다.</div>
             )}
+          </div>
+          <div className="basis-4/5 flex flex-col">
+            <div className="flex flex-row">
+              <ViewTagButton value="calendar" />
+              <ViewTagButton value="likedAnswers" />
+              <ViewTagButton value="followingUsers" />
+            </div>
+            <div className="bg-white/50">
+              {viewTag === "calendar" ? (
+                <UserCalendar
+                  handleDatePopup={handleDatePopup}
+                  bgColor={bgColor}
+                />
+              ) : viewTag === "likedAnswers" ? (
+                <LikedAnswers />
+              ) : viewTag === "followingUsers" ? (
+                <FollowingUsers />
+              ) : (
+                <div>Invalid viewTag</div>
+              )}
+            </div>
           </div>
         </div>
       </div>
