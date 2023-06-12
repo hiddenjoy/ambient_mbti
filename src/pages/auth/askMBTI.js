@@ -144,14 +144,14 @@ export default function askMBTI() {
           className="w-full p-1 bg-blue-500 text-white border border-blue-500 rounded hover:bg-white hover:text-blue-500"
           onClick={handleSubmit}
         >
-          Continue
+          계속
         </button>
       </div>
       {confirmChange && (
         <div>
           <p>MBTI가 이미 설정되어 있습니다. 변경하시겠습니까?</p>
-          <button onClick={() => handleConfirmChange(true)}>Yes</button>
-          <button onClick={() => handleConfirmChange(false)}>No</button>
+          <button onClick={() => handleConfirmChange(true)}>네</button>
+          <button onClick={() => handleConfirmChange(false)}>아니오</button>
         </div>
       )}
     </div>
