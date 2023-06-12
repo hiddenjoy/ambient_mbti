@@ -91,10 +91,10 @@ const AnswerList = ({ mbti, date }) => {
           </button>
         </div>
       </div>
-      <div className="overflow-y-auto w-full h-[450px]">
+      <div className="w-full h-[80vh]">
         {layout ? (
           <div
-            className={`flex flex-col items-center w-full ${
+            className={`items-center w-full ${
               answers.length > 2 ? "animate-slide-up" : ""
             }`}
           >

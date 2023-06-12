@@ -55,12 +55,12 @@ const Main = ({ isAnsweredToday }) => {
     <>
       {isLoggedIn ? (
         <>
-
           <div className="flex flex-row items-start h-full">
-            <div className="basis-1/3 sticky top-0">
-              <div className="mb-10 w-full rounded-xl drop-shadow-md"
-                style={{backgroundColor: bgColor}}>
-
+            <div className="basis-1/3">
+              <div
+                className="w-full rounded-xl drop-shadow-md"
+                style={{ backgroundColor: bgColor }}
+              >
                 <Question
                   isAnsweredToday={isAnsweredToday}
                   currentDate={currentDate}

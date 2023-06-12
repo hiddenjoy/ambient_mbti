@@ -179,7 +179,7 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
 
   return (
     <div
-      className="w-full p-5 h-[80vh] flex flex-col justify-center"
+      className="w-full p-5 h-[79vh] flex flex-col justify-center"
       style={{ backgroundColor: bgColor }}
     >
       {isAnsweredToday ? (

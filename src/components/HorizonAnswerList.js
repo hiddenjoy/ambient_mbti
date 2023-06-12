@@ -30,7 +30,6 @@ const HorizonAnswerList = ({ range }) => {
     const newAnswers = [];
     results.docs.forEach((doc) => {
       newAnswers.push({ id: doc.id, ...doc.data() });
-
       newAnswers.sort((a, b) => b.likeUsers.length - a.likeUsers.length);
     });
 

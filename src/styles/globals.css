@@ -123,6 +123,7 @@ button:active {
 .banner {
   box-shadow: -5px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 .smallbutton {
   background-color: rgba(0, 0, 0, 0);
   font-size: small;
@@ -139,7 +140,8 @@ button:active {
 .container {
   max-height: 86vh;
   min-height: 86vh;
-  max-width: 87vw;
+  max-width: 82vw;
+  min-width: 82vw;
   margin: 15px 0px 10px 0px;
   padding: 15px;
   background-color: white;

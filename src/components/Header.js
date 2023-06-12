@@ -34,50 +34,53 @@ const Header = ({ whichPage }) => {
 
   return (
     <>
-      <div className="flex flex-col justify-between items-center pl-3 py-3 sticky text-black mr-0 my-3 ml-[10px] w-40">
-        <img
-          className="w-20"
-          src="/images/logo image green.png"
-          alt="Ambient MBTI logo"
-        />
-        <div className="flex flex-col items-end mr-[11px]">
-          <Link href="/ranking">
-            {whichPage === "ranking" ? (
-              <button className="banner w-40 text-xl font-bold text-center text-primary">
-                Ambient MBTI
-              </button>
-            ) : (
-              <button className="banner w-32 text-l text-center text-primary bg-gray-200">
-                Ambient MBTI
-              </button>
-            )}
-          </Link>
+      <div className="flex flex-col justify-between pl-3 py-3 sticky text-black mr-0 my-3 w-1/6">
+        <div>
+          <div className="flex flex-col items-center">
+            <img
+              className="w-20"
+              src="/images/logo image green.png"
+              alt="Ambient MBTI logo"
+            />
+          </div>
+          <div className="flex flex-col items-end">
+            <Link href="/ambient" className="w-full flex flex-col items-end">
+              {whichPage === "ambient" ? (
+                <button className="banner w-full text-xl font-bold text-center text-primary">
+                  Ambient MBTI
+                </button>
+              ) : (
+                <button className="banner w-2/3 text-base text-center text-primary bg-gray-200">
+                  Ambient MBTI
+                </button>
+              )}
+            </Link>
 
-          <Link href="/">
-            {whichPage === "main" ? (
-              <button className="banner w-40 text-xl font-bold text-center text-primary">
-                Today
-              </button>
-            ) : (
-              <button className="banner w-32 text-l text-center text-primary bg-gray-200">
-                Today
-              </button>
-            )}
-          </Link>
+            <Link href="/" className="w-full flex flex-col items-end">
+              {whichPage === "main" ? (
+                <button className="banner w-full text-xl font-bold text-center text-primary">
+                  Today
+                </button>
+              ) : (
+                <button className="banner w-2/3 text-base text-center text-primary bg-gray-200">
+                  Today
+                </button>
+              )}
+            </Link>
 
-          <Link href="/compare">
-            {whichPage === "compare" ? (
-              <button className="banner w-40 text-xl font-bold text-center text-primary">
-                MBTI vs. MBTI
-              </button>
-            ) : (
-              <button className="banner w-32 text-l text-center text-primary bg-gray-200">
-                MBTI vs. MBTI
-              </button>
-            )}
-          </Link>
+            <Link href="/compare" className="w-full flex flex-col items-end">
+              {whichPage === "compare" ? (
+                <button className="banner w-full text-xl font-bold text-center text-primary">
+                  MBTI vs. MBTI
+                </button>
+              ) : (
+                <button className="banner w-2/3 text-base text-center text-primary bg-gray-200">
+                  MBTI vs. MBTI
+                </button>
+              )}
+            </Link>
+          </div>
         </div>
-
         {isLogin ? (
           <div className="flex flex-col items-center">
             <button
