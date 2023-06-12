@@ -40,30 +40,21 @@ const TempAnswerList = ({ num, date }) => {
     getAnswers();
   }, [date]);
 
-  // const generateRandomAnswers = () => {
-  //   const selectedAnswer = [];
+  // const generateRandomAnswers = async () => {
 
-  //   for (let i = 0; i < num; i++) {
-  //     const randomIndex = Math.floor(Math.random() * answer.length);
-  //     const randomItem = answer[randomIndex];
+  // }
 
-  //     if (!selectedAnswer.includes(randomItem)) {
-  //       selectedAnswer.push(randomItem);
-  //     } else {
-  //       i--; // 중복 요소가 선택되었을 경우 i를 감소하여 다시 선택
-  //     }
-  //   }
-
-  //   setSelectedAnswers(selectedAnswer);
-  // };
-
-  // useEffect(() => {
-  //   generateRandomAnswers();
-  // }, []);
-
-  // const handleClick = () => {
-  //   generateRandomAnswers();
-  // };
+  const handleRandomClick = () => {
+    const sortedAnswers = [...selectedAnswers];
+    for (let i = sortedAnswers.length - 1; i > 0; i--) {
+      const randomIndex = Math.floor(Math.random() * (i + 1));
+      [sortedAnswers[i], sortedAnswers[randomIndex]] = [
+        sortedAnswers[randomIndex],
+        sortedAnswers[i],
+      ];
+    }
+    setSelectedAnswers(sortedAnswers);  
+  };
 
   const handleSort = () => {
     const sortedAnswers = [...selectedAnswers];
@@ -74,27 +65,25 @@ const TempAnswerList = ({ num, date }) => {
   return (
     <>
       <div className="sticky top-0 border w-full flex justify-between bg-white">
-        {/* <div className="sticky top-0 border w-full flex justify-between bg-white"> */}
-          <div>
-            <button className="border my-1 mr-1 p-1" onClick={() => setShowListVer(true)}>
-              list
-            </button>
-            <button className="border my-1 mr-1 p-1" onClick={() => setShowListVer(false)}>
-              gallery
-            </button>
-          </div>
-          <div>
-            <button className="border my-1 mr-1 p-1" onClick={handleSort}>
-              좋아요순
-            </button>
-            <button className="border my-1 mr-1 p-1" >
-              ↺
-            </button>
-          {/* </div> */}
+        <div>
+          <button className="border my-1 mr-1 p-1" onClick={() => setShowListVer(true)}>
+            list
+          </button>
+          <button className="border my-1 mr-1 p-1" onClick={() => setShowListVer(false)}>
+            gallery
+          </button>
+        </div>
+        <div>
+          <button className="border my-1 mr-1 p-1" onClick={handleSort}>
+            좋아요순
+          </button>
+          <button className="border my-1 mr-1 p-1" onClick={handleRandomClick}>
+            랜덤순
+          </button>
         </div>
       </div>
       {showListVer ? (
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-4/5">
           {selectedAnswers.map((item) => (
             <SmallAnswerList key={item.id} answer={item} />
           ))}
