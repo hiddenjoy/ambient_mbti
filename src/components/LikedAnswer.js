@@ -38,24 +38,36 @@ const LikedAnswers = () => {
     sortedAnswers.sort((a, b) => b.likeUsers.length - a.likeUsers.length);
     setLikedAnswers(sortedAnswers);
   };
+
+  const handleRandomClick = () => {
+    const sortedAnswers = [...likedAnswers];
+    for (let i = sortedAnswers.length - 1; i > 0; i--) {
+      const randomIndex = Math.floor(Math.random() * (i + 1));
+      [sortedAnswers[i], sortedAnswers[randomIndex]] = [
+        sortedAnswers[randomIndex],
+        sortedAnswers[i],
+      ];
+    }
+    setLikedAnswers(sortedAnswers);  
+  };
   
   return (  
     <div className="flex flex-wrap">
-      <div className="sticky top-0 border w-full flex justify-between bg-white">
+      <div className="sticky top-0 w-full flex justify-between">
         <div>
-          <button className="border my-1 mr-1 p-1" onClick={() => setShowListVer(true)}>
+          <button className="my-1 mx-1 p-1" onClick={() => setShowListVer(true)}>
             list
           </button>
-          <button className="border my-1 mr-1 p-1" onClick={() => setShowListVer(false)}>
+          <button className="my-1 mr-1 p-1" onClick={() => setShowListVer(false)}>
             gallery
           </button>
         </div>
         <div>
-          <button className="border my-1 mr-1 p-1" onClick={handleSort}>
+          <button className="my-1 mr-1 p-1" onClick={handleSort}>
             좋아요순
           </button>
-          <button className="border my-1 mr-1 p-1" >
-            ↺
+          <button className="my-1 mr-1 p-1" onClick={handleRandomClick}>
+            랜덤순
           </button>
         </div>
       </div>

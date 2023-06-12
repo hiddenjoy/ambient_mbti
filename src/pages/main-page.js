@@ -10,6 +10,7 @@ import TempAnswerList from "@/components/tempAnswerList";
 import Question from "@/components/Question";
 import MbtiSelector from "@/components/mbtiSelector";
 import { is } from "date-fns/locale";
+import mbtiColors from "@/data/mbtiColors.js";
 
 const Main = ({ isAnsweredToday }) => {
   const { data: session } = useSession();
@@ -18,6 +19,7 @@ const Main = ({ isAnsweredToday }) => {
   const [answerList, setAnswerList] = useState([]);
   const [mbti, setMbti] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [bgColor, setBgColor] = useState("#E5E7EB"); // 기본 배경색 설정
 
   const formattedDate = new Date(
     currentDate.getTime() - new Date().getTimezoneOffset() * 60000
@@ -35,6 +37,13 @@ const Main = ({ isAnsweredToday }) => {
           setUser(userDoc.data());
           setIsLoggedIn(true);
           setMbti(userDoc.data().mbti);
+
+          const userMbti = userDoc.data().mbti; // 세션 유저의 mbti 가져오기
+          const mbtiColor = mbtiColors[userMbti]; // mbtiColors에서 해당 mbti의 색상 가져오기
+
+          if (mbtiColor) {
+            setBgColor(mbtiColor);
+          }
         }
       }
     }
@@ -44,12 +53,14 @@ const Main = ({ isAnsweredToday }) => {
 
   return (
     <>
-      {/* 랜덤한 답변 보여주기 */}
       {isLoggedIn ? (
         <>
-          <div className="flex flex-row">
-            <div className=" basis-1/3 flex h-full flex-col  items-center">
-              <div className="mb-10 border-4 bg-neutral-100 w-full">
+
+          <div className="flex flex-row items-start h-full">
+            <div className="basis-1/3 sticky top-0">
+              <div className="mb-10 w-full rounded-xl drop-shadow-md"
+                style={{backgroundColor: bgColor}}>
+
                 <Question
                   isAnsweredToday={isAnsweredToday}
                   currentDate={currentDate}

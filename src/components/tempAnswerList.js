@@ -16,7 +16,7 @@ import {
 
 const answerCollection = collection(db, "answers");
 
-const TempAnswerList = ({ num, date }) => {
+const TempAnswerList = ({ date }) => {
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [showListVer, setShowListVer] = useState(true);
 
@@ -40,10 +40,6 @@ const TempAnswerList = ({ num, date }) => {
     getAnswers();
   }, [date]);
 
-  // const generateRandomAnswers = async () => {
-
-  // }
-
   const handleRandomClick = () => {
     const sortedAnswers = [...selectedAnswers];
     for (let i = sortedAnswers.length - 1; i > 0; i--) {
@@ -64,20 +60,20 @@ const TempAnswerList = ({ num, date }) => {
 
   return (
     <>
-      <div className="sticky top-0 border w-full flex justify-between bg-white">
+      <div className="sticky top-0 w-full flex justify-between">
         <div>
-          <button className="border my-1 mr-1 p-1" onClick={() => setShowListVer(true)}>
+          <button className="m-1 p-1 bg-neutral-100 rounded-lg" onClick={() => setShowListVer(true)}>
             list
           </button>
-          <button className="border my-1 mr-1 p-1" onClick={() => setShowListVer(false)}>
+          <button className="m-1 p-1 bg-neutral-100 rounded-lg" onClick={() => setShowListVer(false)}>
             gallery
           </button>
         </div>
         <div>
-          <button className="border my-1 mr-1 p-1" onClick={handleSort}>
+          <button className="m-1 p-1 bg-neutral-100 rounded-lg" onClick={handleSort}>
             좋아요순
           </button>
-          <button className="border my-1 mr-1 p-1" onClick={handleRandomClick}>
+          <button className="m-1 p-1 bg-neutral-100 rounded-lg" onClick={handleRandomClick}>
             랜덤순
           </button>
         </div>
