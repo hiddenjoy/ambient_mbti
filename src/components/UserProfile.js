@@ -17,14 +17,14 @@ import {
 
 const userCollection = collection(db, "users");
 
-const UserProfile = ({ profiledUserId }) => {  
+const UserProfile = ({ profiledUserId }) => {
   const { data } = useSession();
   const [profiledUser, setProfiledUser] = useState();
 
   //팔로잉
-  const [ following, setFollowing ] = useState();
-  const [ followerNum, setFollowerNum ] = useState();
-  const [ followingNum, setFollowingNum ] = useState();
+  const [following, setFollowing] = useState();
+  const [followerNum, setFollowerNum] = useState();
+  const [followingNum, setFollowingNum] = useState();
 
   const findProfiledUser = async () => {
     if (profiledUserId) {
@@ -37,10 +37,11 @@ const UserProfile = ({ profiledUserId }) => {
       }
 
       //최초 팔로잉 가져오기
-      setFollowing(Boolean(
-        users.followerId &&
-        users.followerId.find((i) => i === data.user.id)
-      ));
+      setFollowing(
+        Boolean(
+          users.followerId && users.followerId.find((i) => i === data.user.id)
+        )
+      );
       setFollowerNum(users.followerId ? users.followerId.length : 0);
       setFollowingNum(users.followingId ? users.followingId.length : 0);
     }
@@ -62,10 +63,10 @@ const UserProfile = ({ profiledUserId }) => {
   const handleUnFollowing = () => {
     unFollow();
   };
-  
+
   const updateFollow = async () => {
     //사용자 데이터 참조
-    const userRef = doc(userCollection, data.user.id);    
+    const userRef = doc(userCollection, data.user.id);
     const userSnapshot = await getDoc(userRef);
     const userData = userSnapshot.data();
     //anotherUser 데이터 참조
@@ -73,10 +74,16 @@ const UserProfile = ({ profiledUserId }) => {
     const profiledUserSnapshot = await getDoc(profiledUserRef);
     const profiledUserData = profiledUserSnapshot.data();
 
-    const updatedFollowingId = [...userData.followingId || [], profiledUserRef.id];
+    const updatedFollowingId = [
+      ...(userData.followingId || []),
+      profiledUserRef.id,
+    ];
     await updateDoc(userRef, { followingId: updatedFollowingId });
-      
-    const updatedFollwerId = [...profiledUserData.followerId || [], userRef.id];
+
+    const updatedFollwerId = [
+      ...(profiledUserData.followerId || []),
+      userRef.id,
+    ];
     await updateDoc(profiledUserRef, { followerId: updatedFollwerId });
 
     const updatedUserSnapshot = await getDoc(profiledUserRef);
@@ -84,12 +91,14 @@ const UserProfile = ({ profiledUserId }) => {
     console.log(updatedUserData);
 
     setFollowing(!following);
-    setFollowerNum(updatedUserData.followerId ? updatedUserData.followerId.length : 0);
+    setFollowerNum(
+      updatedUserData.followerId ? updatedUserData.followerId.length : 0
+    );
   };
 
   const unFollow = async () => {
     //사용자 데이터 참조
-    const userRef = doc(userCollection, data.user.id);    
+    const userRef = doc(userCollection, data.user.id);
     const userSnapshot = await getDoc(userRef);
     const userData = userSnapshot.data();
     //anotherUser 데이터 참조
@@ -100,12 +109,16 @@ const UserProfile = ({ profiledUserId }) => {
     const updatedFollowingId = userData.followingId.filter(
       (id) => id !== profiledUserId
     );
-    await setDoc(userRef, { followingId: updatedFollowingId}, { merge: true });
+    await setDoc(userRef, { followingId: updatedFollowingId }, { merge: true });
 
     const updatedFollwerId = profiledUserData.followerId.filter(
       (id) => id !== data.user.id
     );
-    await setDoc(profiledUserRef, { followerId: updatedFollwerId}, { merge: true });
+    await setDoc(
+      profiledUserRef,
+      { followerId: updatedFollwerId },
+      { merge: true }
+    );
 
     // 업데이트된 데이터 다시 가져오기
     const updatedUserSnapshot = await getDoc(profiledUserRef);
@@ -113,13 +126,13 @@ const UserProfile = ({ profiledUserId }) => {
     console.log(updatedUserData);
 
     setFollowing(!following);
-    setFollowerNum(updatedUserData.followerId ? updatedUserData.followerId.length : 0);
+    setFollowerNum(
+      updatedUserData.followerId ? updatedUserData.followerId.length : 0
+    );
   };
 
-
-
   return (
-    <div className="max-w-lg mx-auto mt-10 bg-white rounded-lg shadow-md p-5">
+    <div className="bg-white rounded-lg shadow-md p-5 h-[70vh]">
       <img
         className="w-32 h-32 rounded-full mx-auto"
         src={`/images/MBTIcharacters/${profiledUser.mbti}.png`}
@@ -129,25 +142,34 @@ const UserProfile = ({ profiledUserId }) => {
         {profiledUser.name}
       </h2>
       <p className="text-center text-gray-600 mt-1">{profiledUser.mbti}</p>
-      <div>팔로워 : {followerNum}</div>
-      <div>팔로잉 : {followingNum}</div>
+      <div className="text-center text-gray-600 mt-1">
+        팔로워 : {followerNum}
+      </div>
+      <div className="text-center text-gray-600 mt-1">
+        팔로잉 : {followingNum}
+      </div>
       <div className="flex justify-center mt-5"></div>
       {data.user.id === profiledUserId ? (
         <></>
       ) : (
         <div>
           {following ? (
-            <button onClick={handleUnFollowing} className="bg-neutral-100 m-0 p-1 rounded-xl">
+            <button
+              onClick={handleUnFollowing}
+              className="bg-neutral-100 m-0 p-1 rounded-xl"
+            >
               <p className="font-semibold">팔로잉 취소</p>
             </button>
           ) : (
-            <button onClick={handleFollowing} className="bg-neutral-100 m-0 p-1 rounded-xl">
+            <button
+              onClick={handleFollowing}
+              className="bg-neutral-100 m-0 p-1 rounded-xl"
+            >
               <p className="font-semibold">팔로우</p>
             </button>
           )}
         </div>
       )}
-      
     </div>
   );
 };

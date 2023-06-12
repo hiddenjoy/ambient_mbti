@@ -119,14 +119,14 @@ const AmbientAnswerList = ({ answer }) => {
             by.{" "}
             <img
               src={`/images/MBTIcharacters/${answer.user.mbti}.png`}
-              className="w-8"
+              className="w-7"
             />
             {answer.user.mbti}
           </div>
         </Link>
         <button
           onClick={() => likeAnswer(answer.id)}
-          className="ml-3 my-0 px-2 py-0 text-black text-xs"
+          className=" my-0 px-3 py-1 text-black text-xs bg-neutral-100 bg-opacity-50"
         >
           {liked ? "❤️" : "🤍"} {likedUserNum}
         </button>
