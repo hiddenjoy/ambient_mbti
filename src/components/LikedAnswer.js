@@ -11,6 +11,7 @@ const answerCollection = collection(db, "answers");
 const LikedAnswers = () => {
   const { data } = useSession();
   const [likedAnswers, setLikedAnswers] = useState([]);
+  const [showListVer, setShowListVer] = useState(true);
 
   const getLikedAnswers = async () => {
     const q = query(
@@ -24,27 +25,56 @@ const LikedAnswers = () => {
       id: doc.id,
       ...doc.data(),
     }));
-    // console.log(likedAnswers);
+
     setLikedAnswers(likedAnswers);
   };
 
   useEffect (() => {
     getLikedAnswers()
   }, []);
+
+  const handleSort = () => {
+    const sortedAnswers = [...likedAnswers];
+    sortedAnswers.sort((a, b) => b.likeUsers.length - a.likeUsers.length);
+    setLikedAnswers(sortedAnswers);
+  };
   
   return (  
     <div className="flex flex-wrap">
-      <div className="my-8 w-full">
+      <div className="sticky top-0 border w-full flex justify-between bg-white">
+        <div>
+          <button className="border my-1 mr-1 p-1" onClick={() => setShowListVer(true)}>
+            list
+          </button>
+          <button className="border my-1 mr-1 p-1" onClick={() => setShowListVer(false)}>
+            gallery
+          </button>
+        </div>
+        <div>
+          <button className="border my-1 mr-1 p-1" onClick={handleSort}>
+            좋아요순
+          </button>
+          <button className="border my-1 mr-1 p-1" >
+            ↺
+          </button>
+        </div>
+      </div>
+      <div className="flex flex-col items-center w-full">
         {likedAnswers.length > 0 ? (
           <>
-            <h2 className="text-3xl font-bold mb-4 ">내가 좋아요한 답변</h2>
-            <div className="w-full">
-              <div className="px-50">
+            {showListVer ? (
+              <div className="flex flex-col items-center w-4/5">
                 {likedAnswers.map((item) => (
-                  <SmallAnswerList key={item.id} answer={item} />
-                ))}
+                    <SmallAnswerList key={item.id} answer={item} />
+                  ))}
               </div>
-            </div>
+            ) : (
+              <div className="grid grid-cols-3 gap-2">
+                {likedAnswers.map((item) => (
+                    <SmallAnswerList key={item.id} answer={item} />
+                  ))}
+              </div>
+            )}
           </>
         ) : (
           <div className>

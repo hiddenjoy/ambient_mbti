@@ -71,29 +71,26 @@ const SmallAnswerList = ({ answer }) => {
   }, []);
 
   return (
-    <>
-      <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`}>
-        <div
-          className="flex flex-col justify-between my-2 text-neutral-800 p-3 w-full rounded"
-          style={{ backgroundColor: bgColor }} // 배경색을 동적으로 설정
-        >
-          <div className=" border text-lg text-center mb-3">
-            " {truncatedContent} "
-          </div>
+    <div className="flex flex-col w-full m-2 rounded justify-between" style={{ backgroundColor: bgColor }}>
+      <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`} 
+        className="flex flex-col justify-between text-neutral-800 p-3 w-full rounded"
+      >
+        <div className="text-lg text-center mb-3 bg-white/30">
+          " {truncatedContent} "
         </div>
       </Link>
-        <div className="flex flex-row justify-end items-center">
-          <div className="text-end text-xs italic flex flex-row items-center justify-end">
-            by. <img src={`/images/MBTIcharacters/${answer.user.mbti}.png`} className="w-8"/>{answer.user.mbti}
-          </div>
-          <button
-            onClick={() => likeAnswer(answer.id)}
-            className="ml-3 my-0 px-2 py-0 text-black"
-          >
-            {liked ? "❤️" : "🤍"} {likedUserNum}
-          </button>
+      <div className="flex flex-row justify-end items-center">
+        <div className="text-end text-xs italic flex flex-row items-center justify-end">
+          by. <img src={`/images/MBTIcharacters/${answer.user.mbti}.png`} className="w-8"/>{answer.user.mbti}
         </div>
-    </>
+        <button
+          onClick={() => likeAnswer(answer.id)}
+          className="mx-3 my-0 px-2 py-0 text-black"
+        >
+          {liked ? "❤️" : "🤍"} {likedUserNum}
+        </button>
+      </div>
+    </div>
   );
 };
 
