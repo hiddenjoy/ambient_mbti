@@ -24,6 +24,7 @@ const AnswerList = ({ mbti, date }) => {
   const { data } = useSession();
   const [layout, setLayout] = useState(true);
   const [noMbtiList, setNoMbtiList] = useState([]);
+  const [bgColor, setBgColor] = useState("#E5E7EB"); // 기본 배경색 설정
 
   const getAnswers = async () => {
     const q = query(

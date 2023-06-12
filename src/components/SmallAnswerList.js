@@ -95,7 +95,7 @@ const SmallAnswerList = ({ answer }) => {
         </div>
         <button
           onClick={() => likeAnswer(answer.id)}
-          className="mx-3 my-0 px-2 py-0 text-black"
+          className="mx-3 my-0 px-2 py-0 text-black  bg-neutral-100 bg-opacity-50 "
         >
           {liked ? "❤️" : "🤍"} {likedUserNum}
         </button>
