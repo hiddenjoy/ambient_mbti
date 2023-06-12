@@ -34,25 +34,13 @@ const Header = ({ whichPage }) => {
 
   return (
     <>
-      <div className="flex flex-col justify-between pl-3 py-3 sticky text-black mr-0 my-3 ml-5px w-40">
-        <div className="flex flex-col items-end">
-          <div className 
-        //   ="pl-5 banner w-32 item-center item-primary bg-lime rounded-lg"
-        //  style={{ marginLeft: "10px" }}
-         >
-          <img 
+      <div className="flex flex-col justify-between items-center pl-3 py-3 sticky text-black mr-0 my-3 ml-[10px] w-40">
+        <img
+          className="w-20"
           src="/images/logo image green.png"
           alt="Ambient MBTI logo"
-          style={{
-            
-maxWidth: "60%",
-margin : "10px",
-marginLeft : "36px"
-          }}
         />
-
-
-          </div>
+        <div className="flex flex-col items-end mr-[11px]">
           <Link href="/ranking">
             {whichPage === "ranking" ? (
               <button className="banner w-40 text-xl font-bold text-center text-primary">

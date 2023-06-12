@@ -47,7 +47,7 @@ const Main = ({ isAnsweredToday }) => {
       {/* 랜덤한 답변 보여주기 */}
       {isLoggedIn ? (
         <>
-          <div className="flex flex-row items-start h-full">
+          <div className="flex flex-row">
             <div className=" basis-1/3 flex h-full flex-col  items-center">
               <div className="mb-10 border-4 bg-neutral-100 w-full">
                 <Question

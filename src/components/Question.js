@@ -2,6 +2,7 @@ import { questions } from "@/data";
 import React, { useState, useEffect } from "react";
 import SmallAnswerList from "@/components/SmallAnswerList";
 import { useSession, signOut } from "next-auth/react";
+import mbtiColors from "../data/mbtiColors.js";
 
 import { db } from "@/firebase";
 import {
@@ -28,6 +29,7 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isEdit, setIsEdit] = useState(false);
+  const [bgColor, setBgColor] = useState("#E5E7EB"); // 기본 배경색 설정
 
   useEffect(() => {
     async function fetchUser() {
@@ -43,6 +45,16 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
 
     fetchUser();
   }, [data]);
+
+  useEffect(() => {
+    if (user && user.mbti) {
+      const mbtiColor = mbtiColors[user.mbti]; // mbti.js에서 해당 mbti의 색상을 가져옴
+
+      if (mbtiColor) {
+        setBgColor(mbtiColor);
+      }
+    }
+  }, [user]);
 
   const getQuestion = async () => {
     const formattedDate = new Date(
@@ -80,7 +92,7 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
       }
     }
   };
-  
+
   const goPrevious = async () => {
     const previousDate = new Date(currentDate);
     previousDate.setDate(previousDate.getDate() - 1);
@@ -159,71 +171,78 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   };
 
   return (
-    <div className="w-full p-5 h-full">
+    <div
+      className="w-full p-5 h-[80vh] flex flex-col justify-center"
+      style={{ backgroundColor: bgColor }}
+    >
       {isAnsweredToday ? (
         <>
-          <div className="text-center text-xl font-bold">오늘의 질문</div>
-          <div className="flex flex-row items-center justify-center mb-3">
-            <div className="text-xs text-gray-600 text-center whitespace-normal">
-              {question.date}
+          <div className="my-5">
+            <div className="text-center text-xl font-bold">오늘의 질문</div>
+            <div className="flex flex-row items-center justify-center mb-3">
+              <div className="text-xs text-gray-600 text-center whitespace-normal">
+                {question.date}
+              </div>
             </div>
+            <p className="text-center border my-5 text-lg whitespace-normal">
+              "{question.content}"
+            </p>
           </div>
-          <p className="text-center border my-5 text-xl">
-            " {question.content} "
-          </p>
-          <div className="flex text-sm text-gray-600">나의 답변:</div>
+          <div>
+            <div className="flex text-sm text-gray-600">나의 답변:</div>
 
-          <div className="flex flex-col bg-gray-600 p-5 items-center">
-            {isEdit ? (
-              <>
-                <input
-                  className="w-full p-2 border-2 border-neutral-400 rounded-lg"
-                  placeholder="답변을 입력해주세요"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                />
-                <div className="flex flex-row justify-center text-xs w-full">
+            <div className="flex flex-col p-5 items-center">
+              {isEdit ? (
+                <>
+                  <input
+                    className="w-full p-2 border-2 border-neutral-400 rounded-lg"
+                    placeholder="답변을 입력해주세요"
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)}
+                  />
+                  <div className="flex flex-row justify-center text-xs w-full">
+                    <button
+                      onClick={handleIsEdit}
+                      className="w-1/4 p-2 mt-3 mx-2 border-2"
+                    >
+                      취소
+                    </button>
+                    <button
+                      onClick={updateAnswer}
+                      className="w-1/4 p-2 mt-3 border-2"
+                    >
+                      완료
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="w-full p-2 text-lg text-center whitespace-normal">
+                    {answer}
+                  </div>
                   <button
                     onClick={handleIsEdit}
-                    className="w-1/4 p-2 mt-3 mx-2 border-2"
+                    className="w-1/4 mt-3 p-2 border-2 bg-gray-200 text-xs items-center"
                   >
-                    취소
+                    수정
                   </button>
-                  <button
-                    onClick={updateAnswer}
-                    className="w-1/4 p-2 mt-3 border-2"
-                  >
-                    완료
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="w-full p-2 text-white text-xl text-center whitespace-normal">
-                  {answer}
-                </div>
-                <button
-                  onClick={handleIsEdit}
-                  className="w-1/4 mt-3 p-2 border-2 bg-gray-200 text-xs items-center"
-                >
-                  수정
-                </button>
-              </>
-            )}
+                </>
+              )}
+            </div>
           </div>
         </>
       ) : (
-        <>
+        <div className="flex flex-col justify-start">
           <div className="text-center text-3xl font-bold">오늘의 질문</div>
           <div className="text-sm text-gray-600 mb-10 text-center whitespace-normal">
             {question.date}
           </div>
-          <p className="text-center border my-10 p-10 text-4xl">
+          <p className="text-center border mb-10 p-10 text-4xl">
             " {question.content} "
           </p>
           <div className="flex flex-col items-center">
             <input
-              className="w-full h-20 p-2 mt-3 border-2 border-neutral-400 rounded-lg text-xl"
+              className="w-full h-20 p-6 mt-3 border-2 border-neutral-400 rounded-lg text-xl"
               placeholder="답변을 입력해주세요"
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -232,7 +251,7 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
               제출
             </button>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
