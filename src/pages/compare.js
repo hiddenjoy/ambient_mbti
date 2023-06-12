@@ -13,6 +13,7 @@ import { db } from "@/firebase/index.js";
 import MbtiSelector from "../components/mbtiSelector";
 import Footer from "../components/Footer";
 import AnswerList from "@/components/AnswerList";
+import TempAnswerList from "@/components/tempAnswerList";
 
 export default function Compare() {
   const { data: session } = useSession();
@@ -40,7 +41,7 @@ export default function Compare() {
           setUser(userDoc.data());
           setIsLoggedIn(true);
           setFirstMbti(userDoc.data().mbti);
-          setSecondMbti("ENFP");
+          setSecondMbti(userDoc.data().interestedMbti);
         }
       }
     }
@@ -83,7 +84,7 @@ export default function Compare() {
         {isLoggedIn ? (
           <>
             <div className="flex flex-col">
-              <div className="flex flex-col items-center border p-5 mb-5">
+              <div className="flex flex-col items-center border p-5 ">
                 <div className="flex flex-row w-full  items-center justify-center">
                   {currentDate.toISOString().split("T")[0] == "2023-06-01" ? (
                     <div className="m-0 p-0 mr-6"></div>
@@ -93,7 +94,7 @@ export default function Compare() {
                     </button>
                   )}
 
-                  <div className="text-xs text-gray-600 text-center whitespace-normal">
+                  <div className="text-sm text-gray-600 text-center whitespace-normal">
                     {question.date}
                   </div>
                   {currentDate.toISOString().split("T")[0] ==
@@ -107,13 +108,24 @@ export default function Compare() {
                     </>
                   )}
                 </div>
-                <div className="text-xl">" {question.content} "</div>
+                <div className="text-2xl font-bold">" {question.content} "</div>
               </div>
 
               <div className="flex flex-row">
-                <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-3">
+                <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-2">
                   <div className="w-3/4 flex flex-col justify-center items-center mx-3">
-                    <div>{firstMbti}</div>
+                    <div className="flex items-center">
+                      <img
+                        src={`/images/MBTIcharacters/${firstMbti}.png`}
+                        className="w-8"
+                      />
+                      <div className="text-xl font-bold mb-2">{firstMbti}</div>
+
+                      <img
+                        src={`/images/MBTIcharacters/${firstMbti}.png`}
+                        className="w-8"
+                      />
+                    </div>
                     <MbtiSelector
                       defaultMbti={firstMbti}
                       setDefaultMbti={setFirstMbti}
@@ -124,9 +136,20 @@ export default function Compare() {
                     <AnswerList mbti={firstMbti} date={formattedDate} />
                   </div>
                 </div>
-                <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-3">
+                <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-2">
                   <div className="w-3/4 flex flex-col justify-center items-center mx-3">
-                    <div>{secondMbti}</div>
+                    <div className="flex items-center">
+                      <img
+                        src={`/images/MBTIcharacters/${secondMbti}.png`}
+                        className="w-8"
+                      />
+                      <div className="text-xl font-bold mb-2">{secondMbti}</div>
+
+                      <img
+                        src={`/images/MBTIcharacters/${secondMbti}.png`}
+                        className="w-8"
+                      />
+                    </div>
                     <MbtiSelector
                       defaultMbti={secondMbti}
                       setDefaultMbti={setSecondMbti}

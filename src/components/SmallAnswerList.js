@@ -71,8 +71,13 @@ const SmallAnswerList = ({ answer }) => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full m-2 rounded justify-between" style={{ backgroundColor: bgColor }}>
-      <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`} 
+    <div
+      className="flex flex-col w-full my-2 rounded justify-between"
+      style={{ backgroundColor: bgColor }}
+    >
+      <Link
+        href="/anotherUser/[id]"
+        as={`/anotherUser/${answer.user.id}`}
         className="flex flex-col justify-between text-neutral-800 p-3 w-full rounded"
       >
         <div className="text-lg text-center mb-3 bg-white/30">
@@ -81,7 +86,12 @@ const SmallAnswerList = ({ answer }) => {
       </Link>
       <div className="flex flex-row justify-end items-center">
         <div className="text-end text-xs italic flex flex-row items-center justify-end">
-          by. <img src={`/images/MBTIcharacters/${answer.user.mbti}.png`} className="w-8"/>{answer.user.mbti}
+          by.{" "}
+          <img
+            src={`/images/MBTIcharacters/${answer.user.mbti}.png`}
+            className="w-8"
+          />
+          {answer.user.mbti}
         </div>
         <button
           onClick={() => likeAnswer(answer.id)}
