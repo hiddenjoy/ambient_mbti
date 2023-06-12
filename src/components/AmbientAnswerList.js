@@ -109,7 +109,9 @@ const AmbientAnswerList = ({ answer }) => {
 
         <div className="flex flex-col justify-end items-end my-0 w-full">
           <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`} className="w-full">
-            <div className="text-base text-end mb-3 bg-white h-24 overflow-scroll">
+            <div 
+              className="text-base text-end mb-3 h-24 overflow-scroll bg-white/40"
+            >
               " {truncatedContent} "
             </div>
             <div className="text-end text-xs italic flex flex-row items-center justify-end">
