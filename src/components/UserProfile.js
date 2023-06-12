@@ -36,10 +36,9 @@ const UserProfile = ({ profiledUserId }) => {
         setProfiledUser(users);
       }
 
-      //최초 팔로잉 가져오기
       setFollowing(
         Boolean(
-          users.followerId && users.followerId.find((i) => i === data.user.id)
+          users.followerId && users.followerId.find((i) => i === data?.user.id)
         )
       );
       setFollowerNum(users.followerId ? users.followerId.length : 0);
