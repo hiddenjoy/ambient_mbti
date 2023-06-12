@@ -191,7 +191,7 @@ export default function SignUp() {
                 }`}
                 onClick={createUserAccount}
             >
-                Sign up
+                회원가입하기
             </button>
             <div className="flex justify-center items-center my-4">
                 <hr className="w-1/4" />
