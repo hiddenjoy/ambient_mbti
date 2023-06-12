@@ -5,7 +5,7 @@ import AmbientAnswerList from "@/components/AmbientAnswerList";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { db } from "@/firebase/index.js";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import {
   collection,
   query,
@@ -46,17 +46,14 @@ const AnotherUserId = () => {
     setAnotherUser(userData);
     setanotherUserId(id);
   };
-    
+
   useEffect(() => {
     getAnotherUser();
     getAnswer();
-  },[id]);
+  }, [id]);
 
   const getAnswer = async () => {
-    const q = query(
-      answerCollection, 
-      where("user.id", "==", id)
-    );
+    const q = query(answerCollection, where("user.id", "==", id));
     const results = await getDocs(q);
 
     const newAnswers = [];
@@ -72,8 +69,8 @@ const AnotherUserId = () => {
       <Layout>
         <div className="flex flex-row h-full">
           <div className="w-full h-full basis-1/5 p-3 flex flex-col items-start sticky top-0">
-            <h1 className="text-4xl font-bold text-primary p-3">
-              {anotherUser ? anotherUser.name : <p>...</p> }'s page
+            <h1 className="text-3xl font-bold text-primary p-3">
+              {anotherUser ? anotherUser.name : <p>...</p>}'s page
             </h1>
             <UserProfile profiledUserId={id} />
           </div>
