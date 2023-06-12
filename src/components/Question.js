@@ -2,6 +2,7 @@ import { questions } from "@/data";
 import React, { useState, useEffect } from "react";
 import SmallAnswerList from "@/components/SmallAnswerList";
 import { useSession, signOut } from "next-auth/react";
+import mbtiColors from "@/data/mbtiColors.js";
 
 import { db } from "@/firebase";
 import {
@@ -28,6 +29,7 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isEdit, setIsEdit] = useState(false);
+  const [bgColor, setBgColor] = useState("#E5E7EB"); // 기본 배경색 설정
 
   useEffect(() => {
     async function fetchUser() {
@@ -37,6 +39,12 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
 
         if (userDoc.exists()) {
           setUser(userDoc.data());
+          const userMbti = userDoc.data().mbti; // 세션 유저의 mbti 가져오기
+          const mbtiColor = mbtiColors[userMbti]; // mbtiColors에서 해당 mbti의 색상 가져오기
+
+          if (mbtiColor) {
+            setBgColor(mbtiColor);
+          }
         }
       }
     }
@@ -168,48 +176,54 @@ const Question = ({ isAnsweredToday, currentDate, setCurrentDate }) => {
               {question.date}
             </div>
           </div>
-          <p className="text-center border my-5 text-xl">
+          <p className="text-center my-5 text-xl bg-white/50">
             " {question.content} "
           </p>
           <div className="flex text-sm text-gray-600">나의 답변:</div>
 
-          <div className="flex flex-col bg-gray-600 p-5 items-center">
-            {isEdit ? (
-              <>
-                <input
-                  className="w-full p-2 border-2 border-neutral-400 rounded-lg"
-                  placeholder="답변을 입력해주세요"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                />
-                <div className="flex flex-row justify-center text-xs w-full">
+          <div 
+            className="drop-shadow-md"
+            style={{ backgroundColor: bgColor}}
+          >
+            <div className="flex flex-col p-5 items-center bg-white/50">
+              {isEdit ? (
+                <>
+                  <input
+                    className="w-full p-2 border-2 border-neutral-400 rounded-lg"
+                    placeholder="답변을 입력해주세요"
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)}
+                  />
+                  <div className="flex flex-row justify-center text-xs w-full">
+                    <button
+                      onClick={handleIsEdit}
+                      className="w-1/4 p-2 mt-3 mx-2 border-2"
+                    >
+                      취소
+                    </button>
+                    <button
+                      onClick={updateAnswer}
+                      className="w-1/4 p-2 mt-3 border-2"
+                    >
+                      완료
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="w-full p-2 text-black text-xl text-center whitespace-normal">
+                    {answer}
+                  </div>
                   <button
                     onClick={handleIsEdit}
-                    className="w-1/4 p-2 mt-3 mx-2 border-2"
+                    className="w-1/4 mt-3 p-2 text-xs items-center"
+                    style={{backgroundColor: bgColor}}
                   >
-                    취소
+                    수정
                   </button>
-                  <button
-                    onClick={updateAnswer}
-                    className="w-1/4 p-2 mt-3 border-2"
-                  >
-                    완료
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="w-full p-2 text-white text-xl text-center whitespace-normal">
-                  {answer}
-                </div>
-                <button
-                  onClick={handleIsEdit}
-                  className="w-1/4 mt-3 p-2 border-2 bg-gray-200 text-xs items-center"
-                >
-                  수정
-                </button>
-              </>
-            )}
+                </>
+              )}
+            </div>
           </div>
         </>
       ) : (
